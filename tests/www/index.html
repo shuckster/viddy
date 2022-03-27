@@ -1,0 +1,85 @@
+<html>
+  <head></head>
+  <body>
+    <h1>Hello, world!</h1>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit vitae
+      amet voluptatibus, inventore voluptatem sit corrupti deserunt quas
+      pariatur eveniet dolorum dolorem tempore praesentium perferendis
+      excepturi, aspernatur, iste commodi repellat!
+    </p>
+    <button onclick="console.log('clicked one!')">Click here</button>
+
+    <form>
+      <p>
+        <label for="country">Country:</label><br />
+        <select id="country" value="">
+          <option value="">Select...</option>
+          <option value="uk">UK</option>
+          <option value="abroad">Abroad</option>
+        </select>
+      </p>
+    </form>
+
+    <table border="1">
+      <tr>
+        <td>top-left</td>
+        <td>top</td>
+        <td>top-right</td>
+      </tr>
+      <tr>
+        <td>left</td>
+        <td>middle</td>
+        <td>right</td>
+      </tr>
+      <tr>
+        <td>bottom-left</td>
+        <td>bottom</td>
+        <td>bottom-right</td>
+      </tr>
+    </table>
+
+    <h2>Hello, there!</h2>
+    <p>The five boxing wizards jump quickly.</p>
+    <button
+      onclick="console.log('clicked two!'); document.getElementById('country').value='uk'"
+    >
+      Click here
+    </button>
+
+    <h3>Hello, again!</h3>
+    <p id="data">Waiting on some data to load...</p>
+
+    <form>
+      <p>
+        <label for="name">Name:</label><br />
+        <input type="text" name="name" value="Ignatius Cheese" />
+      </p>
+
+      <p>
+        <label for="feedback">Feedback:</label><br />
+        <textarea name="feedback">Type somethin', will ya!</textarea>
+      </p>
+
+      <p>
+        <label for="yesno_yes">Yes:</label>
+        <input id="yesno_yes" type="checkbox" name="yesno_yes" />
+      </p>
+      <p>
+        <label for="yesno_no">No:</label>
+        <input id="yesno_no" type="checkbox" name="yesno_no" value="no" />
+      </p>
+    </form>
+
+    <script>
+      setTimeout(() => {
+        const content = [
+          'Now the data is loaded!',
+          Math.random(),
+          '<button onclick="console.log(\'clicked three!\')"">Click here</button>'
+        ]
+        document.getElementById('data').innerHTML = content.join(' :: ')
+      }, 1000)
+    </script>
+  </body>
+</html>

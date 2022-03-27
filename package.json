@@ -1,0 +1,74 @@
+{
+  "name": "viddy",
+  "browserGlobalName": "libViddy",
+  "version": "1.0.0",
+  "description": "Find DOM elements using an expressive query syntax, extract text and monitor changes.",
+  "author": "Conan Theobald",
+  "license": "MIT",
+  "keywords": [
+    "dom",
+    "find elements",
+    "scraping",
+    "ui testing"
+  ],
+  "types": "index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "browser": "./dist/browser/viddy.browser.js",
+      "default": "./dist/cjs/index.js"
+    },
+    "./puppeteer": {
+      "import": "./puppeteer/index.js",
+      "require": "./puppeteer/index.js",
+      "default": "./puppeteer/index.js"
+    }
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/package.json",
+    "puppeteer/*.js",
+    "CHANGELOG.md",
+    "README.md",
+    "LICENSE",
+    "index.d.ts"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "homepage": "https://github.com/shuckster/viddy",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shuckster/viddy"
+  },
+  "bugs": {
+    "url": "https://github.com/shuckster/viddy/issues",
+    "email": "bugs+viddy@conans.co.uk"
+  },
+  "scripts": {
+    "test": "node ./tests/run.js",
+    "lint": "pnpx eslint src/*.mjs puppeteer/*.js tests/*.js",
+    "build": "pnpm run build:esbuild",
+    "build:clean": "rimraf dist/; mkdir -p dist/{esm,cjs,browser}",
+    "build:all": "pnpm run build:clean ; pnpm run build",
+    "build:esbuild": "node ./build-config/esbuild.mjs",
+    "build:watch": "nodemon ./build-config/esbuild.mjs"
+  },
+  "dependencies": {
+    "match-iz": "^2.2.0"
+  },
+  "devDependencies": {
+    "compose-paths": "^1.2.1",
+    "esbuild": "^0.14.28",
+    "eslint": "^8.12.0",
+    "koa": "^2.13.4",
+    "koa-static": "^5.0.0",
+    "nodemon": "^2.0.15",
+    "puppeteer": "^13.5.1",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.6.3"
+  }
+}

@@ -1,0 +1,7 @@
+.DS_Store
+.vscode
+_scratch
+node_modules
+pnpm-debug.log
+publish.sh
+tempCodeRunnerFile.*

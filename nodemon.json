@@ -1,0 +1,4 @@
+{
+  "ext": "js,json,mjs,md,html,css",
+  "ignore": ["dist/*"]
+}
