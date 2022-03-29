@@ -1,6 +1,6 @@
 <h1 align="center"><code>viddy</code> 🍊</h1>
 
-<!--p align="center">
+<p align="center">
   <a href="https://github.com/shuckster/viddy/blob/master/LICENSE">
     <img
       alt="MIT license"
@@ -16,7 +16,7 @@
       alt="Version"
       src="https://img.shields.io/npm/v/viddy?style=plastic"
     /></a>
-</p-->
+</p>
 
 Find DOM elements using an expressive query syntax, extract text and monitor changes.
 
