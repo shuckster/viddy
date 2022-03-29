@@ -9,7 +9,8 @@
     "dom",
     "find elements",
     "scraping",
-    "ui testing"
+    "ui testing",
+    "puppeteer"
   ],
   "types": "index.d.ts",
   "main": "./dist/cjs/index.js",

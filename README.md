@@ -24,7 +24,7 @@ Search by text, regular-expression, relative visual position, containment, and t
 
 Helps with writing UI tests that reflect user-behaviour.
 
-Integrates with [Puppeteer](#puppeteer).
+Integrates with [Puppeteer](#puppeteer-integration).
 
 - [Overview](#overview)
 - [API](#api)
@@ -297,7 +297,3 @@ I hope you found it useful! If so, I like [coffee ☕️](https://www.buymeacoff
 ## License
 
 MIT licensed: See [LICENSE](LICENSE)
-
-```
-
-```
