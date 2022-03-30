@@ -383,16 +383,20 @@ function waitForValue(value, ...args) {
 // Inteface
 //
 
+function FirstResultOf(fn) {
+  return (...args) => fn(...args)[0]
+}
+
 export const viddy = {
-  for: (...args) => viddyQuery(...args)[0],
-  forInput: (...args) => viddyQueryInput(...args)[0],
-  selectorOf: (...args) => selectorOf(...args)[0],
-  valueOf: (...args) => valueOf(...args)[0],
+  for: FirstResultOf(viddyQuery),
+  forInput: FirstResultOf(viddyQueryInput),
+  selectorOf: FirstResultOf(selectorOf),
+  valueOf: FirstResultOf(valueOf),
   waitFor: (...args) => waitFor(...args).then(x => x[0]),
   waitForValue: (...args) => waitForValue(...args).then(x => x[0]),
-  innerText: (...args) => innerText(...args)[0],
-  matchText: (...args) => matchText(...args)[0],
-  hasContent: (...args) => hasContent(...args)
+  innerText: FirstResultOf(innerText),
+  matchText: FirstResultOf(matchText),
+  hasContent
 }
 
 export const viddyWell = {
