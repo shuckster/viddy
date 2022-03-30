@@ -19,6 +19,8 @@ export type TViddyOpts = (TViddyPattern | TViddySelector) & {
   leftOf?: TViddyQuery
   rightOf?: TViddyQuery
   containedBy?: TViddyQuery
+  withinMs?: number
+  timeoutInMs?: number
 }
 
 export type TViddyApi = {
@@ -43,6 +45,7 @@ export type TViddyApi = {
     opts?: TViddyOpts
   ) => Promise<CSSSelectorString>
 
+  waitForIdle: (pattern: TViddyQuery, opts?: TViddyOpts) => Promise<any>
   innerText: (pattern: TViddyQuery, opts?: TViddyOpts) => string | undefined
   matchText: (pattern: TViddyQuery, opts?: TViddyOpts) => string | undefined
   hasContent: (pattern: TViddyQuery, opts?: TViddyOpts) => boolean
@@ -65,6 +68,7 @@ export type TViddyWellApi = {
     opts?: TViddyOpts
   ) => Promise<CSSSelectorString[]>
 
+  waitForIdle: (pattern: TViddyQuery, opts?: TViddyOpts) => Promise<any>
   innerText: (pattern: TViddyQuery, opts?: TViddyOpts) => string[]
   matchText: (pattern: TViddyQuery, opts?: TViddyOpts) => string[]
   hasContent: (pattern: TViddyQuery, opts?: TViddyOpts) => boolean
@@ -98,6 +102,7 @@ export type TViddyInApi = {
     opts?: TViddyOpts
   ) => Promise<CSSSelectorString>
 
+  waitForIdle: (pattern: TViddyQuery, opts?: TViddyOpts) => Promise<any>
   innerText: (pattern: TViddyQuery, opts?: TViddyOpts) => Promise<string>
   matchText: (pattern: TViddyQuery, opts?: TViddyOpts) => Promise<string>
   hasContent: (pattern: TViddyQuery, opts?: TViddyOpts) => boolean
@@ -122,6 +127,7 @@ export type TViddyWellInApi = {
     opts?: TViddyOpts
   ) => Promise<CSSSelectorString[]>
 
+  waitForIdle: (pattern: TViddyQuery, opts?: TViddyOpts) => Promise<any>
   innerText: (pattern: TViddyQuery, opts?: TViddyOpts) => Promise<string[]>
   matchText: (pattern: TViddyQuery, opts?: TViddyOpts) => Promise<string[]>
   hasContent: (pattern: TViddyQuery, opts?: TViddyOpts) => boolean

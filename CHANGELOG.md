@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.1.1] - 2022-03-30
+
+### Update
+
+- index.d.ts updates for viddy.waitForIdle()
+
 ## [1.1.0] - 2022-03-30
 
 ### Added
