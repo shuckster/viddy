@@ -400,7 +400,9 @@ function waitForIdle(...args) {
     otherwise({})
   )
   const { withinMs = DEFAULT_IDLE_TIMEOUT_IN_MS } = timeouts
-  const { _timeoutInMs = DEFAULT_WAITFOR_TIMEOUT_IN_SECONDS * 1000 } = timeouts
+  const {
+    timeoutInMs: _timeoutInMs = DEFAULT_WAITFOR_TIMEOUT_IN_SECONDS * 1000
+  } = timeouts
   const timeoutInMs = Math.max(_timeoutInMs, withinMs + 16)
   const timeoutError = new ViddyError('waitForIdle', args, {
     message: `timed out after ${timeoutInMs}ms waiting for DOM idle`
