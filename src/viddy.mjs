@@ -2,7 +2,7 @@ import { match, when, otherwise, anyOf, allOf } from 'match-iz'
 import { includes, not, empty, pluck as $ } from 'match-iz'
 import { isArray, isNumber, isString, isRegExp, isPojo } from 'match-iz'
 
-import { Identity, mapOverObjectValues, memo } from './utils/fp.mjs'
+import { Identity as Passthru, mapOverObjectValues, memo } from './utils/fp.mjs'
 import { ascending } from './utils/sort.mjs'
 
 import {
@@ -236,7 +236,7 @@ function winnowElements(elements, options = {}) {
         const parents = qsArray(pickParent)
         return el => getParentsOf(el).find(it => parents.includes(it))
       }
-    : () => Identity
+    : () => Passthru
 
   return (
     elements
@@ -309,11 +309,11 @@ function matchText(pattern, ...opts) {
 function baseWaitFor(fnName = 'baseWaitFor', makeCheckForElement, ...args) {
   const timeoutInMs = match(args)(
     // waitFor signature
-    when([{ timeoutInMs: $(isNumber) }])(Identity),
-    when([isPattern, { timeoutInMs: $(isNumber) }])(Identity),
+    when([{ timeoutInMs: $(isNumber) }])(Passthru),
+    when([isPattern, { timeoutInMs: $(isNumber) }])(Passthru),
 
     // waitForValue signature
-    when([isPattern, isPattern, { timeoutInMs: $(isNumber) }])(Identity),
+    when([isPattern, isPattern, { timeoutInMs: $(isNumber) }])(Passthru),
 
     otherwise(DEFAULT_WAITFOR_TIMEOUT_IN_SECONDS * 1000)
   )
