@@ -6,6 +6,21 @@ const puppeteer = require('puppeteer')
 const { viddyIn } = require('viddy/puppeteer')
 const assert = require('assert')
 
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
+
+function asyncPipe(x, ...promiseMakerFns) {
+  return new Promise((resolve, reject) => {
+    promiseMakerFns
+      .reduce(SequenceReducer(reject), Promise.resolve(x))
+      .then(resolve, reject)
+  })
+
+  function SequenceReducer(reject) {
+    return (lastPromise, createNextPromise) =>
+      lastPromise.then(createNextPromise, reject)
+  }
+}
+
 // Server
 const app = new Koa()
 app.use(serve(path.join(__dirname, './www')))
@@ -135,6 +150,25 @@ async function main() {
   await viddy.matchText('again').then(grabbedValue => {
     assert.equal(grabbedValue, 'Hello, again!')
   })
+
+  // ...
+
+  const clickFirstButton = () =>
+    viddy
+      .waitFor('click here', { above: /country/i })
+      .then(sel => page.click(sel))
+
+  const clickAndWait = ms => [() => clickFirstButton(), () => delay(ms)]
+
+  await Promise.all([
+    viddy.waitForIdle(),
+    asyncPipe(
+      null,
+      ...clickAndWait(400),
+      ...clickAndWait(400),
+      ...clickAndWait(400)
+    )
+  ])
 
   await browser.close()
   server.close()

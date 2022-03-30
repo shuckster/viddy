@@ -8,7 +8,9 @@
       pariatur eveniet dolorum dolorem tempore praesentium perferendis
       excepturi, aspernatur, iste commodi repellat!
     </p>
-    <button onclick="console.log('clicked one!')">Click here</button>
+    <button onclick="addSomeElementsOverAFewMs()">Click here</button>
+
+    <p id="dynamically-added-content"></p>
 
     <form>
       <p>
@@ -80,6 +82,21 @@
         ]
         document.getElementById('data').innerHTML = content.join(' :: ')
       }, 1000)
+
+      const repeatFn = (fn, n) => {
+        for (let i = 0; i < n; i++) {
+          fn()
+        }
+      }
+
+      function addSomeElementsOverAFewMs() {
+        const el = document.createElement('div')
+        el.innerText = 'This is dynamically added content'
+
+        const parent = document.getElementById('dynamically-added-content')
+
+        parent.appendChild(el)
+      }
     </script>
   </body>
 </html>

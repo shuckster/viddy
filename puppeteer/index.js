@@ -18,7 +18,7 @@ const { match, when, otherwise } = libMatchiz
 const { anyOf } = libMatchiz
 const { isString, isRegExp, isPojo, isNumber } = libMatchiz
 
-const isStringOrRegExp = anyOf(isString, isRegExp)
+const isPattern = anyOf(isString, isRegExp)
 const Identity = x => x
 
 let waitForTimeoutInMs = 5 * 1000
@@ -98,6 +98,14 @@ async function viddyIn(page) {
         serialize(value),
         serialize(applyTimeoutIfNotSpecified(options, waitForTimeoutInMs))
       )
+    },
+
+    waitForIdle(...options) {
+      return page.evaluate(argStr => {
+        const { viddy } = libViddy
+        const [args] = libViddy.unserialize(argStr)
+        return viddy.waitForIdle(...args)
+      }, serialize(applyTimeoutIfNotSpecified(options, waitForTimeoutInMs)))
     }
   }
   api.waitFor.timesOutAfterMs = ms => (waitForTimeoutInMs = ms)
@@ -167,6 +175,14 @@ async function viddyWellIn(page) {
         serialize(value),
         serialize(applyTimeoutIfNotSpecified(options, waitForTimeoutInMs))
       )
+    },
+
+    waitForIdle(...options) {
+      return page.evaluate(argStr => {
+        const { viddyWell } = libViddy
+        const [args] = libViddy.unserialize(argStr)
+        return viddyWell.waitForIdle(...args)
+      }, serialize(applyTimeoutIfNotSpecified(options, waitForTimeoutInMs)))
     }
   }
   api.waitFor.timesOutAfterMs = ms => (waitForTimeoutInMs = ms)
@@ -176,9 +192,9 @@ async function viddyWellIn(page) {
 function applyTimeoutIfNotSpecified(options, defaultTimeoutInMs) {
   return match(options)(
     when([{ timeoutInMs: isNumber }])(Identity),
-    when([isStringOrRegExp, { timeoutInMs: isNumber }])(Identity),
+    when([isPattern, { timeoutInMs: isNumber }])(Identity),
     when([isPojo])(([opts]) => [{ ...opts, timeoutInMs: defaultTimeoutInMs }]),
-    when([isStringOrRegExp, isPojo])(([pattern, opts]) => [
+    when([isPattern, isPojo])(([pattern, opts]) => [
       pattern,
       { ...opts, timeoutInMs: defaultTimeoutInMs }
     ]),
