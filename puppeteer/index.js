@@ -41,7 +41,7 @@ async function viddyIn(page) {
         const [args] = libViddy.unserialize(argStr)
         const selector = viddy.selectorOf(...args)
         return selector === undefined
-          ? Promise.reject(libViddy._viddyError('selectorOf')()(args))
+          ? Promise.reject(libViddy.ViddyError('selectorOf', args))
           : Promise.resolve(selector)
       }, serialize(options))
     },
@@ -52,7 +52,7 @@ async function viddyIn(page) {
         const [args] = libViddy.unserialize(argStr)
         const value = viddy.valueOf(...args)
         return value === undefined
-          ? Promise.reject(libViddy._viddyError('valueOf')()(args))
+          ? Promise.reject(libViddy.ViddyError('valueOf', args))
           : Promise.resolve(value)
       }, serialize(options))
     },
@@ -63,7 +63,7 @@ async function viddyIn(page) {
         const [args] = libViddy.unserialize(argStr)
         const text = viddy.innerText(...args)
         return text === undefined
-          ? Promise.reject(libViddy._viddyError('innerText')()(args))
+          ? Promise.reject(libViddy.ViddyError('innerText', args))
           : Promise.resolve(text)
       }, serialize(options))
     },
@@ -74,7 +74,7 @@ async function viddyIn(page) {
         const [args] = libViddy.unserialize(argStr)
         const text = viddy.matchText(...args)
         return text === undefined
-          ? Promise.reject(libViddy._viddyError('matchText')()(args))
+          ? Promise.reject(libViddy.ViddyError('matchText', args))
           : Promise.resolve(text)
       }, serialize(options))
     },

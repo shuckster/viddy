@@ -64,17 +64,19 @@ export const unserialize = str =>
     )
   )
 
-export function _viddyError(cbName) {
-  return (message = 'could not find') =>
-    args => {
-      const serializeRegExp = rx => `/${rx.source}/${rx.flags}`
-      return (
-        `viddy.${cbName} // ${message}: ` +
-        JSON.stringify(args, (_, value) =>
-          value instanceof RegExp ? serializeRegExp(value) : value
-        )
-      )
-    }
+export class ViddyError extends Error {
+  constructor(
+    fnName,
+    args,
+    { message = 'could not resolve query to any elements' }
+  ) {
+    const serializeRegExp = rx => `/${rx.source}/${rx.flags}`
+    const replacer = (_, value) =>
+      isRegExp(value) ? serializeRegExp(value) : value
+    const argMsg = JSON.stringify(args, replacer, 2)
+    super(`${message}\n\nviddy.${fnName}(...${argMsg})\n`)
+    this.name = 'ViddyError'
+  }
 }
 
 // Main query/arguments interpreter
@@ -316,9 +318,9 @@ function baseWaitFor(fnName = 'baseWaitFor', makeCheckForElement, ...args) {
     otherwise(DEFAULT_WAITFOR_TIMEOUT_IN_SECONDS * 1000)
   )
 
-  const timeoutError = new Error(
-    _viddyError(fnName)(`timed out after ${timeoutInMs}ms looking for`)(args)
-  )
+  const timeoutError = new ViddyError(fnName, args, {
+    message: `timed out after ${timeoutInMs}ms trying to resolve query`
+  })
 
   return new Promise((resolve, reject) => {
     const done = val => (resolve(val), cleanup())
@@ -352,7 +354,9 @@ function waitFor(...args) {
 
 function waitForValue(value, ...args) {
   if (!args.length) {
-    throw new Error(_viddyError('waitForValue')('no pattern specified')(args))
+    throw new ViddyError('waitForValue', args, {
+      message: 'no query specified'
+    })
   }
   return baseWaitFor('waitForValue', makeCheckForElement, ...[value, ...args])
   function makeCheckForElement({ args, done }) {
