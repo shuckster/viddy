@@ -122,11 +122,11 @@ export function observeMutations(callback, withinSelector) {
   }
 
   function handleSpecificMutation(mutations) {
-    const elementOfInterest = qsArray(withinSelector)
+    const elementsOfInterest = qsArray(withinSelector)
 
     for (const mutation of mutations) {
       const mutatedElement = mutation.target
-      if (elementOfInterest.includes(mutatedElement)) {
+      if (elementsOfInterest.some(el => mutatedElement.contains(el))) {
         setTimeout(() => callback(), 1)
         break
       }
