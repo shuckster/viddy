@@ -19,10 +19,12 @@ import {
   qsArray,
   valueOfElement
 } from './utils/elements.mjs'
+import { makeDebouncer } from './utils/async.mjs'
 
 const BODY_WILDCARD = 'body *'
 const FORM_TAGS = 'input, select, textarea'
 const DEFAULT_WAITFOR_TIMEOUT_IN_SECONDS = 5
+const DEFAULT_IDLE_TIMEOUT_IN_MS = 500
 
 // Runtime types
 //
@@ -30,13 +32,17 @@ const DEFAULT_WAITFOR_TIMEOUT_IN_SECONDS = 5
 const isEmptyArray = allOf(isArray, empty)
 const isPattern = anyOf(isString, isRegExp)
 const isPatternOrPojo = anyOf(isPattern, isPojo)
-const isOptionsWithoutSelectorOrParent = allOf(isPojo, {
-  selector: not(isString),
-  pickParent: not(isString)
-})
+const isOptionsWithPatternOrSelector = anyOf(
+  allOf(isPojo, { pattern: isPattern }),
+  allOf(isPojo, { selector: isString })
+)
 const isOptionsWithPatternNotSelector = allOf(isPojo, {
   pattern: isPattern,
   selector: not(isString)
+})
+const isOptionsWithoutSelectorOrParent = allOf(isPojo, {
+  selector: not(isString),
+  pickParent: not(isString)
 })
 const isOptionsWithoutPatternOrSelector = allOf(isPojo, {
   pattern: not(isPattern),
@@ -380,6 +386,58 @@ function waitForValue(value, ...args) {
   }
 }
 
+const isValidTimeoutOptions = anyOf(
+  allOf(isPojo, { withinMs: isNumber }),
+  allOf(isPojo, { timeoutInMs: isNumber }),
+  allOf(isPojo, { withinMs: isNumber, timeoutInMs: isNumber })
+)
+
+function waitForIdle(...args) {
+  // Timeouts
+  const timeouts = match(args)(
+    when([$(isValidTimeoutOptions)])(Passthru),
+    when([isPattern, $(isValidTimeoutOptions)])(Passthru),
+    otherwise({})
+  )
+  const { withinMs = DEFAULT_IDLE_TIMEOUT_IN_MS } = timeouts
+  const { _timeoutInMs = DEFAULT_WAITFOR_TIMEOUT_IN_SECONDS * 1000 } = timeouts
+  const timeoutInMs = Math.max(_timeoutInMs, withinMs + 16)
+  const timeoutError = new ViddyError('waitForIdle', args, {
+    message: `timed out after ${timeoutInMs}ms waiting for DOM idle`
+  })
+
+  // Query, if specified
+  const queryWasSpecified = match(args)(
+    when([isPattern])(true),
+    when([isOptionsWithPatternOrSelector])(true),
+    when([isPattern, isPojo])(true),
+    otherwise(false)
+  )
+  const withinSelector = queryWasSpecified && viddy.selectorOf(...args)
+  if (queryWasSpecified && !withinSelector) {
+    throw new ViddyError('waitForIdle', args, {
+      message:
+        'need resolvable query to monitor for DOM idle, or omit query to monitor all DOM changes'
+    })
+  }
+
+  return new Promise((resolve, reject) => {
+    const done = () => (resolve(), cleanup())
+    const timeout = () => (reject(timeoutError), cleanup())
+    const timeoutId = setTimeout(timeout, timeoutInMs)
+    const [defer, stopChecker] = makeDebouncer(withinMs, done)
+
+    const cleanup = () => {
+      clearTimeout(timeoutId)
+      stopChecker()
+      removeObserver()
+    }
+
+    const removeObserver = observeMutations(defer, withinSelector)
+    defer()
+  })
+}
+
 // Inteface
 //
 
@@ -394,6 +452,7 @@ export const viddy = {
   valueOf: FirstResultOf(valueOf),
   waitFor: (...args) => waitFor(...args).then(x => x[0]),
   waitForValue: (...args) => waitForValue(...args).then(x => x[0]),
+  waitForIdle,
   innerText: FirstResultOf(innerText),
   matchText: FirstResultOf(matchText),
   hasContent
@@ -406,6 +465,7 @@ export const viddyWell = {
   valueOf,
   waitFor,
   waitForValue,
+  waitForIdle,
   innerText,
   matchText,
   hasContent
