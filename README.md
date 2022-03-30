@@ -20,6 +20,15 @@
 
 Find DOM elements using an expressive query syntax, extract text and monitor changes.
 
+```js
+viddy.valueOf('Country:')
+viddy.selectorOf(/click/i, { below: 'your account' })
+viddy.for({ selector: 'p', near: 'news at 11' })
+viddy.waitForValue('mr sniffs', 'Name:', {
+  timeoutInMs: 5000
+})
+```
+
 Search by text, regular-expression, relative visual position, containment, and target parent nodes.
 
 Helps with writing UI tests that reflect user-behaviour.
