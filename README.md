@@ -27,7 +27,7 @@ viddy.for({ selector: 'p', near: 'news at 11' })
 viddy.waitForValue('mr sniffs', 'Name:', {
   timeoutInMs: 5000
 })
-viddy.waitForIdle()
+viddy.waitForIdle({ withinMs: 500 })
 ```
 
 Search by text, regular-expression, relative visual position, containment, and target parent nodes.
