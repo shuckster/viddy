@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.1.0] - 2022-03-30
+
+### Added
+
+- viddy.waitForIdle()
+
+```js
+// Returns Promise that resolves when DOM updates stop
+// happening within 500ms, timing out after 5 seconds
+viddy.waitForIdle()
+
+// Change timeouts:
+viddy.waitForIdle({ withinMs: 500, timeoutInMs: 5000 })
+
+// Restrict idle-monitoring to a specific element using
+// a regular viddy query:
+viddy.waitForIdle('main menu', { pickParent: 'nav' })
+```
+
 ## [1.0.2] - 2022-03-30
 
 ### Fixed
