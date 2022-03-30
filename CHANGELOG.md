@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.0.2] - 2022-03-30
+
+### Fixed
+
+- Respect timeoutInMs in waitForValue in shorthand call-signature:
+
+```js
+viddy.waitForValue('value', 'Label:', { timeoutInMs: 1000 })
+```
+
 ## [1.0.1] - 2022-03-30
 
 ### Updated

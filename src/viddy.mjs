@@ -306,8 +306,13 @@ function matchText(pattern, ...opts) {
 
 function baseWaitFor(fnName = 'baseWaitFor', makeCheckForElement, ...args) {
   const timeoutInMs = match(args)(
+    // waitFor signature
     when([{ timeoutInMs: $(isNumber) }])(Identity),
     when([isPattern, { timeoutInMs: $(isNumber) }])(Identity),
+
+    // waitForValue signature
+    when([isPattern, isPattern, { timeoutInMs: $(isNumber) }])(Identity),
+
     otherwise(DEFAULT_WAITFOR_TIMEOUT_IN_SECONDS * 1000)
   )
 
