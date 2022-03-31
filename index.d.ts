@@ -1,3 +1,6 @@
+// Queries
+//
+
 export type CSSSelectorString = string
 export type TPattern = string | RegExp
 export type TViddyQuery = TPattern | TViddyOpts | TViddyQueryTuple
@@ -23,55 +26,225 @@ export type TViddyOpts = (TViddyPattern | TViddySelector) & {
   timeoutInMs?: number
 }
 
+// Function signatures
+//
+
+type TQueryMethod<TReturn> = (
+  pattern: TViddyQuery,
+  opts?: TViddyOpts
+) => TReturn
+
+type TQueryValueMethod<TReturn> = (
+  value: TPattern,
+  pattern: TViddyQuery,
+  opts?: TViddyOpts
+) => TReturn
+
+// APIs
+//
+
 export type TViddyApi = {
-  for: (pattern: TViddyQuery, opts?: TViddyOpts) => Element | undefined
-  forInput: (pattern: TViddyQuery, opts?: TViddyOpts) => Element | undefined
+  /**
+   * Return element matching query
+   * @example
+   * viddy.for('element with text')
+   * viddy.for(/regex/i, { near: 'element with text' })
+   * viddy.for({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.for({ selector: 'p', leftOf: 'text' })
+   */
+  for: TQueryMethod<Element | undefined>
 
-  selectorOf: (
-    pattern: TViddyQuery,
-    opts?: TViddyOpts
-  ) => CSSSelectorString | undefined
+  /**
+   * Return nearest <input>, <select>, or <textarea> matching query
+   * @example
+   * viddy.forInput('element with text')
+   * viddy.forInput(/regex/i, { near: 'element with text' })
+   * viddy.forInput({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.forInput({ selector: 'p', leftOf: 'text' })
+   */
+  forInput: TQueryMethod<Element | undefined>
 
-  valueOf: (pattern: TViddyQuery, opts?: TViddyOpts) => any
+  /**
+   * Return unique CSS selector matching query
+   * @example
+   * viddy.selectorOf('element with text')
+   * viddy.selectorOf(/regex/i, { near: 'element with text' })
+   * viddy.selectorOf({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.selectorOf({ selector: 'p', leftOf: 'text' })
+   */
+  selectorOf: TQueryMethod<CSSSelectorString | undefined>
 
-  waitFor: (
-    pattern: TViddyQuery,
-    opts?: TViddyOpts
-  ) => Promise<CSSSelectorString>
+  /**
+   * Return value of nearest <input>, <select>, or <textarea> matching query
+   * @example
+   * viddy.valueOf('element with text')
+   * viddy.valueOf(/regex/i, { near: 'element with text' })
+   * viddy.valueOf({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.valueOf({ selector: 'p', leftOf: 'text' })
+   */
+  valueOf: TQueryMethod<any>
 
-  waitForValue: (
-    value: TPattern,
-    pattern: TViddyQuery,
-    opts?: TViddyOpts
-  ) => Promise<CSSSelectorString>
+  /**
+   * Return Promise that awaits the query, returning matching elements
+   * @example
+   * viddy.waitFor('element with text')
+   * viddy.waitFor(/regex/i, { near: 'element with text' })
+   * viddy.waitFor({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.waitFor({ selector: 'p', leftOf: 'text' })
+   */
+  waitFor: TQueryMethod<Promise<CSSSelectorString>>
 
-  waitForIdle: (pattern: TViddyQuery, opts?: TViddyOpts) => Promise<any>
-  innerText: (pattern: TViddyQuery, opts?: TViddyOpts) => string | undefined
-  matchText: (pattern: TViddyQuery, opts?: TViddyOpts) => string | undefined
-  hasContent: (pattern: TViddyQuery, opts?: TViddyOpts) => boolean
+  /**
+   * Return Promise that awaits the query, returning nearest matching <input>, <select>, or <textarea> elements
+   * @example
+   * viddy.waitForValue('exact value', 'element with text')
+   * viddy.waitForValue(/okay/i, { selector: 'select', near: 'Choose:' })
+   * viddy.waitForValue('on', { selector: 'input[type=checkbox]' })
+   */
+  waitForValue: TQueryValueMethod<Promise<CSSSelectorString>>
+
+  /**
+   * Return Promise that waits for entire DOM to stop updating, or a portion of it if a query is specified
+   * @example
+   * viddy.waitForIdle()
+   * viddy.waitForIdle('element with text')
+   * viddy.waitForIdle(/regex/i, { near: 'element with text' })
+   * viddy.waitForIdle({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.waitForIdle({ selector: 'p', leftOf: 'text' })
+   */
+  waitForIdle: TQueryMethod<Promise<any>>
+
+  /**
+   * Return innerText of the elements matching query
+   * @example
+   * viddy.innerText('element with text')
+   * viddy.innerText(/regex/i, { near: 'element with text' })
+   * viddy.innerText({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.innerText({ selector: 'p', leftOf: 'text' })
+   */
+  innerText: TQueryMethod<string | undefined>
+
+  /**
+   * Return innerText of the elements matching query. If RegExp is specified as the pattern, only the matching-portion of the innerText will be returned. If a capturing-group is specified within the RegExp, the full result-array will be returned
+   * @example
+   * viddy.matchText('element with text')
+   * viddy.matchText(/regex/i, { near: 'element with text' })
+   * viddy.matchText({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.matchText({ selector: 'p', leftOf: 'text' })
+   */
+  matchText: TQueryMethod<string | undefined>
+
+  /**
+   * Return true if elements are found matching the query
+   * @example
+   * viddy.hasContent('element with text')
+   * viddy.hasContent(/regex/i, { near: 'element with text' })
+   * viddy.hasContent({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.hasContent({ selector: 'p', leftOf: 'text' })
+   */
+  hasContent: TQueryMethod<boolean>
 }
 
 export type TViddyWellApi = {
-  for: (pattern: TViddyQuery, opts?: TViddyOpts) => Element[]
-  forInput: (pattern: TViddyQuery, opts?: TViddyOpts) => Element[]
-  selectorOf: (pattern: TViddyQuery, opts?: TViddyOpts) => CSSSelectorString[]
-  valueOf: (pattern: TViddyQuery, opts?: TViddyOpts) => any[]
+  /**
+   * Return element matching query
+   * @example
+   * viddy.for('element with text')
+   * viddy.for(/regex/i, { near: 'element with text' })
+   * viddy.for({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.for({ selector: 'p', leftOf: 'text' })
+   */
+  for: TQueryMethod<Element[]>
 
-  waitFor: (
-    pattern: TViddyQuery,
-    opts?: TViddyOpts
-  ) => Promise<CSSSelectorString[]>
+  /**
+   * Return nearest <input>, <select>, or <textarea> matching query
+   * @example
+   * viddy.forInput('element with text')
+   * viddy.forInput(/regex/i, { near: 'element with text' })
+   * viddy.forInput({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.forInput({ selector: 'p', leftOf: 'text' })
+   */
+  forInput: TQueryMethod<Element[]>
 
-  waitForValue: (
-    value: TPattern,
-    pattern: TViddyQuery,
-    opts?: TViddyOpts
-  ) => Promise<CSSSelectorString[]>
+  /**
+   * Return unique CSS selector matching query
+   * @example
+   * viddy.selectorOf('element with text')
+   * viddy.selectorOf(/regex/i, { near: 'element with text' })
+   * viddy.selectorOf({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.selectorOf({ selector: 'p', leftOf: 'text' })
+   */
+  selectorOf: TQueryMethod<CSSSelectorString[]>
 
-  waitForIdle: (pattern: TViddyQuery, opts?: TViddyOpts) => Promise<any>
-  innerText: (pattern: TViddyQuery, opts?: TViddyOpts) => string[]
-  matchText: (pattern: TViddyQuery, opts?: TViddyOpts) => string[]
-  hasContent: (pattern: TViddyQuery, opts?: TViddyOpts) => boolean
+  /**
+   * Return value of nearest <input>, <select>, or <textarea> matching query
+   * @example
+   * viddy.valueOf('element with text')
+   * viddy.valueOf(/regex/i, { near: 'element with text' })
+   * viddy.valueOf({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.valueOf({ selector: 'p', leftOf: 'text' })
+   */
+  valueOf: TQueryMethod<any[]>
+
+  /**
+   * Return Promise that awaits the query, returning matching elements
+   * @example
+   * viddy.waitFor('element with text')
+   * viddy.waitFor(/regex/i, { near: 'element with text' })
+   * viddy.waitFor({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.waitFor({ selector: 'p', leftOf: 'text' })
+   */
+  waitFor: TQueryMethod<Promise<CSSSelectorString[]>>
+
+  /**
+   * Return Promise that awaits the query, returning nearest matching <input>, <select>, or <textarea> elements
+   * @example
+   * viddy.waitForValue('exact value', 'element with text')
+   * viddy.waitForValue(/okay/i, { selector: 'select', near: 'Choose:' })
+   * viddy.waitForValue('on', { selector: 'input[type=checkbox]' })
+   */
+  waitForValue: TQueryValueMethod<Promise<CSSSelectorString[]>>
+
+  /**
+   * Return Promise that waits for entire DOM to stop updating, or a portion of it if a query is specified
+   * @example
+   * viddy.waitForIdle()
+   * viddy.waitForIdle('element with text')
+   * viddy.waitForIdle(/regex/i, { near: 'element with text' })
+   * viddy.waitForIdle({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.waitForIdle({ selector: 'p', leftOf: 'text' })
+   */
+  waitForIdle: TQueryMethod<Promise<any>>
+
+  /**
+   * Return innerText of the elements matching query
+   * @example
+   * viddy.innerText('element with text')
+   * viddy.innerText(/regex/i, { near: 'element with text' })
+   * viddy.innerText({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.innerText({ selector: 'p', leftOf: 'text' })
+   */
+  innerText: TQueryMethod<string[]>
+
+  /**
+   * Return innerText of the elements matching query. If RegExp is specified as the pattern, only the matching-portion of the innerText will be returned. If a capturing-group is specified within the RegExp, the full result-array will be returned
+   * @example
+   * viddy.matchText('element with text')
+   * viddy.matchText(/regex/i, { near: 'element with text' })
+   * viddy.matchText({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.matchText({ selector: 'p', leftOf: 'text' })
+   */
+  matchText: TQueryMethod<string[]>
+
+  /**
+   * Return true if elements are found matching the query
+   * @example
+   * viddy.hasContent('element with text')
+   * viddy.hasContent(/regex/i, { near: 'element with text' })
+   * viddy.hasContent({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.hasContent({ selector: 'p', leftOf: 'text' })
+   */
+  hasContent: TQueryMethod<boolean>
 }
 
 declare module 'viddy' {
@@ -79,62 +252,178 @@ declare module 'viddy' {
   export function unserialize(argStr: string): any
   export function qsArray(selector: string): Element[]
 
+  export const ViddyError: Error
   export const viddy: TViddyApi
   export const viddyWell: TViddyWellApi
 }
 
 export type TViddyInApi = {
-  selectorOf: (
-    pattern: TViddyQuery,
-    opts?: TViddyOpts
-  ) => Promise<CSSSelectorString>
+  /**
+   * Return unique CSS selector matching query
+   * @example
+   * viddy.selectorOf('element with text')
+   * viddy.selectorOf(/regex/i, { near: 'element with text' })
+   * viddy.selectorOf({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.selectorOf({ selector: 'p', leftOf: 'text' })
+   */
+  selectorOf: TQueryMethod<Promise<CSSSelectorString>>
 
-  valueOf: (pattern: TViddyQuery, opts?: TViddyOpts) => Promise<any>
+  /**
+   * Return value of nearest <input>, <select>, or <textarea> matching query
+   * @example
+   * viddy.valueOf('element with text')
+   * viddy.valueOf(/regex/i, { near: 'element with text' })
+   * viddy.valueOf({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.valueOf({ selector: 'p', leftOf: 'text' })
+   */
+  valueOf: TQueryMethod<Promise<any>>
 
-  waitFor: (
-    pattern: TViddyQuery,
-    opts?: TViddyOpts
-  ) => Promise<CSSSelectorString>
+  /**
+   * Return Promise that awaits the query, returning matching elements
+   * @example
+   * viddy.waitFor('element with text')
+   * viddy.waitFor(/regex/i, { near: 'element with text' })
+   * viddy.waitFor({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.waitFor({ selector: 'p', leftOf: 'text' })
+   */
+  waitFor: TQueryMethod<Promise<CSSSelectorString>>
 
-  waitForValue: (
-    value: TPattern,
-    pattern: TViddyQuery,
-    opts?: TViddyOpts
-  ) => Promise<CSSSelectorString>
+  /**
+   * Return Promise that awaits the query, returning nearest matching <input>, <select>, or <textarea> elements
+   * @example
+   * viddy.waitForValue('exact value', 'element with text')
+   * viddy.waitForValue(/okay/i, { selector: 'select', near: 'Choose:' })
+   * viddy.waitForValue('on', { selector: 'input[type=checkbox]' })
+   */
+  waitForValue: TQueryValueMethod<Promise<CSSSelectorString>>
 
-  waitForIdle: (pattern: TViddyQuery, opts?: TViddyOpts) => Promise<any>
-  innerText: (pattern: TViddyQuery, opts?: TViddyOpts) => Promise<string>
-  matchText: (pattern: TViddyQuery, opts?: TViddyOpts) => Promise<string>
-  hasContent: (pattern: TViddyQuery, opts?: TViddyOpts) => boolean
+  /**
+   * Return Promise that waits for entire DOM to stop updating, or a portion of it if a query is specified
+   * @example
+   * viddy.waitForIdle()
+   * viddy.waitForIdle('element with text')
+   * viddy.waitForIdle(/regex/i, { near: 'element with text' })
+   * viddy.waitForIdle({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.waitForIdle({ selector: 'p', leftOf: 'text' })
+   */
+  waitForIdle: TQueryMethod<Promise<any>>
+
+  /**
+   * Return innerText of the elements matching query
+   * @example
+   * viddy.innerText('element with text')
+   * viddy.innerText(/regex/i, { near: 'element with text' })
+   * viddy.innerText({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.innerText({ selector: 'p', leftOf: 'text' })
+   */
+  innerText: TQueryMethod<Promise<string>>
+
+  /**
+   * Return innerText of the elements matching query. If RegExp is specified as the pattern, only the matching-portion of the innerText will be returned. If a capturing-group is specified within the RegExp, the full result-array will be returned
+   * @example
+   * viddy.matchText('element with text')
+   * viddy.matchText(/regex/i, { near: 'element with text' })
+   * viddy.matchText({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.matchText({ selector: 'p', leftOf: 'text' })
+   */
+  matchText: TQueryMethod<Promise<string>>
+
+  /**
+   * Return true if elements are found matching the query
+   * @example
+   * viddy.hasContent('element with text')
+   * viddy.hasContent(/regex/i, { near: 'element with text' })
+   * viddy.hasContent({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.hasContent({ selector: 'p', leftOf: 'text' })
+   */
+  hasContent: TQueryMethod<boolean>
 }
 
 export type TViddyWellInApi = {
-  selectorOf: (
-    pattern: TViddyQuery,
-    opts?: TViddyOpts
-  ) => Promise<CSSSelectorString[]>
+  /**
+   * Return unique CSS selector matching query
+   * @example
+   * viddy.selectorOf('element with text')
+   * viddy.selectorOf(/regex/i, { near: 'element with text' })
+   * viddy.selectorOf({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.selectorOf({ selector: 'p', leftOf: 'text' })
+   */
+  selectorOf: TQueryMethod<Promise<CSSSelectorString[]>>
 
-  valueOf: (pattern: TViddyQuery, opts?: TViddyOpts) => Promise<any>
+  /**
+   * Return value of nearest <input>, <select>, or <textarea> matching query
+   * @example
+   * viddy.valueOf('element with text')
+   * viddy.valueOf(/regex/i, { near: 'element with text' })
+   * viddy.valueOf({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.valueOf({ selector: 'p', leftOf: 'text' })
+   */
+  valueOf: TQueryMethod<Promise<any>>
 
-  waitFor: (
-    pattern: TViddyQuery,
-    opts?: TViddyOpts
-  ) => Promise<CSSSelectorString[]>
+  /**
+   * Return Promise that awaits the query, returning matching elements
+   * @example
+   * viddy.waitFor('element with text')
+   * viddy.waitFor(/regex/i, { near: 'element with text' })
+   * viddy.waitFor({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.waitFor({ selector: 'p', leftOf: 'text' })
+   */
+  waitFor: TQueryMethod<Promise<CSSSelectorString[]>>
 
-  waitForValue: (
-    value: TPattern,
-    pattern: TViddyQuery,
-    opts?: TViddyOpts
-  ) => Promise<CSSSelectorString[]>
+  /**
+   * Return Promise that awaits the query, returning nearest matching <input>, <select>, or <textarea> elements
+   * @example
+   * viddy.waitForValue('exact value', 'element with text')
+   * viddy.waitForValue(/okay/i, { selector: 'select', near: 'Choose:' })
+   * viddy.waitForValue('on', { selector: 'input[type=checkbox]' })
+   */
+  waitForValue: TQueryValueMethod<Promise<CSSSelectorString[]>>
 
-  waitForIdle: (pattern: TViddyQuery, opts?: TViddyOpts) => Promise<any>
-  innerText: (pattern: TViddyQuery, opts?: TViddyOpts) => Promise<string[]>
-  matchText: (pattern: TViddyQuery, opts?: TViddyOpts) => Promise<string[]>
-  hasContent: (pattern: TViddyQuery, opts?: TViddyOpts) => boolean
+  /**
+   * Return Promise that waits for entire DOM to stop updating, or a portion of it if a query is specified
+   * @example
+   * viddy.waitForIdle()
+   * viddy.waitForIdle('element with text')
+   * viddy.waitForIdle(/regex/i, { near: 'element with text' })
+   * viddy.waitForIdle({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.waitForIdle({ selector: 'p', leftOf: 'text' })
+   */
+  waitForIdle: TQueryMethod<Promise<any>>
+
+  /**
+   * Return innerText of the elements matching query
+   * @example
+   * viddy.innerText('element with text')
+   * viddy.innerText(/regex/i, { near: 'element with text' })
+   * viddy.innerText({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.innerText({ selector: 'p', leftOf: 'text' })
+   */
+  innerText: TQueryMethod<Promise<string[]>>
+
+  /**
+   * Return innerText of the elements matching query. If RegExp is specified as the pattern, only the matching-portion of the innerText will be returned. If a capturing-group is specified within the RegExp, the full result-array will be returned
+   * @example
+   * viddy.matchText('element with text')
+   * viddy.matchText(/regex/i, { near: 'element with text' })
+   * viddy.matchText({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.matchText({ selector: 'p', leftOf: 'text' })
+   */
+  matchText: TQueryMethod<Promise<string[]>>
+
+  /**
+   * Return true if elements are found matching the query
+   * @example
+   * viddy.hasContent('element with text')
+   * viddy.hasContent(/regex/i, { near: 'element with text' })
+   * viddy.hasContent({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.hasContent({ selector: 'p', leftOf: 'text' })
+   */
+  hasContent: TQueryMethod<boolean>
 }
 
 declare module 'viddy/puppeteer' {
   /**
+   * Inject viddy API into a Puppeteer page object
    * @example
    * const { viddyIn } = require('viddy/puppeteer')
    * // later...
@@ -142,12 +431,11 @@ declare module 'viddy/puppeteer' {
    * const viddy = viddyIn(page)
    *
    * await viddy.waitFor('text')
-   * @param page Puppeteer page-object
-   * @returns {TViddyInApi}
    */
   export function viddyIn(page: Object): TViddyInApi
 
   /**
+   * Inject viddyWell API into a Puppeteer page object
    * @example
    * const { viddyWellIn } = require('viddy/puppeteer')
    * // later...
@@ -155,8 +443,6 @@ declare module 'viddy/puppeteer' {
    * const viddy = viddyWellIn(page)
    *
    * await viddy.waitFor('text')
-   * @param page Puppeteer page-object
-   * @returns {TViddyWellInApi}
    */
   export function viddyWellIn(page: Object): TViddyWellInApi
 }

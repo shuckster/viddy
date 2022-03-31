@@ -1,0 +1,107 @@
+// Queries
+//
+
+export type CSSSelectorString = string
+export type TPattern = string | RegExp
+export type TViddyQuery = TPattern | TViddyOpts | TViddyQueryTuple
+export type TViddyQueryTuple = [TPattern, TViddyOpts]
+
+export type TViddyPattern = {
+  pattern: TPattern
+}
+
+export type TViddySelector = {
+  selector: CSSSelectorString
+}
+
+export type TViddyOpts = (TViddyPattern | TViddySelector) & {
+  pickParent?: CSSSelectorString
+  near?: TViddyQuery
+  above?: TViddyQuery
+  below?: TViddyQuery
+  leftOf?: TViddyQuery
+  rightOf?: TViddyQuery
+  containedBy?: TViddyQuery
+  withinMs?: number
+  timeoutInMs?: number
+}
+
+// Function signatures
+//
+
+type TQueryMethod<TReturn> = (
+  pattern: TViddyQuery,
+  opts?: TViddyOpts
+) => TReturn
+
+type TQueryValueMethod<TReturn> = (
+  value: TPattern,
+  pattern: TViddyQuery,
+  opts?: TViddyOpts
+) => TReturn
+
+// APIs
+//
+
+export type TViddyApi = {
+  for: TQueryMethod<Element | undefined>
+  forInput: TQueryMethod<Element | undefined>
+  selectorOf: TQueryMethod<CSSSelectorString | undefined>
+  valueOf: TQueryMethod<any>
+  waitFor: TQueryMethod<Promise<CSSSelectorString>>
+  waitForValue: TQueryValueMethod<Promise<CSSSelectorString>>
+  waitForIdle: TQueryMethod<Promise<any>>
+  innerText: TQueryMethod<string | undefined>
+  matchText: TQueryMethod<string | undefined>
+  hasContent: TQueryMethod<boolean>
+}
+
+export type TViddyWellApi = {
+  for: TQueryMethod<Element[]>
+  forInput: TQueryMethod<Element[]>
+  selectorOf: TQueryMethod<CSSSelectorString[]>
+  valueOf: TQueryMethod<any[]>
+  waitFor: TQueryMethod<Promise<CSSSelectorString[]>>
+  waitForValue: TQueryValueMethod<Promise<CSSSelectorString[]>>
+  waitForIdle: TQueryMethod<Promise<any>>
+  innerText: TQueryMethod<string[]>
+  matchText: TQueryMethod<string[]>
+  hasContent: TQueryMethod<boolean>
+}
+
+declare module 'viddy' {
+  export function serialize(...args: any[]): string
+  export function unserialize(argStr: string): any
+  export function qsArray(selector: string): Element[]
+
+  export const ViddyError: Error
+  export const viddy: TViddyApi
+  export const viddyWell: TViddyWellApi
+}
+
+export type TViddyInApi = {
+  selectorOf: TQueryMethod<Promise<CSSSelectorString>>
+  valueOf: TQueryMethod<Promise<any>>
+  waitFor: TQueryMethod<Promise<CSSSelectorString>>
+  waitForValue: TQueryValueMethod<Promise<CSSSelectorString>>
+  waitForIdle: TQueryMethod<Promise<any>>
+  innerText: TQueryMethod<Promise<string>>
+  matchText: TQueryMethod<Promise<string>>
+  hasContent: TQueryMethod<boolean>
+}
+
+export type TViddyWellInApi = {
+  selectorOf: TQueryMethod<Promise<CSSSelectorString[]>>
+  valueOf: TQueryMethod<Promise<any>>
+  waitFor: TQueryMethod<Promise<CSSSelectorString[]>>
+  waitForValue: TQueryValueMethod<Promise<CSSSelectorString[]>>
+  waitForIdle: TQueryMethod<Promise<any>>
+  innerText: TQueryMethod<Promise<string[]>>
+  matchText: TQueryMethod<Promise<string[]>>
+  hasContent: TQueryMethod<boolean>
+}
+
+declare module 'viddy/puppeteer' {
+  export function viddyIn(page: Object): TViddyInApi
+  export function viddyWellIn(page: Object): TViddyWellInApi
+}

@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.2.0] - 2022-03-31
+
 ### Updated
 
 - viddy.matchText() at top of README
+- JSDoc for all API methods
 
 ## [1.1.2] - 2022-03-30
 
