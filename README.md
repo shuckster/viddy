@@ -49,10 +49,10 @@ Integrates with [Puppeteer](#puppeteer-integration).
 ```js
 import { viddy, viddyWell } from 'viddy'
 
-// pattern
+// query
 let el = viddy.for('lomticks of toast')
 
-// pattern + specificity
+// query + specificity
 let el = viddy.for(/symphony: \d+/i, {
   leftOf: 'the fifth'
 })
