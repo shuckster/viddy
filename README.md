@@ -21,13 +21,14 @@
 Find DOM elements using an expressive query syntax, extract text and monitor changes.
 
 ```js
-viddy.valueOf('Country:')
-viddy.selectorOf(/click/i, { below: 'your account' })
 viddy.for({ selector: 'p', near: 'news at 11' })
+viddy.valueOf('country:')
+viddy.selectorOf('logout', { below: 'your account' })
+viddy.matchText(/\d+\.\d+/, { rightOf: 'total' })
+viddy.waitForIdle({ withinMs: 500 })
 viddy.waitForValue('mr sniffs', 'Name:', {
   timeoutInMs: 5000
 })
-viddy.waitForIdle({ withinMs: 500 })
 ```
 
 Search by text, regular-expression, relative visual position, containment, and target parent nodes.
