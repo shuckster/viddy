@@ -34,6 +34,12 @@ type TQueryMethod<TReturn> = (
   opts?: TViddyOpts
 ) => TReturn
 
+type TQueryMatchMethod<TReturn> = (
+  needle: TPattern,
+  pattern: TViddyQuery,
+  opts?: TViddyOpts
+) => TReturn
+
 type TQueryValueMethod<TReturn> = (
   value: TPattern,
   pattern: TViddyQuery,
@@ -125,14 +131,12 @@ export type TViddyApi = {
   innerText: TQueryMethod<string | undefined>
 
   /**
-   * Return innerText of the elements matching query. If RegExp is specified as the pattern, only the matching-portion of the innerText will be returned. If a capturing-group is specified within the RegExp, the full result-array will be returned
+   * Searches innerText of query for needle. If needle is a string, all innerText is returned. If needle is a RegExp, the portion of text matching it will be returned. If capture-groups are specified in the RegExp, the full match-array will be returned
    * @example
-   * viddy.matchText('element with text')
-   * viddy.matchText(/regex/i, { near: 'element with text' })
-   * viddy.matchText({ pattern: /regex/i, pickParent: 'p' })
-   * viddy.matchText({ selector: 'p', leftOf: 'text' })
+   * viddy.matchText('needle', 'element with text')
+   * viddy.matchText(/needle/i, { selector: 'select', near: 'Choose:' })
    */
-  matchText: TQueryMethod<string | undefined>
+  matchText: TQueryMatchMethod<string | undefined>
 
   /**
    * Return true if elements are found matching the query
@@ -227,14 +231,12 @@ export type TViddyWellApi = {
   innerText: TQueryMethod<string[]>
 
   /**
-   * Return innerText of the elements matching query. If RegExp is specified as the pattern, only the matching-portion of the innerText will be returned. If a capturing-group is specified within the RegExp, the full result-array will be returned
+   * Searches innerText of query for needle. If needle is a string, all innerText is returned. If needle is a RegExp, the portion of text matching it will be returned. If capture-groups are specified in the RegExp, the full match-array will be returned
    * @example
-   * viddy.matchText('element with text')
-   * viddy.matchText(/regex/i, { near: 'element with text' })
-   * viddy.matchText({ pattern: /regex/i, pickParent: 'p' })
-   * viddy.matchText({ selector: 'p', leftOf: 'text' })
+   * viddy.matchText('needle', 'element with text')
+   * viddy.matchText(/needle/i, { selector: 'select', near: 'Choose:' })
    */
-  matchText: TQueryMethod<string[]>
+  matchText: TQueryMatchMethod<string[]>
 
   /**
    * Return true if elements are found matching the query
@@ -319,14 +321,12 @@ export type TViddyInApi = {
   innerText: TQueryMethod<Promise<string>>
 
   /**
-   * Return innerText of the elements matching query. If RegExp is specified as the pattern, only the matching-portion of the innerText will be returned. If a capturing-group is specified within the RegExp, the full result-array will be returned
+   * Searches innerText of query for needle. If needle is a string, all innerText is returned. If needle is a RegExp, the portion of text matching it will be returned. If capture-groups are specified in the RegExp, the full match-array will be returned
    * @example
-   * viddy.matchText('element with text')
-   * viddy.matchText(/regex/i, { near: 'element with text' })
-   * viddy.matchText({ pattern: /regex/i, pickParent: 'p' })
-   * viddy.matchText({ selector: 'p', leftOf: 'text' })
+   * viddy.matchText('needle', 'element with text')
+   * viddy.matchText(/needle/i, { selector: 'select', near: 'Choose:' })
    */
-  matchText: TQueryMethod<Promise<string>>
+  matchText: TQueryMatchMethod<Promise<string>>
 
   /**
    * Return true if elements are found matching the query
@@ -401,14 +401,12 @@ export type TViddyWellInApi = {
   innerText: TQueryMethod<Promise<string[]>>
 
   /**
-   * Return innerText of the elements matching query. If RegExp is specified as the pattern, only the matching-portion of the innerText will be returned. If a capturing-group is specified within the RegExp, the full result-array will be returned
+   * Searches innerText of query for needle. If needle is a string, all innerText is returned. If needle is a RegExp, the portion of text matching it will be returned. If capture-groups are specified in the RegExp, the full match-array will be returned
    * @example
-   * viddy.matchText('element with text')
-   * viddy.matchText(/regex/i, { near: 'element with text' })
-   * viddy.matchText({ pattern: /regex/i, pickParent: 'p' })
-   * viddy.matchText({ selector: 'p', leftOf: 'text' })
+   * viddy.matchText('needle', 'element with text')
+   * viddy.matchText(/needle/i, { selector: 'select', near: 'Choose:' })
    */
-  matchText: TQueryMethod<Promise<string[]>>
+  matchText: TQueryMatchMethod<Promise<string[]>>
 
   /**
    * Return true if elements are found matching the query

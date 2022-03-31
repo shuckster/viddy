@@ -5,6 +5,10 @@ viddy.${fnName}(/regex/i, { near: 'element with text' })
 viddy.${fnName}({ pattern: /regex/i, pickParent: 'p' })
 viddy.${fnName}({ selector: 'p', leftOf: 'text' })`
 
+const makeQueryMatchExample =
+  fnName => `viddy.${fnName}('needle', 'element with text')
+viddy.${fnName}(/needle/i, { selector: 'select', near: 'Choose:' })`
+
 const makeQueryValueExample =
   fnName => `viddy.${fnName}('exact value', 'element with text')
 viddy.${fnName}(/okay/i, { selector: 'select', near: 'Choose:' })
@@ -59,8 +63,8 @@ const jsdocExamples = [
   {
     match: /\bmatchText:/,
     description:
-      'Return innerText of the elements matching query. If RegExp is specified as the pattern, only the matching-portion of the innerText will be returned. If a capturing-group is specified within the RegExp, the full result-array will be returned',
-    example: makeQueryExample('matchText')
+      'Searches innerText of query for needle. If needle is a string, all innerText is returned. If needle is a RegExp, the portion of text matching it will be returned. If capture-groups are specified in the RegExp, the full match-array will be returned',
+    example: makeQueryMatchExample('matchText')
   },
   {
     match: /\bhasContent:/,

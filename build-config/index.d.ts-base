@@ -34,6 +34,12 @@ type TQueryMethod<TReturn> = (
   opts?: TViddyOpts
 ) => TReturn
 
+type TQueryMatchMethod<TReturn> = (
+  needle: TPattern,
+  pattern: TViddyQuery,
+  opts?: TViddyOpts
+) => TReturn
+
 type TQueryValueMethod<TReturn> = (
   value: TPattern,
   pattern: TViddyQuery,
@@ -52,7 +58,7 @@ export type TViddyApi = {
   waitForValue: TQueryValueMethod<Promise<CSSSelectorString>>
   waitForIdle: TQueryMethod<Promise<any>>
   innerText: TQueryMethod<string | undefined>
-  matchText: TQueryMethod<string | undefined>
+  matchText: TQueryMatchMethod<string | undefined>
   hasContent: TQueryMethod<boolean>
 }
 
@@ -65,7 +71,7 @@ export type TViddyWellApi = {
   waitForValue: TQueryValueMethod<Promise<CSSSelectorString[]>>
   waitForIdle: TQueryMethod<Promise<any>>
   innerText: TQueryMethod<string[]>
-  matchText: TQueryMethod<string[]>
+  matchText: TQueryMatchMethod<string[]>
   hasContent: TQueryMethod<boolean>
 }
 
@@ -86,7 +92,7 @@ export type TViddyInApi = {
   waitForValue: TQueryValueMethod<Promise<CSSSelectorString>>
   waitForIdle: TQueryMethod<Promise<any>>
   innerText: TQueryMethod<Promise<string>>
-  matchText: TQueryMethod<Promise<string>>
+  matchText: TQueryMatchMethod<Promise<string>>
   hasContent: TQueryMethod<boolean>
 }
 
@@ -97,7 +103,7 @@ export type TViddyWellInApi = {
   waitForValue: TQueryValueMethod<Promise<CSSSelectorString[]>>
   waitForIdle: TQueryMethod<Promise<any>>
   innerText: TQueryMethod<Promise<string[]>>
-  matchText: TQueryMethod<Promise<string[]>>
+  matchText: TQueryMatchMethod<Promise<string[]>>
   hasContent: TQueryMethod<boolean>
 }
 

@@ -86,24 +86,27 @@ let els = viddyWell.for({
 
 Nearly all API methods share the same function signature:
 
-| methods                          | resolves query to                                                                                                                                                                   |
-| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `viddy.for(...)`                 | a DOM element                                                                                                                                                                       |
-| `viddy.forInput(...)`            | same as `viddy.for`, but prefers `input`, `select`, and `textarea` elements                                                                                                         |
-| `viddy.selectorOf(...)`          | a unique CSS selector that points to the element                                                                                                                                    |
-| `viddy.valueOf(...)`             | uses `viddy.forInput` to find an input and return its value                                                                                                                         |
-| `viddy.waitFor(...)`             | Promise that returns a CSS selector, waiting first for the element to appear in the DOM if necessary, within a timeout set with option `{ timeoutInMs }` that defaults to 5 seconds |
-| `viddy.waitForValue(value, ...)` | Waits for a form input with the specified value, resolves a Promise with its CSS selector if found                                                                                  |
-| `viddy.waitForIdle(...)`         | Waits for the DOM to stop updating within 500ms, timing out after 5 seconds. Change these with { withinMs: 500, timeoutInMs: 5000 } options                                         |
-| `viddy.innerText(...)`           | Extract the innerText of an element                                                                                                                                                 |
-| `viddy.matchText(...)`           | innerText, or, if a RegExp is used, the portion of text matching it will be returned. If capture-groups are specified in the RegExp, the full match-array will be returned          |
-| `viddy.hasContent(...)`          | true/false (for both `viddy`/`viddyWell`)                                                                                                                                           |
+| methods                               | resolves query to                                                                                                                                                                                                                                       |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `viddy.for(...query)`                 | a DOM element                                                                                                                                                                                                                                           |
+| `viddy.forInput(...query)`            | same as `viddy.for`, but prefers `input`, `select`, and `textarea` elements                                                                                                                                                                             |
+| `viddy.selectorOf(...query)`          | a unique CSS selector that points to the element                                                                                                                                                                                                        |
+| `viddy.valueOf(...query)`             | uses `viddy.forInput` to find an input and return its value                                                                                                                                                                                             |
+| `viddy.waitFor(...query)`             | Promise that returns a CSS selector, waiting first for the element to appear in the DOM if necessary, within a timeout set with option `{ timeoutInMs }` that defaults to 5 seconds                                                                     |
+| `viddy.waitForValue(value, ...query)` | Waits for a form input with the specified value, resolves a Promise with its CSS selector if found                                                                                                                                                      |
+| `viddy.waitForIdle(...query)`         | Waits for the DOM to stop updating within 500ms, timing out after 5 seconds. Change these with { withinMs: 500, timeoutInMs: 5000 } options                                                                                                             |
+| `viddy.innerText(...query)`           | Extract the innerText of an element                                                                                                                                                                                                                     |
+| `viddy.matchText(needle, ...query)`   | Searches innerText of query for needle. If needle is a string, all innerText is returned. If needle is a RegExp, the portion of text matching it will be returned. If capture-groups are specified in the RegExp, the full match-array will be returned |
+| `viddy.hasContent(...query)`          | true/false (for both `viddy`/`viddyWell`)                                                                                                                                                                                                               |
 
-Note that the `viddy.waitForValue()` signature differs in that a string/RegExp value is expected as the first argument, eg:
+Note that the `viddy.waitForValue()` and `viddy.matchText()` signatures differ in that a string/RegExp is expected as the first argument, eg:
 
 ```js
+const result = viddy.matchText(/uk/i, { pattern: 'Country:' })
+// "UK"
+
 const css = await viddy.waitForValue('uk', 'Country:')
-// select#country
+// "select#country"
 ```
 
 ## Install:
