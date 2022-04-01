@@ -61,7 +61,7 @@ export type TViddyApi = {
   for: TQueryMethod<Element | undefined>
 
   /**
-   * Return nearest <input>, <select>, or <textarea> matching query
+   * Return nearest *input*, *select*, or *textarea* matching query
    * @example
    * viddy.forInput('element with text')
    * viddy.forInput(/regex/i, { near: 'element with text' })
@@ -81,7 +81,7 @@ export type TViddyApi = {
   selectorOf: TQueryMethod<CSSSelectorString | undefined>
 
   /**
-   * Return value of nearest <input>, <select>, or <textarea> matching query
+   * Return value of nearest *input*, *select*, or *textarea* matching query
    * @example
    * viddy.valueOf('element with text')
    * viddy.valueOf(/regex/i, { near: 'element with text' })
@@ -101,7 +101,7 @@ export type TViddyApi = {
   waitFor: TQueryMethod<Promise<CSSSelectorString>>
 
   /**
-   * Return Promise that awaits the query, returning nearest matching <input>, <select>, or <textarea> elements
+   * Return Promise that awaits the query, returning nearest matching *input*, *select*, or *textarea* elements
    * @example
    * viddy.waitForValue('exact value', 'element with text')
    * viddy.waitForValue(/okay/i, { selector: 'select', near: 'Choose:' })
@@ -161,7 +161,7 @@ export type TViddyWellApi = {
   for: TQueryMethod<Element[]>
 
   /**
-   * Return nearest <input>, <select>, or <textarea> matching query
+   * Return nearest *input*, *select*, or *textarea* matching query
    * @example
    * viddy.forInput('element with text')
    * viddy.forInput(/regex/i, { near: 'element with text' })
@@ -181,7 +181,7 @@ export type TViddyWellApi = {
   selectorOf: TQueryMethod<CSSSelectorString[]>
 
   /**
-   * Return value of nearest <input>, <select>, or <textarea> matching query
+   * Return value of nearest *input*, *select*, or *textarea* matching query
    * @example
    * viddy.valueOf('element with text')
    * viddy.valueOf(/regex/i, { near: 'element with text' })
@@ -201,7 +201,7 @@ export type TViddyWellApi = {
   waitFor: TQueryMethod<Promise<CSSSelectorString[]>>
 
   /**
-   * Return Promise that awaits the query, returning nearest matching <input>, <select>, or <textarea> elements
+   * Return Promise that awaits the query, returning nearest matching *input*, *select*, or *textarea* elements
    * @example
    * viddy.waitForValue('exact value', 'element with text')
    * viddy.waitForValue(/okay/i, { selector: 'select', near: 'Choose:' })
@@ -271,7 +271,7 @@ export type TViddyInApi = {
   selectorOf: TQueryMethod<Promise<CSSSelectorString>>
 
   /**
-   * Return value of nearest <input>, <select>, or <textarea> matching query
+   * Return value of nearest *input*, *select*, or *textarea* matching query
    * @example
    * viddy.valueOf('element with text')
    * viddy.valueOf(/regex/i, { near: 'element with text' })
@@ -291,7 +291,7 @@ export type TViddyInApi = {
   waitFor: TQueryMethod<Promise<CSSSelectorString>>
 
   /**
-   * Return Promise that awaits the query, returning nearest matching <input>, <select>, or <textarea> elements
+   * Return Promise that awaits the query, returning nearest matching *input*, *select*, or *textarea* elements
    * @example
    * viddy.waitForValue('exact value', 'element with text')
    * viddy.waitForValue(/okay/i, { selector: 'select', near: 'Choose:' })
@@ -351,7 +351,7 @@ export type TViddyWellInApi = {
   selectorOf: TQueryMethod<Promise<CSSSelectorString[]>>
 
   /**
-   * Return value of nearest <input>, <select>, or <textarea> matching query
+   * Return value of nearest *input*, *select*, or *textarea* matching query
    * @example
    * viddy.valueOf('element with text')
    * viddy.valueOf(/regex/i, { near: 'element with text' })
@@ -371,7 +371,7 @@ export type TViddyWellInApi = {
   waitFor: TQueryMethod<Promise<CSSSelectorString[]>>
 
   /**
-   * Return Promise that awaits the query, returning nearest matching <input>, <select>, or <textarea> elements
+   * Return Promise that awaits the query, returning nearest matching *input*, *select*, or *textarea* elements
    * @example
    * viddy.waitForValue('exact value', 'element with text')
    * viddy.waitForValue(/okay/i, { selector: 'select', near: 'Choose:' })

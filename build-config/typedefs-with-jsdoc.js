@@ -23,7 +23,7 @@ const jsdocExamples = [
   {
     match: /\bforInput:/,
     description:
-      'Return nearest <input>, <select>, or <textarea> matching query',
+      'Return nearest *input*, *select*, or *textarea* matching query',
     example: makeQueryExample('forInput')
   },
   {
@@ -34,7 +34,7 @@ const jsdocExamples = [
   {
     match: /\bvalueOf:/,
     description:
-      'Return value of nearest <input>, <select>, or <textarea> matching query',
+      'Return value of nearest *input*, *select*, or *textarea* matching query',
     example: makeQueryExample('valueOf')
   },
   {
@@ -46,7 +46,7 @@ const jsdocExamples = [
   {
     match: /\bwaitForValue:/,
     description:
-      'Return Promise that awaits the query, returning nearest matching <input>, <select>, or <textarea> elements',
+      'Return Promise that awaits the query, returning nearest matching *input*, *select*, or *textarea* elements',
     example: makeQueryValueExample('waitForValue')
   },
   {
