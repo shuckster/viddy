@@ -22,6 +22,7 @@ Find DOM elements using an expressive query syntax, extract text and monitor cha
 
 ```js
 viddy.for({ selector: 'p', near: 'news at 11' })
+viddy.forCta('click here', { leftOf: 'heading' })
 viddy.valueOf('country:')
 viddy.selectorOf('logout', { below: 'your account' })
 viddy.matchText(/\d+\.\d+/, { rightOf: 'total' })
@@ -89,7 +90,8 @@ Nearly all API methods share the same function signature:
 | methods                               | resolves query to                                                                                                                                                                                                                                       |
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `viddy.for(...query)`                 | a DOM element                                                                                                                                                                                                                                           |
-| `viddy.forInput(...query)`            | same as `viddy.for`, but prefers `input`, `select`, and `textarea` elements                                                                                                                                                                             |
+| `viddy.forCta(...query)`              | same as `viddy.for`, but prefers `button` and `anchor` elements                                                                                                                                                                                         |
+| `viddy.forInput(...query)`            | same as `viddy.for`, but prefers `input` (non-buttons), `select`, and `textarea` elements                                                                                                                                                               |
 | `viddy.selectorOf(...query)`          | a unique CSS selector that points to the element                                                                                                                                                                                                        |
 | `viddy.valueOf(...query)`             | uses `viddy.forInput` to find an input and return its value                                                                                                                                                                                             |
 | `viddy.waitFor(...query)`             | Promise that returns a CSS selector, waiting first for the element to appear in the DOM if necessary, within a timeout set with option `{ timeoutInMs }` that defaults to 5 seconds                                                                     |
