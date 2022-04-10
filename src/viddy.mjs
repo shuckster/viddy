@@ -1,9 +1,16 @@
-import { match, when, otherwise, anyOf, allOf } from 'match-iz'
-import { includes, not, empty, pluck as $ } from 'match-iz'
+import { match, against, when, otherwise, anyOf, allOf } from 'match-iz'
 import { isArray, isNumber, isString, isRegExp, isPojo } from 'match-iz'
+import { includes, not, empty, pluck as $ } from 'match-iz'
 
-import { Identity as Passthru, mapOverObjectValues, memo } from './utils/fp.mjs'
 import { ascending } from './utils/sort.mjs'
+import { makeDebouncer } from './utils/async.mjs'
+
+import {
+  compose,
+  Identity as Passthru,
+  mapOverObjectValues,
+  memo
+} from './utils/fp.mjs'
 
 import {
   allAncestorsOf,
@@ -19,10 +26,18 @@ import {
   qsArray,
   valueOfElement
 } from './utils/elements.mjs'
-import { makeDebouncer } from './utils/async.mjs'
 
 const BODY_WILDCARD = 'body *'
-const FORM_TAGS = 'input, select, textarea'
+
+const INPUT_CTAS = ['button', 'submit', 'reset', 'file']
+const FORM_INPUTS = INPUT_CTAS.map(x => `input:not([type=${x}])`)
+  .concat('select', 'textarea')
+  .join(', ')
+
+const FORM_CTAS = INPUT_CTAS.map(x => `input[type=${x}]`)
+  .concat('a', 'button')
+  .join(', ')
+
 const DEFAULT_WAITFOR_TIMEOUT_IN_SECONDS = 5
 const DEFAULT_IDLE_TIMEOUT_IN_MS = 500
 
@@ -40,13 +55,13 @@ const isOptionsWithPatternNotSelector = allOf(isPojo, {
   pattern: isPattern,
   selector: not(isString)
 })
-const isOptionsWithoutSelectorOrParent = allOf(isPojo, {
-  selector: not(isString),
-  pickParent: not(isString)
-})
 const isOptionsWithoutPatternOrSelector = allOf(isPojo, {
   pattern: not(isPattern),
   selector: not(isString)
+})
+const isOptionsWithoutSelectorOrParent = allOf(isPojo, {
+  selector: not(isString),
+  pickParent: not(isString)
 })
 
 // Serialization helpers
@@ -98,17 +113,17 @@ const viddyQuery = (...args) =>
     otherwise([])
   )
 
-function viddyQuerySelector(selector) {
+function viddyQueryNearby(selector) {
   return (...args) =>
     match(args)(
       when([isPattern])(([pattern]) =>
         specificSearch([{ selector, near: pattern }])
       ),
       when([isPattern, isOptionsWithoutSelectorOrParent])(([pattern, opts]) =>
-        specificSearch([{ ...opts, selector, near: pattern }])
+        specificSearch([{ selector, near: { ...opts, pattern } }])
       ),
       when([isOptionsWithPatternNotSelector])(([{ pattern, ...rest }]) =>
-        specificSearch([{ ...rest, selector, near: pattern }])
+        specificSearch([{ selector, near: { ...rest, pattern } }])
       ),
       when([{ selector: isString }])(([{ selector: userSelector, ...rest }]) =>
         specificSearch([{ ...rest, selector: userSelector }])
@@ -117,7 +132,33 @@ function viddyQuerySelector(selector) {
     )
 }
 
-const viddyQueryInput = viddyQuerySelector(FORM_TAGS)
+function viddyQuerySelector(selector) {
+  return (...args) =>
+    compose(x => x.filter(against(when(anyOf(qsArray(selector)))(true))))(
+      match(args)(
+        when([isPattern])(([pattern]) =>
+          specificSearch([{ containedBy: { selector }, pattern }])
+        ),
+        when([isPattern, isOptionsWithoutSelectorOrParent])(([pattern, opts]) =>
+          specificSearch([{ ...opts, containedBy: { selector }, pattern }])
+        ),
+        when([isOptionsWithPatternNotSelector])(([{ pattern, ...rest }]) =>
+          specificSearch([{ ...rest, containedBy: { selector }, pattern }])
+        ),
+        when([isOptionsWithoutPatternOrSelector])(([opts]) =>
+          specificSearch([{ ...opts, containedBy: { selector } }])
+        ),
+        when([{ selector: isString }])(
+          ([{ selector: userSelector, ...rest }]) =>
+            specificSearch([{ ...rest, selector: userSelector }])
+        ),
+        otherwise(specificSearch([{ selector }]))
+      )
+    )
+}
+
+const viddyQueryInput = viddyQueryNearby(FORM_INPUTS)
+const viddyQueryCta = viddyQuerySelector(FORM_CTAS)
 
 // Execute queries
 //
@@ -340,7 +381,7 @@ function baseWaitFor(fnName = 'baseWaitFor', makeCheckForElement, ...args) {
       removeChangeListeners()
     }
 
-    const removeChangeListeners = installChangeListeners(FORM_TAGS, checker)
+    const removeChangeListeners = installChangeListeners(FORM_INPUTS, checker)
     const removeObserver = observeMutations(checker)
     checker()
   })
@@ -351,6 +392,18 @@ function waitFor(...args) {
   function makeCheckForElement({ args, done }) {
     return () => {
       const elementsOfInterest = viddyQuery(...args)
+      if (elementsOfInterest.length) {
+        done(elementsOfInterest.map(selectorOfElement))
+      }
+    }
+  }
+}
+
+function waitForCta(...args) {
+  return baseWaitFor('waitForCta', makeCheckForElement, ...args)
+  function makeCheckForElement({ args, done }) {
+    return () => {
+      const elementsOfInterest = viddyQueryCta(...args)
       if (elementsOfInterest.length) {
         done(elementsOfInterest.map(selectorOfElement))
       }
@@ -449,10 +502,12 @@ function FirstResultOf(fn) {
 
 export const viddy = {
   for: FirstResultOf(viddyQuery),
+  forCta: FirstResultOf(viddyQueryCta),
   forInput: FirstResultOf(viddyQueryInput),
   selectorOf: FirstResultOf(selectorOf),
   valueOf: FirstResultOf(valueOf),
   waitFor: (...args) => waitFor(...args).then(x => x[0]),
+  waitForCta: (...args) => waitForCta(...args).then(x => x[0]),
   waitForValue: (...args) => waitForValue(...args).then(x => x[0]),
   waitForIdle,
   innerText: FirstResultOf(innerText),
@@ -463,9 +518,11 @@ export const viddy = {
 export const viddyWell = {
   for: viddyQuery,
   forInput: viddyQueryInput,
+  forCta: viddyQueryCta,
   selectorOf,
   valueOf,
   waitFor,
+  waitForCta,
   waitForValue,
   waitForIdle,
   innerText,

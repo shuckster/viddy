@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.3.0] - 2022-04-10
+
+### Added
+
+- Call-to-action specific APIs: `viddy.forCta` + `viddy.waitForCta`. Tries to target only buttons and anchors.
+
 ## [1.2.2] - 2022-04-01
 
 ### Fixed

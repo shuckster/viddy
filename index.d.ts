@@ -61,7 +61,17 @@ export type TViddyApi = {
   for: TQueryMethod<Element | undefined>
 
   /**
-   * Return nearest *input*, *select*, or *textarea* matching query
+   * Return nearest *button* or *anchor* matching query
+   * @example
+   * viddy.forCta('element with text')
+   * viddy.forCta(/regex/i, { near: 'element with text' })
+   * viddy.forCta({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.forCta({ selector: 'p', leftOf: 'text' })
+   */
+  forCta: TQueryMethod<Element | undefined>
+
+  /**
+   * Return nearest *input* (textual or checkboxes/radios, not buttons), *select*, or *textarea* matching query
    * @example
    * viddy.forInput('element with text')
    * viddy.forInput(/regex/i, { near: 'element with text' })
@@ -99,6 +109,16 @@ export type TViddyApi = {
    * viddy.waitFor({ selector: 'p', leftOf: 'text' })
    */
   waitFor: TQueryMethod<Promise<CSSSelectorString>>
+
+  /**
+   * Return Promise that awaits the query, returning matching call-to-action elements (buttons, anchors)
+   * @example
+   * viddy.waitForCta('element with text')
+   * viddy.waitForCta(/regex/i, { near: 'element with text' })
+   * viddy.waitForCta({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.waitForCta({ selector: 'p', leftOf: 'text' })
+   */
+  waitForCta: TQueryMethod<Promise<CSSSelectorString>>
 
   /**
    * Return Promise that awaits the query, returning nearest matching *input*, *select*, or *textarea* elements
@@ -161,7 +181,17 @@ export type TViddyWellApi = {
   for: TQueryMethod<Element[]>
 
   /**
-   * Return nearest *input*, *select*, or *textarea* matching query
+   * Return nearest *button* or *anchor* matching query
+   * @example
+   * viddy.forCta('element with text')
+   * viddy.forCta(/regex/i, { near: 'element with text' })
+   * viddy.forCta({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.forCta({ selector: 'p', leftOf: 'text' })
+   */
+  forCta: TQueryMethod<Element[]>
+
+  /**
+   * Return nearest *input* (textual or checkboxes/radios, not buttons), *select*, or *textarea* matching query
    * @example
    * viddy.forInput('element with text')
    * viddy.forInput(/regex/i, { near: 'element with text' })
@@ -199,6 +229,16 @@ export type TViddyWellApi = {
    * viddy.waitFor({ selector: 'p', leftOf: 'text' })
    */
   waitFor: TQueryMethod<Promise<CSSSelectorString[]>>
+
+  /**
+   * Return Promise that awaits the query, returning matching call-to-action elements (buttons, anchors)
+   * @example
+   * viddy.waitForCta('element with text')
+   * viddy.waitForCta(/regex/i, { near: 'element with text' })
+   * viddy.waitForCta({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.waitForCta({ selector: 'p', leftOf: 'text' })
+   */
+  waitForCta: TQueryMethod<Promise<CSSSelectorString[]>>
 
   /**
    * Return Promise that awaits the query, returning nearest matching *input*, *select*, or *textarea* elements
@@ -291,6 +331,16 @@ export type TViddyInApi = {
   waitFor: TQueryMethod<Promise<CSSSelectorString>>
 
   /**
+   * Return Promise that awaits the query, returning matching call-to-action elements (buttons, anchors)
+   * @example
+   * viddy.waitForCta('element with text')
+   * viddy.waitForCta(/regex/i, { near: 'element with text' })
+   * viddy.waitForCta({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.waitForCta({ selector: 'p', leftOf: 'text' })
+   */
+  waitForCta: TQueryMethod<Promise<CSSSelectorString>>
+
+  /**
    * Return Promise that awaits the query, returning nearest matching *input*, *select*, or *textarea* elements
    * @example
    * viddy.waitForValue('exact value', 'element with text')
@@ -369,6 +419,16 @@ export type TViddyWellInApi = {
    * viddy.waitFor({ selector: 'p', leftOf: 'text' })
    */
   waitFor: TQueryMethod<Promise<CSSSelectorString[]>>
+
+  /**
+   * Return Promise that awaits the query, returning matching call-to-action elements (buttons, anchors)
+   * @example
+   * viddy.waitForCta('element with text')
+   * viddy.waitForCta(/regex/i, { near: 'element with text' })
+   * viddy.waitForCta({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.waitForCta({ selector: 'p', leftOf: 'text' })
+   */
+  waitForCta: TQueryMethod<Promise<CSSSelectorString[]>>
 
   /**
    * Return Promise that awaits the query, returning nearest matching *input*, *select*, or *textarea* elements

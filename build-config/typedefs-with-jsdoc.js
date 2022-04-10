@@ -21,9 +21,14 @@ const jsdocExamples = [
     example: makeQueryExample('for')
   },
   {
+    match: /\bforCta:/,
+    description: 'Return nearest *button* or *anchor* matching query',
+    example: makeQueryExample('forCta')
+  },
+  {
     match: /\bforInput:/,
     description:
-      'Return nearest *input*, *select*, or *textarea* matching query',
+      'Return nearest *input* (textual or checkboxes/radios, not buttons), *select*, or *textarea* matching query',
     example: makeQueryExample('forInput')
   },
   {
@@ -42,6 +47,12 @@ const jsdocExamples = [
     description:
       'Return Promise that awaits the query, returning matching elements',
     example: makeQueryExample('waitFor')
+  },
+  {
+    match: /\bwaitForCta:/,
+    description:
+      'Return Promise that awaits the query, returning matching call-to-action elements (buttons, anchors)',
+    example: makeQueryExample('waitForCta')
   },
   {
     match: /\bwaitForValue:/,

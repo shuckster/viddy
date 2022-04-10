@@ -87,6 +87,14 @@ async function viddyIn(page) {
       }, serialize(applyTimeoutIfNotSpecified(options, waitForTimeoutInMs)))
     },
 
+    waitForCta(...options) {
+      return page.evaluate(argStr => {
+        const { viddy } = libViddy
+        const [args] = libViddy.unserialize(argStr)
+        return viddy.waitForCta(...args)
+      }, serialize(applyTimeoutIfNotSpecified(options, waitForTimeoutInMs)))
+    },
+
     waitForValue(value, ...options) {
       return page.evaluate(
         (valueStr, argStr) => {
@@ -161,6 +169,14 @@ async function viddyWellIn(page) {
         const { viddyWell } = libViddy
         const [args] = libViddy.unserialize(argStr)
         return viddyWell.waitFor(...args)
+      }, serialize(applyTimeoutIfNotSpecified(options, waitForTimeoutInMs)))
+    },
+
+    waitForCta(...options) {
+      return page.evaluate(argStr => {
+        const { viddyWell } = libViddy
+        const [args] = libViddy.unserialize(argStr)
+        return viddyWell.waitForCta(...args)
       }, serialize(applyTimeoutIfNotSpecified(options, waitForTimeoutInMs)))
     },
 

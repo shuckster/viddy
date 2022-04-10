@@ -21,14 +21,19 @@ function asyncPipe(x, ...promiseMakerFns) {
   }
 }
 
-// Server
-const app = new Koa()
-app.use(serve(path.join(__dirname, './www')))
-const server = app.listen(4000)
-
-// Tests
 async function main() {
+  // Server
+  const app = new Koa()
+  app.use(serve(path.join(__dirname, './www')))
+  const server = app.listen(4000)
   const browser = await puppeteer.launch({ headless: true, devtools: true })
+  process.on('unhandledRejection', (reason, p) => {
+    console.log('Unhandled Rejection at:', p, 'reason:', reason)
+    browser.close()
+    server.close()
+  })
+
+  // Tests
   const page = await browser.newPage()
   await page.goto('http://localhost:4000/index.html')
   const viddy = await viddyIn(page)
@@ -135,7 +140,7 @@ async function main() {
   // viddy.waitFor.timesOutAfterMs(500)
 
   await viddy
-    .waitFor('click here', { below: /again/i })
+    .waitForCta('click here', { below: /again/i })
     .then(sel => page.click(sel).then(() => sel))
     .then(sel => () => console.log('clicked: ', sel))
 
@@ -155,7 +160,7 @@ async function main() {
 
   const clickFirstButton = () =>
     viddy
-      .waitFor('click here', { above: /country/i })
+      .waitForCta('click here', { above: /country/i })
       .then(sel => page.click(sel))
 
   const clickAndWait = ms => [() => clickFirstButton(), () => delay(ms)]
