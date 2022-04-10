@@ -6,7 +6,7 @@ specifiers:
   eslint: ^8.13.0
   koa: ^2.13.4
   koa-static: ^5.0.0
-  match-iz: ^2.3.2
+  match-iz: ^3.0.0
   nodemon: ^2.0.15
   prettier: ^2.6.2
   puppeteer: ^13.5.2
@@ -14,7 +14,7 @@ specifiers:
   typescript: ^4.6.3
 
 dependencies:
-  match-iz: 2.3.2
+  match-iz: 3.0.0
 
 devDependencies:
   compose-paths: 1.2.1
@@ -1314,8 +1314,8 @@ packages:
       semver: 6.3.0
     dev: true
 
-  /match-iz/2.3.2:
-    resolution: {integrity: sha512-CFGhff5uz1TVEfEbvan4dJrBtdYYtliFRkmTg28uyHXWkoDT3h7/b6P3fjWidNTzPTSAzuQma20qU2xhi/3Ihg==}
+  /match-iz/3.0.0:
+    resolution: {integrity: sha512-Wijk6lBPiU5m9LosI8L/efJQZvqQEsIU7M6zBXtn3J9Phw7pZHVoloXJrCd9PtQaym0D5LQ3zGmAs2CWreL9+A==}
     engines: {node: '>=10'}
     dev: false
 
