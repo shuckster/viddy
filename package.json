@@ -60,11 +60,11 @@
     "build:watch": "nodemon ./build-config/esbuild.mjs"
   },
   "dependencies": {
-    "match-iz": "^3.0.0"
+    "match-iz": "^3.1.0"
   },
   "devDependencies": {
     "compose-paths": "^1.2.1",
-    "esbuild": "^0.14.34",
+    "esbuild": "^0.14.36",
     "eslint": "^8.13.0",
     "koa": "^2.13.4",
     "koa-static": "^5.0.0",
