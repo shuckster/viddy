@@ -6,6 +6,7 @@ const puppeteer = require('puppeteer')
 const { viddyIn } = require('viddy/puppeteer')
 const assert = require('assert')
 
+const SERVER_PORT = 4762
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 function asyncPipe(x, ...promiseMakerFns) {
@@ -25,7 +26,7 @@ async function main() {
   // Server
   const app = new Koa()
   app.use(serve(path.join(__dirname, './www')))
-  const server = app.listen(4000)
+  const server = app.listen(SERVER_PORT)
   const browser = await puppeteer.launch({ headless: true, devtools: true })
   process.on('unhandledRejection', (reason, p) => {
     console.log('Unhandled Rejection at:', p, 'reason:', reason)
@@ -35,7 +36,7 @@ async function main() {
 
   // Tests
   const page = await browser.newPage()
-  await page.goto('http://localhost:4000/index.html')
+  await page.goto(`http://localhost:${SERVER_PORT}/index.html`)
   const viddy = await viddyIn(page)
 
   await viddy
