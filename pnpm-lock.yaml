@@ -6,7 +6,7 @@ specifiers:
   eslint: ^8.13.0
   koa: ^2.13.4
   koa-static: ^5.0.0
-  match-iz: ^3.1.0
+  match-iz: ^3.3.1
   nodemon: ^2.0.15
   prettier: ^2.6.2
   puppeteer: ^13.5.2
@@ -14,7 +14,7 @@ specifiers:
   typescript: ^4.6.3
 
 dependencies:
-  match-iz: 3.1.0
+  match-iz: 3.3.1
 
 devDependencies:
   compose-paths: 1.2.1
@@ -74,8 +74,8 @@ packages:
       defer-to-connect: 1.1.3
     dev: true
 
-  /@types/node/17.0.23:
-    resolution: {integrity: sha512-UxDxWn7dl97rKVeVS61vErvw086aCYhDLyvRQZ5Rk65rZKepaFdm53GeqXaKBuOhED4e9uWq34IC3TdSdJJ2Gw==}
+  /@types/node/17.0.24:
+    resolution: {integrity: sha512-aveCYRQbgTH9Pssp1voEP7HiuWlD2jW2BO56w+bVrJn04i61yh6mRfoKO6hEYQD9vF+W8Chkwc6j1M36uPkx4g==}
     dev: true
     optional: true
 
@@ -83,7 +83,7 @@ packages:
     resolution: {integrity: sha512-Cn6WYCm0tXv8p6k+A8PvbDG763EDpBoTzHdA+Q/MF6H3sapGjCm9NzoaJncJS9tUKSuCoDs9XHxYYsQDgxR6kw==}
     requiresBuild: true
     dependencies:
-      '@types/node': 17.0.23
+      '@types/node': 17.0.24
     dev: true
     optional: true
 
@@ -1316,8 +1316,8 @@ packages:
       semver: 6.3.0
     dev: true
 
-  /match-iz/3.1.0:
-    resolution: {integrity: sha512-tn/EhrTDzYih/k5gBbGEl++m/lFp6X/R7YSgJzoxu5WL7E6c2rbCNjTpBLJ+QSP30lJfh5Eo/rpeuM7eCMsazA==}
+  /match-iz/3.3.1:
+    resolution: {integrity: sha512-ulcAybM+nqCpqlSmPIy6/krSI0r1MK3BXS9zM8jH78V84Nle9jJf7m349rINHeX3oMvIUe4zbigeY4dfiCv7/g==}
     engines: {node: '>=10'}
     dev: false
 

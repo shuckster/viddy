@@ -19,7 +19,6 @@
     ".": {
       "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.js",
-      "browser": "./dist/browser/viddy.browser.js",
       "default": "./dist/cjs/index.js"
     },
     "./puppeteer": {
@@ -60,7 +59,7 @@
     "build:watch": "nodemon ./build-config/esbuild.mjs"
   },
   "dependencies": {
-    "match-iz": "^3.1.0"
+    "match-iz": "^3.3.1"
   },
   "devDependencies": {
     "compose-paths": "^1.2.1",
