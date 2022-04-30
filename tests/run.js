@@ -6,6 +6,8 @@ const puppeteer = require('puppeteer')
 const { viddyIn } = require('viddy/puppeteer')
 const assert = require('assert')
 
+const headless = true
+const devtools = true
 const SERVER_PORT = 4762
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -27,7 +29,7 @@ async function main() {
   const app = new Koa()
   app.use(serve(path.join(__dirname, './www')))
   const server = app.listen(SERVER_PORT)
-  const browser = await puppeteer.launch({ headless: true, devtools: true })
+  const browser = await puppeteer.launch({ headless, devtools })
   process.on('unhandledRejection', (reason, p) => {
     console.log('Unhandled Rejection at:', p, 'reason:', reason)
     browser.close()

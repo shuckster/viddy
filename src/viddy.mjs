@@ -108,7 +108,9 @@ export { qsArray }
 const viddyQuery = (...args) =>
   match(args)(
     when([isPattern])(searchForTextOrPattern),
-    when([isPattern, isPojo])(searchWithOptions),
+    when([isPattern, isPojo])(([pattern, opts]) =>
+      specificSearch([{ pattern, ...opts }])
+    ),
     when([isPojo])(specificSearch),
     otherwise([])
   )
@@ -163,13 +165,13 @@ const viddyQueryCta = viddyQuerySelector(FORM_CTAS)
 // Execute queries
 //
 
-function searchForTextOrPattern([textOrRegExp]) {
+function searchForTextOrPattern([textOrRegExp, selector = BODY_WILDCARD]) {
   const byTextContent = match(textOrRegExp)(
     when(isRegExp)(elementHasTextMatching),
     otherwise(elementHasText)
   )
 
-  const all = qsArray(BODY_WILDCARD)
+  const all = qsArray(selector)
     .filter(isHtmlElement)
     .filter(isElementVisible)
     .filter(byTextContent)
@@ -182,17 +184,17 @@ function searchForTextOrPattern([textOrRegExp]) {
   })
 }
 
-function searchWithOptions([textOrRegExp, options]) {
-  return winnowElements(searchForTextOrPattern([textOrRegExp]), options)
-}
-
 function specificSearch([options]) {
   return match(options)(
-    when({ selector: isString })(({ selector, ...opts }) =>
-      winnowElements(qsArray(selector), opts)
+    when({ pattern: isPattern, selector: isString })(
+      ({ pattern, selector, ...opts }) =>
+        winnowElements(searchForTextOrPattern([pattern, selector]), opts)
     ),
     when({ pattern: isPattern })(({ pattern, ...opts }) =>
       winnowElements(searchForTextOrPattern([pattern]), opts)
+    ),
+    when({ selector: isString })(({ selector, ...opts }) =>
+      winnowElements(qsArray(selector), opts)
     ),
     otherwise(() => winnowElements(qsArray(BODY_WILDCARD), options))
   )

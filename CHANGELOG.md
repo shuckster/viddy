@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.4.0] - 2022-04-30
+
+### Updated
+
+- Permit `selector` to be used in combination with `pattern`
+
 ## [1.3.4] - 2022-04-15
 
 ### Removed / Fixed
