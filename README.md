@@ -41,6 +41,7 @@ Integrates with [Puppeteer](https://github.com/shuckster/viddy/wiki/Puppeteer-In
 - 👀 [Overview](#overview)
 - 📖 [Documentation](https://github.com/shuckster/viddy/wiki)
 - 🤡 [Puppeteer integration](https://github.com/shuckster/viddy/wiki/Puppeteer-Integration)
+- 📀 [Install / Use](#install--use)
 - ✍️ [Credits](#credits)
 
 ## Overview
@@ -79,7 +80,7 @@ let els = viddyWell.for({
 
 View the [query specification](https://github.com/shuckster/viddy/wiki#query-specification).
 
-## Install
+## Install / Use
 
 ```
 $ pnpm i viddy
