@@ -88,17 +88,17 @@ $ pnpm i viddy
 
 ```js
 // ESM:
-import { viddy } from 'viddy'
+import { viddy, viddyWell } from 'viddy'
 
 // CJS:
-const { viddy } = require('viddy')
+const { viddy, viddyWell } = require('viddy')
 ```
 
 ```html
 <!-- Browser/UMD: -->
 <script src="https://unpkg.com/viddy/dist/browser/viddy.browser.js"></script>
 <script>
-  const { viddy } = libViddy
+  const { viddy, viddyWell } = libViddy
 </script>
 ```
 
