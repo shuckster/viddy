@@ -474,7 +474,8 @@ function waitForIdle(...args) {
   if (queryWasSpecified && !withinSelector) {
     throw new ViddyError('waitForIdle', args, {
       message:
-        'need resolvable query to monitor for DOM idle, or omit query to monitor all DOM changes'
+        'need resolvable query to monitor for DOM idle, ' +
+        'or omit query to monitor all DOM changes'
     })
   }
 
