@@ -9,7 +9,7 @@ import { moduleTypes, optionsFrom } from './common.mjs'
 const pkg = JSON.parse(fs.readFileSync('./package.json'))
 
 const { paths, outputs, addBanner, globalName } = optionsFrom(pkg)
-import { match, when, otherwise, defined, anyOf } from 'match-iz'
+import { match, against, when, otherwise, defined, anyOf } from 'match-iz'
 
 function main() {
   Promise.all(outputs.map(buildModule))
@@ -42,14 +42,12 @@ function buildModule({ file, format, module, define }) {
     .then(writePackageJson({ module, format }))
 }
 
-function writePackageJson({ module, format }) {
-  return () =>
-    match({ module, format })(
-      when({ module: defined, format: anyOf(Object.keys(moduleTypes)) })(() =>
-        writeTextFile(module)(makePackageJsonForType(format))
-      )
-    )
-}
+const writePackageJson = against(
+  when({ module: defined, format: anyOf(Object.keys(moduleTypes)) })(
+    ({ module, format }) =>
+      writeTextFile(module)(makePackageJsonForType(format))
+  )
+)
 
 function makePackageJsonForType(type = 'esm') {
   return `{ "type": "${moduleTypes[type]}" }\n`
