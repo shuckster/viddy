@@ -18,7 +18,10 @@ function main() {
 function buildModule({ file, format, module, define }) {
   const buildOptions = {
     entryPoints: [paths.SRC],
-    define,
+    target: ['es6'],
+    minify: true,
+    write: false,
+
     format,
     ...match(format)(
       when('iife')({
@@ -27,10 +30,9 @@ function buildModule({ file, format, module, define }) {
       }),
       otherwise({ platform: 'node' })
     ),
-    target: ['es6'],
-    minify: true,
+
     bundle: true,
-    write: false
+    define
   }
 
   return esbuild
