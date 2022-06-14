@@ -1,6 +1,6 @@
 /*
  * viddy
- * v1.4.1
+ * v1.5.0
  * https://github.com/shuckster/viddy
  * License: MIT
  */
