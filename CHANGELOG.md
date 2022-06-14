@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.5.0] - 2022-06-14
+
+### Updated
+
+- Use `optimal-select` for more reliable CSS selector generation
+
 ## [1.4.1] - 2022-05-07
 
 ### Updated
