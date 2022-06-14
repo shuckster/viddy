@@ -8,13 +8,15 @@ specifiers:
   koa-static: ^5.0.0
   match-iz: ^3.7.1
   nodemon: ^2.0.16
-  prettier: ^2.6.2
-  puppeteer: ^14.3.0
+  optimal-select: 4.0.1
+  prettier: ^2.7.0
+  puppeteer: ^14.4.0
   rimraf: ^3.0.2
   typescript: ^4.7.3
 
 dependencies:
   match-iz: 3.7.1
+  optimal-select: 4.0.1
 
 devDependencies:
   compose-paths: 1.2.2
@@ -23,8 +25,8 @@ devDependencies:
   koa: 2.13.4
   koa-static: 5.0.0
   nodemon: 2.0.16
-  prettier: 2.6.2
-  puppeteer: 14.3.0
+  prettier: 2.7.0
+  puppeteer: 14.4.0
   rimraf: 3.0.2
   typescript: 4.7.3
 
@@ -1468,6 +1470,10 @@ packages:
     resolution: {integrity: sha512-Fvw+Jemq5fjjyWz6CpKx6w9s7xxqo3+JCyM0WXWeCSOboZ8ABkyvP8ID4CZuChA/wxSx+XSJmdOm8rGVyJ1hdQ==}
     dev: true
 
+  /optimal-select/4.0.1:
+    resolution: {integrity: sha512-WLLt4DicXXeI2zLU2OF85TNbtbk8zAyLLqqKTsSVBICeoo2dzdI0YKXfkmxlCz+fVqSAR7fQ5zrHsCdeoOBzAA==}
+    dev: false
+
   /optionator/0.9.1:
     resolution: {integrity: sha512-74RlY5FCnhq4jRxVUPKDaRwrVNXMqsGsiW6AJw4XK8hmtm10wC0ypZBLw5IIp85NZMr91+qd1RvvENwg7jjRFw==}
     engines: {node: '>= 0.8.0'}
@@ -1567,8 +1573,8 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /prettier/2.6.2:
-    resolution: {integrity: sha512-PkUpF+qoXTqhOeWL9fu7As8LXsIUZ1WYaJiY/a7McAQzxjk82OF0tibkFXVCDImZtWxbvojFjerkiLb0/q8mew==}
+  /prettier/2.7.0:
+    resolution: {integrity: sha512-nwoX4GMFgxoPC6diHvSwmK/4yU8FFH3V8XWtLQrbj4IBsK2pkYhG4kf/ljF/haaZ/aii+wNJqISrCDPgxGWDVQ==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: true
@@ -1605,8 +1611,8 @@ packages:
       escape-goat: 2.1.1
     dev: true
 
-  /puppeteer/14.3.0:
-    resolution: {integrity: sha512-pDtg1+vyw1UPIhUjh2/VW1HUdQnaZJHfMacrJciR3AVm+PBiqdCEcFeFb3UJ/CDEQlHOClm3/WFa7IjY25zIGg==}
+  /puppeteer/14.4.0:
+    resolution: {integrity: sha512-hAXoJX7IAmnRBwf4VrowoRdrS8hqWZsGuQ1Dg5R0AwDK5juaxnNO/obySo9+ytyF7pp9/VsmIA9yFE1GLSouCQ==}
     engines: {node: '>=14.1.0'}
     requiresBuild: true
     dependencies:
@@ -1962,11 +1968,11 @@ packages:
     dev: true
 
   /webidl-conversions/3.0.1:
-    resolution: {integrity: sha1-JFNCdeKnvGvnvIZhHMFq4KVlSHE=}
+    resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
     dev: true
 
   /whatwg-url/5.0.0:
-    resolution: {integrity: sha1-lmRU6HZUYuN2RNNib2dCzotwll0=}
+    resolution: {integrity: sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==}
     dependencies:
       tr46: 0.0.3
       webidl-conversions: 3.0.1
@@ -2002,7 +2008,7 @@ packages:
     dev: true
 
   /wrappy/1.0.2:
-    resolution: {integrity: sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=}
+    resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
     dev: true
 
   /write-file-atomic/3.0.3:
@@ -2037,7 +2043,7 @@ packages:
     dev: true
 
   /yauzl/2.10.0:
-    resolution: {integrity: sha1-x+sXyT4RLLEIb6bY5R+wZnt5pfk=}
+    resolution: {integrity: sha512-p4a9I6X6nu6IhoGmBqAcbJy1mlC4j27vEPZX9F4L4/vZT3Lyq1VkFHw/V/PUcB9Buo+DG3iHkT0x3Qya58zc3g==}
     dependencies:
       buffer-crc32: 0.2.13
       fd-slicer: 1.1.0

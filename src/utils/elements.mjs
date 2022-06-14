@@ -1,6 +1,7 @@
 import { match, when, otherwise, defined, isFunction } from 'match-iz'
 import { just, maybeTry } from './fp.mjs'
 import { makeDebouncer } from './async.mjs'
+import { select } from 'optimal-select'
 
 export const isHtmlElement = el => el instanceof HTMLElement
 export const isElementVisible = el => el.offsetParent !== null
@@ -60,30 +61,16 @@ export function elementHasText(text) {
 export const elementHasTextMatching = regExp => el =>
   regExp.test(el.textContent) && regExp.test(el.innerText)
 
-// https://stackoverflow.com/a/12222317/127928
 export function selectorOfElement(el) {
   if (!(el instanceof Element)) {
     return
   }
-  const path = []
-  while (el.nodeType === Node.ELEMENT_NODE) {
-    const nodeName = el.nodeName.toLowerCase()
-    if (el.id) {
-      path.unshift(`${nodeName}#${el.id}`)
-      break
-    }
-    let sib = el
-    let nth = 1
-    while ((sib = sib.previousElementSibling)) {
-      if (sib.nodeName.toLowerCase() === nodeName) nth++
-    }
-    let selector = nodeName
-    if (nth > 1) selector += ':nth-of-type(' + nth + ')'
-    path.unshift(selector)
-
-    el = el.parentNode
+  if (typeof global === 'undefined' && typeof window !== 'undefined') {
+    // FIXME: for 'optimal-select'
+    // eslint-disable-next-line no-global-assign
+    global = window
   }
-  return path.join(' > ')
+  return select(el)
 }
 
 export function valueOfElement(el) {
