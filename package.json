@@ -59,19 +59,19 @@
     "build:watch": "nodemon ./build-config/esbuild.mjs"
   },
   "dependencies": {
-    "match-iz": "^3.8.0",
+    "match-iz": "^3.8.1",
     "optimal-select": "4.0.1"
   },
   "devDependencies": {
     "compose-paths": "^1.2.2",
-    "esbuild": "^0.15.3",
-    "eslint": "^8.22.0",
+    "esbuild": "^0.15.9",
+    "eslint": "^8.24.0",
     "koa": "^2.13.4",
     "koa-static": "^5.0.0",
-    "nodemon": "^2.0.19",
+    "nodemon": "^2.0.20",
     "prettier": "^2.7.1",
-    "puppeteer": "^16.1.0",
+    "puppeteer": "^18.0.5",
     "rimraf": "^3.0.2",
-    "typescript": "^4.7.4"
+    "typescript": "^4.8.4"
   }
 }
