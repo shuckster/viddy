@@ -136,7 +136,7 @@ function viddyQueryNearby(selector) {
 
 function viddyQuerySelector(selector) {
   return (...args) =>
-    compose(x => x.filter(against(when(anyOf(qsArray(selector)))(true))))(
+    compose(x => x.filter(against(when(anyOf(qsArray(selector)), true))))(
       match(args)(
         when([isPattern])(([pattern]) =>
           specificSearch([{ containedBy: { selector }, pattern }])
@@ -449,15 +449,14 @@ const isValidTimeoutOptions = anyOf(
 
 function waitForDomToIdle(...args) {
   // Timeouts
-  const timeouts = match(args)(
+  const {
+    withinMs = DEFAULT_IDLE_TIMEOUT_IN_MS,
+    timeoutInMs: _timeoutInMs = DEFAULT_WAITFOR_TIMEOUT_IN_SECONDS * 1000
+  } = match(args)(
     when([$(isValidTimeoutOptions)])(Passthru),
     when([isPattern, $(isValidTimeoutOptions)])(Passthru),
     otherwise({})
   )
-  const { withinMs = DEFAULT_IDLE_TIMEOUT_IN_MS } = timeouts
-  const {
-    timeoutInMs: _timeoutInMs = DEFAULT_WAITFOR_TIMEOUT_IN_SECONDS * 1000
-  } = timeouts
   const timeoutInMs = Math.max(_timeoutInMs, withinMs + 16)
   const timeoutError = new ViddyError('waitForDomToIdle', args, {
     message: `timed out after ${timeoutInMs}ms waiting for DOM idle`
