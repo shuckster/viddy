@@ -18,25 +18,37 @@
     /></a>
 </p>
 
-Find DOM elements using an expressive query syntax, extract text and monitor changes.
+Find DOM selectors using an expressive query syntax, extract text and monitor changes.
 
 ```js
-viddy.for({ selector: 'p', near: 'news at 11' })
+viddy.for('lomticks of toast', { near: 'a strange man' })
+// => 'body p:nth-child(8)'
+```
+
+```js
 viddy.forCta('click here', { leftOf: 'heading' })
-viddy.valueOf('country:')
-viddy.selectorOf('logout', { below: 'your account' })
-viddy.matchText(/\d+\.\d+/, { rightOf: 'total' })
-viddy.waitForIdle({ withinMs: 500 })
-viddy.waitForValue('mr sniffs', 'Name:', {
-  timeoutInMs: 5000
-})
+viddy.forInput('last name:', { below: 'first name' })
 ```
 
 Search by text, regular-expression, relative visual position, containment, and target parent nodes.
 
-Helps with writing UI tests that reflect user-behaviour.
+You can match/extract text, too:
 
-Integrates with [Puppeteer](https://github.com/shuckster/viddy/wiki/Puppeteer-Integration).
+```js
+viddy.hasContent('lorum ipsum')
+// => false
+
+viddy.matchText(/\d+\.\d+/, { rightOf: 'total' })
+// => '1.99'
+```
+
+There's a helper that will resolve a `Promise` when DOM-updates have idled for a moment:
+
+```js
+viddy.waitForDomToIdle({ withinMs: 500 })
+```
+
+Viddy was written to help write E2E UI tests that reflect user-behaviour, and there's a handy integration for [Puppeteer](https://github.com/shuckster/viddy/wiki/Puppeteer-Integration).
 
 - 👀 [Overview](#overview)
 - 📖 [Documentation](https://github.com/shuckster/viddy/wiki)
@@ -49,26 +61,31 @@ Integrates with [Puppeteer](https://github.com/shuckster/viddy/wiki/Puppeteer-In
 ```js
 import { viddy, viddyWell } from 'viddy'
 
-// query
-let el = viddy.for('lomticks of toast')
+// query (the following two are identical)
+let sel = viddy.for('lomticks of toast')
+let sel = viddy.for({ pattern: 'lomticks of toast' })
 
 // query + specificity
-let el = viddy.for(/symphony: \d+/i, {
+let sel = viddy.for(/symphony: \d+/i, {
   leftOf: 'the fifth'
 })
 
-// target a parent element of your query
-let el = viddy.for({
+// target a parent element
+let sel = viddy.for({
   pattern: /open/,
   near: 'your account',
   pickParent: 'button'
 })
+// The above will return:
+// div > button > span > "Open"
+//       ^^^^^^
+// ...instead of the span.
 ```
 
 The positional and containment options (`near`, `above`, `below`, `rightOf`, `leftOf`, `containedBy`) can be combined and/or compounded:
 
 ```js
-let els = viddyWell.for({
+let sel = viddy.for({
   pattern: /open/,
   near: {
     pattern: 'your account',
