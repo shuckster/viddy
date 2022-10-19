@@ -50,30 +50,32 @@ type TQueryValueMethod<TReturn> = (
 //
 
 export type TViddyApi = {
-  for: TQueryMethod<Element | undefined>
-  forCta: TQueryMethod<Element | undefined>
-  forInput: TQueryMethod<Element | undefined>
-  selectorOf: TQueryMethod<CSSSelectorString | undefined>
-  valueOf: TQueryMethod<any>
+  for: TQueryMethod<CSSSelectorString | undefined>
+  forCta: TQueryMethod<CSSSelectorString | undefined>
+  forInput: TQueryMethod<CSSSelectorString | undefined>
+
   waitFor: TQueryMethod<Promise<CSSSelectorString>>
   waitForCta: TQueryMethod<Promise<CSSSelectorString>>
   waitForValue: TQueryValueMethod<Promise<CSSSelectorString>>
-  waitForIdle: TQueryMethod<Promise<any>>
+  waitForDomToIdle: TQueryMethod<Promise<any>>
+
+  valueOf: TQueryMethod<any>
   innerText: TQueryMethod<string | undefined>
   matchText: TQueryMatchMethod<string | undefined>
   hasContent: TQueryMethod<boolean>
 }
 
 export type TViddyWellApi = {
-  for: TQueryMethod<Element[]>
-  forCta: TQueryMethod<Element[]>
-  forInput: TQueryMethod<Element[]>
-  selectorOf: TQueryMethod<CSSSelectorString[]>
-  valueOf: TQueryMethod<any[]>
+  for: TQueryMethod<CSSSelectorString[]>
+  forCta: TQueryMethod<CSSSelectorString[]>
+  forInput: TQueryMethod<CSSSelectorString[]>
+
   waitFor: TQueryMethod<Promise<CSSSelectorString[]>>
   waitForCta: TQueryMethod<Promise<CSSSelectorString[]>>
   waitForValue: TQueryValueMethod<Promise<CSSSelectorString[]>>
-  waitForIdle: TQueryMethod<Promise<any>>
+  waitForDomToIdle: TQueryMethod<Promise<any>>
+
+  valueOf: TQueryMethod<any[]>
   innerText: TQueryMethod<string[]>
   matchText: TQueryMatchMethod<string[]>
   hasContent: TQueryMethod<boolean>
@@ -90,24 +92,32 @@ declare module 'viddy' {
 }
 
 export type TViddyInApi = {
-  selectorOf: TQueryMethod<Promise<CSSSelectorString>>
-  valueOf: TQueryMethod<Promise<any>>
+  for: TQueryMethod<Promise<CSSSelectorString>>
+  forCta: TQueryMethod<Promise<CSSSelectorString>>
+  forValue: TQueryValueMethod<Promise<CSSSelectorString>>
+
   waitFor: TQueryMethod<Promise<CSSSelectorString>>
   waitForCta: TQueryMethod<Promise<CSSSelectorString>>
   waitForValue: TQueryValueMethod<Promise<CSSSelectorString>>
-  waitForIdle: TQueryMethod<Promise<any>>
+  waitForDomToIdle: TQueryMethod<Promise<any>>
+
+  valueOf: TQueryMethod<Promise<any>>
   innerText: TQueryMethod<Promise<string>>
   matchText: TQueryMatchMethod<Promise<string>>
   hasContent: TQueryMethod<boolean>
 }
 
 export type TViddyWellInApi = {
-  selectorOf: TQueryMethod<Promise<CSSSelectorString[]>>
-  valueOf: TQueryMethod<Promise<any>>
+  for: TQueryMethod<Promise<CSSSelectorString[]>>
+  forCta: TQueryMethod<Promise<CSSSelectorString[]>>
+  forValue: TQueryValueMethod<Promise<CSSSelectorString[]>>
+
   waitFor: TQueryMethod<Promise<CSSSelectorString[]>>
   waitForCta: TQueryMethod<Promise<CSSSelectorString[]>>
   waitForValue: TQueryValueMethod<Promise<CSSSelectorString[]>>
-  waitForIdle: TQueryMethod<Promise<any>>
+  waitForDomToIdle: TQueryMethod<Promise<any>>
+
+  valueOf: TQueryMethod<Promise<any>>
   innerText: TQueryMethod<Promise<string[]>>
   matchText: TQueryMatchMethod<Promise<string[]>>
   hasContent: TQueryMethod<boolean>

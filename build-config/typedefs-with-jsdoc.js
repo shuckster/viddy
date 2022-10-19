@@ -17,7 +17,7 @@ viddy.${fnName}('on', { selector: 'input[type=checkbox]' })`
 const jsdocExamples = [
   {
     match: /\bfor:/,
-    description: 'Return element matching query',
+    description: 'Return element selector matching query',
     example: makeQueryExample('for')
   },
   {
