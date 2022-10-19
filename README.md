@@ -26,6 +26,7 @@ viddy.for('lomticks of toast', { near: 'a strange man' })
 ```
 
 ```js
+// A couple specificity helpers:
 viddy.forCta('click here', { leftOf: 'heading' })
 viddy.forInput('last name:', { below: 'first name' })
 ```
@@ -85,7 +86,7 @@ let sel = viddy.for({
 The positional and containment options (`near`, `above`, `below`, `rightOf`, `leftOf`, `containedBy`) can be combined and/or compounded:
 
 ```js
-let sel = viddy.for({
+let sels = viddyWell.for({
   pattern: /open/,
   near: {
     pattern: 'your account',
@@ -93,6 +94,8 @@ let sel = viddy.for({
     near: 'settings'
   }
 })
+
+// viddyWell returns an array of all matching selectors
 ```
 
 View the [query specification](https://github.com/shuckster/viddy/wiki#query-specification).
