@@ -18,29 +18,30 @@
     /></a>
 </p>
 
-Find DOM selectors using an expressive query syntax, extract text and monitor changes.
+Find DOM selectors using an expressive query syntax, extract text and monitor changes. Viddy was written to help write E2E UI tests that reflect user-behaviour, and there's a handy integration for [Puppeteer](https://github.com/shuckster/viddy/wiki/Puppeteer-Integration).
 
 ```js
+<body>
+  <h1>A Strange Man</h1>
+  <p>"Munchy-wunching lomticks of toast"</p>
+</body>
+
 viddy.for('lomticks of toast', { near: 'a strange man' })
-// => 'body p:nth-child(8)'
-```
-
-```js
-// A couple specificity helpers:
-viddy.forCta('click here', { leftOf: 'heading' })
-viddy.forInput('last name:', { below: 'first name' })
+// => 'body p:nth-child(0)'
 ```
 
 Search by text, regular-expression, relative visual position, containment, and target parent nodes.
 
+```js
+viddy.forCta(/click here/i, { leftOf: 'heading' })
+viddy.forInput('last name:', { below: 'first name' })
+```
+
 You can match/extract text, too:
 
 ```js
-viddy.hasContent('lorum ipsum')
-// => false
-
-viddy.matchText(/\d+\.\d+/, { rightOf: 'total' })
-// => '1.99'
+viddy.hasContent('lorum ipsum') // => false
+viddy.matchText(/\d+\.\d+/, { rightOf: 'total' }) // => '1.99'
 ```
 
 There's a helper that will resolve a `Promise` when DOM-updates have idled for a moment:
@@ -48,8 +49,6 @@ There's a helper that will resolve a `Promise` when DOM-updates have idled for a
 ```js
 viddy.waitForDomToIdle({ withinMs: 500 })
 ```
-
-Viddy was written to help write E2E UI tests that reflect user-behaviour, and there's a handy integration for [Puppeteer](https://github.com/shuckster/viddy/wiki/Puppeteer-Integration).
 
 - 👀 [Overview](#overview)
 - 📖 [Documentation](https://github.com/shuckster/viddy/wiki)
