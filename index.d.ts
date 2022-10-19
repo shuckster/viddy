@@ -301,7 +301,16 @@ export type TViddyInApi = {
    * viddy.forCta({ selector: 'p', leftOf: 'text' })
    */
   forCta: TQueryMethod<Promise<CSSSelectorString>>
-  forValue: TQueryValueMethod<Promise<CSSSelectorString>>
+
+  /**
+   * Return nearest *input* (textual or checkboxes/radios, not buttons), *select*, or *textarea* matching query
+   * @example
+   * viddy.forInput('element with text')
+   * viddy.forInput(/regex/i, { near: 'element with text' })
+   * viddy.forInput({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.forInput({ selector: 'p', leftOf: 'text' })
+   */
+  forInput: TQueryValueMethod<Promise<CSSSelectorString>>
 
   /**
    * Return Promise that awaits the query, returning matching elements
@@ -403,7 +412,16 @@ export type TViddyWellInApi = {
    * viddy.forCta({ selector: 'p', leftOf: 'text' })
    */
   forCta: TQueryMethod<Promise<CSSSelectorString[]>>
-  forValue: TQueryValueMethod<Promise<CSSSelectorString[]>>
+
+  /**
+   * Return nearest *input* (textual or checkboxes/radios, not buttons), *select*, or *textarea* matching query
+   * @example
+   * viddy.forInput('element with text')
+   * viddy.forInput(/regex/i, { near: 'element with text' })
+   * viddy.forInput({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.forInput({ selector: 'p', leftOf: 'text' })
+   */
+  forInput: TQueryValueMethod<Promise<CSSSelectorString[]>>
 
   /**
    * Return Promise that awaits the query, returning matching elements

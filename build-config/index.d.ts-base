@@ -94,7 +94,7 @@ declare module 'viddy' {
 export type TViddyInApi = {
   for: TQueryMethod<Promise<CSSSelectorString>>
   forCta: TQueryMethod<Promise<CSSSelectorString>>
-  forValue: TQueryValueMethod<Promise<CSSSelectorString>>
+  forInput: TQueryValueMethod<Promise<CSSSelectorString>>
 
   waitFor: TQueryMethod<Promise<CSSSelectorString>>
   waitForCta: TQueryMethod<Promise<CSSSelectorString>>
@@ -110,7 +110,7 @@ export type TViddyInApi = {
 export type TViddyWellInApi = {
   for: TQueryMethod<Promise<CSSSelectorString[]>>
   forCta: TQueryMethod<Promise<CSSSelectorString[]>>
-  forValue: TQueryValueMethod<Promise<CSSSelectorString[]>>
+  forInput: TQueryValueMethod<Promise<CSSSelectorString[]>>
 
   waitFor: TQueryMethod<Promise<CSSSelectorString[]>>
   waitForCta: TQueryMethod<Promise<CSSSelectorString[]>>
