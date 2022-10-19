@@ -61,10 +61,10 @@ const jsdocExamples = [
     example: makeQueryValueExample('waitForValue')
   },
   {
-    match: /\bwaitForIdle:/,
+    match: /\bwaitForDomToIdle:/,
     description:
       'Return Promise that waits for entire DOM to stop updating, or a portion of it if a query is specified',
-    example: `viddy.waitForIdle()\n` + makeQueryExample('waitForIdle')
+    example: `viddy.waitForDomToIdle()\n` + makeQueryExample('waitForDomToIdle')
   },
   {
     match: /\binnerText:/,

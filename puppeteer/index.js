@@ -108,11 +108,11 @@ async function viddyIn(page) {
       )
     },
 
-    waitForIdle(...options) {
+    waitForDomToIdle(...options) {
       return page.evaluate(argStr => {
         const { viddy } = libViddy
         const [args] = libViddy.unserialize(argStr)
-        return viddy.waitForIdle(...args)
+        return viddy.waitForDomToIdle(...args)
       }, serialize(applyTimeoutIfNotSpecified(options, waitForTimeoutInMs)))
     }
   }
@@ -193,11 +193,11 @@ async function viddyWellIn(page) {
       )
     },
 
-    waitForIdle(...options) {
+    waitForDomToIdle(...options) {
       return page.evaluate(argStr => {
         const { viddyWell } = libViddy
         const [args] = libViddy.unserialize(argStr)
-        return viddyWell.waitForIdle(...args)
+        return viddyWell.waitForDomToIdle(...args)
       }, serialize(applyTimeoutIfNotSpecified(options, waitForTimeoutInMs)))
     }
   }

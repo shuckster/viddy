@@ -169,7 +169,7 @@ async function main() {
   const clickAndWait = ms => [() => clickFirstButton(), () => delay(ms)]
 
   await Promise.all([
-    viddy.waitForIdle(),
+    viddy.waitForDomToIdle(),
     asyncPipe(
       null,
       ...clickAndWait(400),

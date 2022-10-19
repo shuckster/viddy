@@ -451,7 +451,7 @@ const isValidTimeoutOptions = anyOf(
   allOf(isPojo, { withinMs: isNumber, timeoutInMs: isNumber })
 )
 
-function waitForIdle(...args) {
+function waitForDomToIdle(...args) {
   // Timeouts
   const timeouts = match(args)(
     when([$(isValidTimeoutOptions)])(Passthru),
@@ -463,7 +463,7 @@ function waitForIdle(...args) {
     timeoutInMs: _timeoutInMs = DEFAULT_WAITFOR_TIMEOUT_IN_SECONDS * 1000
   } = timeouts
   const timeoutInMs = Math.max(_timeoutInMs, withinMs + 16)
-  const timeoutError = new ViddyError('waitForIdle', args, {
+  const timeoutError = new ViddyError('waitForDomToIdle', args, {
     message: `timed out after ${timeoutInMs}ms waiting for DOM idle`
   })
 
@@ -476,7 +476,7 @@ function waitForIdle(...args) {
   )
   const withinSelector = queryWasSpecified && viddy.selectorOf(...args)
   if (queryWasSpecified && !withinSelector) {
-    throw new ViddyError('waitForIdle', args, {
+    throw new ViddyError('waitForDomToIdle', args, {
       message:
         'need resolvable query to monitor for DOM idle, ' +
         'or omit query to monitor all DOM changes'
@@ -512,11 +512,11 @@ export const viddy = {
   forCta: FirstResultOf(viddyQueryCta),
   forInput: FirstResultOf(viddyQueryInput),
   selectorOf: FirstResultOf(selectorOf),
+  waitForDomToIdle,
   valueOf: FirstResultOf(valueOf),
   waitFor: (...args) => waitFor(...args).then(x => x[0]),
   waitForCta: (...args) => waitForCta(...args).then(x => x[0]),
   waitForValue: (...args) => waitForValue(...args).then(x => x[0]),
-  waitForIdle,
   innerText: FirstResultOf(innerText),
   matchText: FirstResultOf(matchText),
   hasContent
@@ -531,7 +531,7 @@ export const viddyWell = {
   waitFor,
   waitForCta,
   waitForValue,
-  waitForIdle,
+  waitForDomToIdle,
   innerText,
   matchText,
   hasContent
