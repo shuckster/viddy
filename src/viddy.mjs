@@ -469,7 +469,7 @@ function waitForDomToIdle(...args) {
     when([isPattern, isPojo])(true),
     otherwise(false)
   )
-  const withinSelector = queryWasSpecified && viddy.selectorOf(...args)
+  const withinSelector = queryWasSpecified && viddy.for(...args)
   if (queryWasSpecified && !withinSelector) {
     throw new ViddyError('waitForDomToIdle', args, {
       message:

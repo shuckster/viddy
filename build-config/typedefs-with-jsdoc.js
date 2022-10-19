@@ -32,11 +32,6 @@ const jsdocExamples = [
     example: makeQueryExample('forInput')
   },
   {
-    match: /\bselectorOf:/,
-    description: 'Return unique CSS selector matching query',
-    example: makeQueryExample('selectorOf')
-  },
-  {
     match: /\bvalueOf:/,
     description:
       'Return value of nearest *input*, *select*, or *textarea* matching query',
