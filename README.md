@@ -27,7 +27,7 @@ Find DOM selectors using an expressive query syntax, extract text and monitor ch
 </body>
 
 viddy.for('lomticks of toast', { near: 'a strange man' })
-// => 'body p:nth-child(0)'
+// => 'body p'
 ```
 
 Search by text, regular-expression, relative visual position, containment, and target parent nodes.
