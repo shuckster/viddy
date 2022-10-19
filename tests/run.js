@@ -112,7 +112,7 @@ async function main() {
       assert.equal(sel, 'body p:nth-of-type(4) [type]')
     }),
 
-    viddy.selectorOf(noCheckbox).then(sel => {
+    viddy.for(noCheckbox).then(sel => {
       assert.equal(sel, '[for="yesno_no"]')
       return page.click(sel)
     })
@@ -131,7 +131,7 @@ async function main() {
       assert.equal(css, '#country option')
     }),
 
-    viddy.selectorOf(/click here/i, { below: 'there' }).then(sel => {
+    viddy.for(/click here/i, { below: 'there' }).then(sel => {
       assert.equal(
         sel,
         `[onclick="console\\.log\\(\\'clicked two\\!\\'\\)\\; document\\.getElementById\\(\\'country\\'\\)\\.value\\=\\'uk\\'"]`
@@ -177,6 +177,26 @@ async function main() {
       ...clickAndWait(400)
     )
   ])
+
+  // ...
+
+  await viddy.forCta('click here', { below: 'boggo' }).then(
+    () => {
+      throw new Error(
+        '"boggo" does not exist, so we shouldn\'t match anything "below" it'
+      )
+    },
+    err => {
+      assert.equal(
+        true,
+        err.message.includes(
+          'ViddyError: could not resolve query to any elements'
+        )
+      )
+    }
+  )
+
+  // ...
 
   await browser.close()
   server.close()

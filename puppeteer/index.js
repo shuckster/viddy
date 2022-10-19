@@ -68,6 +68,39 @@ async function viddyIn(page) {
       }, serialize(options))
     },
 
+    for(...options) {
+      return page.evaluate(argStr => {
+        const { viddy } = libViddy
+        const [args] = libViddy.unserialize(argStr)
+        const value = viddy.for(...args)
+        return value === undefined
+          ? Promise.reject(new libViddy.ViddyError('for', args))
+          : Promise.resolve(value)
+      }, serialize(options))
+    },
+
+    forCta(...options) {
+      return page.evaluate(argStr => {
+        const { viddy } = libViddy
+        const [args] = libViddy.unserialize(argStr)
+        const value = viddy.forCta(...args)
+        return value === undefined
+          ? Promise.reject(new libViddy.ViddyError('forCta', args))
+          : Promise.resolve(value)
+      }, serialize(options))
+    },
+
+    forInput(...options) {
+      return page.evaluate(argStr => {
+        const { viddy } = libViddy
+        const [args] = libViddy.unserialize(argStr)
+        const value = viddy.forInput(...args)
+        return value === undefined
+          ? Promise.reject(new libViddy.ViddyError('forInput', args))
+          : Promise.resolve(value)
+      }, serialize(options))
+    },
+
     waitFor(...options) {
       return page.evaluate(argStr => {
         const { viddy } = libViddy
@@ -142,6 +175,30 @@ async function viddyWellIn(page) {
         const { viddyWell } = libViddy
         const [args] = libViddy.unserialize(argStr)
         return viddyWell.matchText(...args)
+      }, serialize(options))
+    },
+
+    for(...options) {
+      return page.evaluate(argStr => {
+        const { viddyWell } = libViddy
+        const [args] = libViddy.unserialize(argStr)
+        return viddyWell.for(...args)
+      }, serialize(options))
+    },
+
+    forCta(...options) {
+      return page.evaluate(argStr => {
+        const { viddyWell } = libViddy
+        const [args] = libViddy.unserialize(argStr)
+        return viddyWell.forCta(...args)
+      }, serialize(options))
+    },
+
+    forInput(...options) {
+      return page.evaluate(argStr => {
+        const { viddyWell } = libViddy
+        const [args] = libViddy.unserialize(argStr)
+        return viddyWell.forInput(...args)
       }, serialize(options))
     },
 
