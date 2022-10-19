@@ -249,16 +249,20 @@ function winnowElements(elements, options = {}) {
           const exclSelf = arr => arr.filter(x => x.el !== fromEl)
           const from = getPositionOf(fromEl)
           const isAbove =
-            !isArray(above) || exclSelf(above).every(to => to.y > from.y)
+            !isArray(above) ||
+            (above.length > 0 && exclSelf(above).every(to => to.y > from.y))
 
           const isBelow =
-            !isArray(below) || exclSelf(below).every(to => to.y < from.y)
+            !isArray(below) ||
+            (below.length > 0 && exclSelf(below).every(to => to.y < from.y))
 
           const isLeftOf =
-            !isArray(leftOf) || exclSelf(leftOf).every(to => to.x > from.x)
+            !isArray(leftOf) ||
+            (leftOf.length > 0 && exclSelf(leftOf).every(to => to.x > from.x))
 
           const isRightOf =
-            !isArray(rightOf) || exclSelf(rightOf).every(to => to.x < from.x)
+            !isArray(rightOf) ||
+            (rightOf.length > 0 && exclSelf(rightOf).every(to => to.x < from.x))
 
           return isAbove && isBelow && isLeftOf && isRightOf
         }
