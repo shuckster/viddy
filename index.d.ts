@@ -51,14 +51,14 @@ type TQueryValueMethod<TReturn> = (
 
 export type TViddyApi = {
   /**
-   * Return element matching query
+   * Return element selector matching query
    * @example
    * viddy.for('element with text')
    * viddy.for(/regex/i, { near: 'element with text' })
    * viddy.for({ pattern: /regex/i, pickParent: 'p' })
    * viddy.for({ selector: 'p', leftOf: 'text' })
    */
-  for: TQueryMethod<Element | undefined>
+  for: TQueryMethod<CSSSelectorString | undefined>
 
   /**
    * Return nearest *button* or *anchor* matching query
@@ -68,7 +68,7 @@ export type TViddyApi = {
    * viddy.forCta({ pattern: /regex/i, pickParent: 'p' })
    * viddy.forCta({ selector: 'p', leftOf: 'text' })
    */
-  forCta: TQueryMethod<Element | undefined>
+  forCta: TQueryMethod<CSSSelectorString | undefined>
 
   /**
    * Return nearest *input* (textual or checkboxes/radios, not buttons), *select*, or *textarea* matching query
@@ -78,27 +78,7 @@ export type TViddyApi = {
    * viddy.forInput({ pattern: /regex/i, pickParent: 'p' })
    * viddy.forInput({ selector: 'p', leftOf: 'text' })
    */
-  forInput: TQueryMethod<Element | undefined>
-
-  /**
-   * Return unique CSS selector matching query
-   * @example
-   * viddy.selectorOf('element with text')
-   * viddy.selectorOf(/regex/i, { near: 'element with text' })
-   * viddy.selectorOf({ pattern: /regex/i, pickParent: 'p' })
-   * viddy.selectorOf({ selector: 'p', leftOf: 'text' })
-   */
-  selectorOf: TQueryMethod<CSSSelectorString | undefined>
-
-  /**
-   * Return value of nearest *input*, *select*, or *textarea* matching query
-   * @example
-   * viddy.valueOf('element with text')
-   * viddy.valueOf(/regex/i, { near: 'element with text' })
-   * viddy.valueOf({ pattern: /regex/i, pickParent: 'p' })
-   * viddy.valueOf({ selector: 'p', leftOf: 'text' })
-   */
-  valueOf: TQueryMethod<any>
+  forInput: TQueryMethod<CSSSelectorString | undefined>
 
   /**
    * Return Promise that awaits the query, returning matching elements
@@ -132,13 +112,24 @@ export type TViddyApi = {
   /**
    * Return Promise that waits for entire DOM to stop updating, or a portion of it if a query is specified
    * @example
-   * viddy.waitForIdle()
-   * viddy.waitForIdle('element with text')
-   * viddy.waitForIdle(/regex/i, { near: 'element with text' })
-   * viddy.waitForIdle({ pattern: /regex/i, pickParent: 'p' })
-   * viddy.waitForIdle({ selector: 'p', leftOf: 'text' })
+   * viddy.waitForDomToIdle('near this element', { withinMs: 500 })
+   * viddy.waitForDomToIdle({ pattern: 'near this element', timeoutInMs: 10000 })
+   *
+   * // Specifying no pattern will wait for the entire page to be idle.
+   * viddy.waitForDomToIdle()
+   * viddy.waitForDomToIdle({ withinMs: 500, timeoutInMs: 10000 })
    */
-  waitForIdle: TQueryMethod<Promise<any>>
+  waitForDomToIdle: TQueryMethod<Promise<any>>
+
+  /**
+   * Return value of nearest *input*, *select*, or *textarea* matching query
+   * @example
+   * viddy.valueOf('element with text')
+   * viddy.valueOf(/regex/i, { near: 'element with text' })
+   * viddy.valueOf({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.valueOf({ selector: 'p', leftOf: 'text' })
+   */
+  valueOf: TQueryMethod<any>
 
   /**
    * Return innerText of the elements matching query
@@ -171,14 +162,14 @@ export type TViddyApi = {
 
 export type TViddyWellApi = {
   /**
-   * Return element matching query
+   * Return element selector matching query
    * @example
    * viddy.for('element with text')
    * viddy.for(/regex/i, { near: 'element with text' })
    * viddy.for({ pattern: /regex/i, pickParent: 'p' })
    * viddy.for({ selector: 'p', leftOf: 'text' })
    */
-  for: TQueryMethod<Element[]>
+  for: TQueryMethod<CSSSelectorString[]>
 
   /**
    * Return nearest *button* or *anchor* matching query
@@ -188,7 +179,7 @@ export type TViddyWellApi = {
    * viddy.forCta({ pattern: /regex/i, pickParent: 'p' })
    * viddy.forCta({ selector: 'p', leftOf: 'text' })
    */
-  forCta: TQueryMethod<Element[]>
+  forCta: TQueryMethod<CSSSelectorString[]>
 
   /**
    * Return nearest *input* (textual or checkboxes/radios, not buttons), *select*, or *textarea* matching query
@@ -198,27 +189,7 @@ export type TViddyWellApi = {
    * viddy.forInput({ pattern: /regex/i, pickParent: 'p' })
    * viddy.forInput({ selector: 'p', leftOf: 'text' })
    */
-  forInput: TQueryMethod<Element[]>
-
-  /**
-   * Return unique CSS selector matching query
-   * @example
-   * viddy.selectorOf('element with text')
-   * viddy.selectorOf(/regex/i, { near: 'element with text' })
-   * viddy.selectorOf({ pattern: /regex/i, pickParent: 'p' })
-   * viddy.selectorOf({ selector: 'p', leftOf: 'text' })
-   */
-  selectorOf: TQueryMethod<CSSSelectorString[]>
-
-  /**
-   * Return value of nearest *input*, *select*, or *textarea* matching query
-   * @example
-   * viddy.valueOf('element with text')
-   * viddy.valueOf(/regex/i, { near: 'element with text' })
-   * viddy.valueOf({ pattern: /regex/i, pickParent: 'p' })
-   * viddy.valueOf({ selector: 'p', leftOf: 'text' })
-   */
-  valueOf: TQueryMethod<any[]>
+  forInput: TQueryMethod<CSSSelectorString[]>
 
   /**
    * Return Promise that awaits the query, returning matching elements
@@ -252,13 +223,24 @@ export type TViddyWellApi = {
   /**
    * Return Promise that waits for entire DOM to stop updating, or a portion of it if a query is specified
    * @example
-   * viddy.waitForIdle()
-   * viddy.waitForIdle('element with text')
-   * viddy.waitForIdle(/regex/i, { near: 'element with text' })
-   * viddy.waitForIdle({ pattern: /regex/i, pickParent: 'p' })
-   * viddy.waitForIdle({ selector: 'p', leftOf: 'text' })
+   * viddy.waitForDomToIdle('near this element', { withinMs: 500 })
+   * viddy.waitForDomToIdle({ pattern: 'near this element', timeoutInMs: 10000 })
+   *
+   * // Specifying no pattern will wait for the entire page to be idle.
+   * viddy.waitForDomToIdle()
+   * viddy.waitForDomToIdle({ withinMs: 500, timeoutInMs: 10000 })
    */
-  waitForIdle: TQueryMethod<Promise<any>>
+  waitForDomToIdle: TQueryMethod<Promise<any>>
+
+  /**
+   * Return value of nearest *input*, *select*, or *textarea* matching query
+   * @example
+   * viddy.valueOf('element with text')
+   * viddy.valueOf(/regex/i, { near: 'element with text' })
+   * viddy.valueOf({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.valueOf({ selector: 'p', leftOf: 'text' })
+   */
+  valueOf: TQueryMethod<any[]>
 
   /**
    * Return innerText of the elements matching query
@@ -301,24 +283,25 @@ declare module 'viddy' {
 
 export type TViddyInApi = {
   /**
-   * Return unique CSS selector matching query
+   * Return element selector matching query
    * @example
-   * viddy.selectorOf('element with text')
-   * viddy.selectorOf(/regex/i, { near: 'element with text' })
-   * viddy.selectorOf({ pattern: /regex/i, pickParent: 'p' })
-   * viddy.selectorOf({ selector: 'p', leftOf: 'text' })
+   * viddy.for('element with text')
+   * viddy.for(/regex/i, { near: 'element with text' })
+   * viddy.for({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.for({ selector: 'p', leftOf: 'text' })
    */
-  selectorOf: TQueryMethod<Promise<CSSSelectorString>>
+  for: TQueryMethod<Promise<CSSSelectorString>>
 
   /**
-   * Return value of nearest *input*, *select*, or *textarea* matching query
+   * Return nearest *button* or *anchor* matching query
    * @example
-   * viddy.valueOf('element with text')
-   * viddy.valueOf(/regex/i, { near: 'element with text' })
-   * viddy.valueOf({ pattern: /regex/i, pickParent: 'p' })
-   * viddy.valueOf({ selector: 'p', leftOf: 'text' })
+   * viddy.forCta('element with text')
+   * viddy.forCta(/regex/i, { near: 'element with text' })
+   * viddy.forCta({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.forCta({ selector: 'p', leftOf: 'text' })
    */
-  valueOf: TQueryMethod<Promise<any>>
+  forCta: TQueryMethod<Promise<CSSSelectorString>>
+  forValue: TQueryValueMethod<Promise<CSSSelectorString>>
 
   /**
    * Return Promise that awaits the query, returning matching elements
@@ -352,13 +335,24 @@ export type TViddyInApi = {
   /**
    * Return Promise that waits for entire DOM to stop updating, or a portion of it if a query is specified
    * @example
-   * viddy.waitForIdle()
-   * viddy.waitForIdle('element with text')
-   * viddy.waitForIdle(/regex/i, { near: 'element with text' })
-   * viddy.waitForIdle({ pattern: /regex/i, pickParent: 'p' })
-   * viddy.waitForIdle({ selector: 'p', leftOf: 'text' })
+   * viddy.waitForDomToIdle('near this element', { withinMs: 500 })
+   * viddy.waitForDomToIdle({ pattern: 'near this element', timeoutInMs: 10000 })
+   *
+   * // Specifying no pattern will wait for the entire page to be idle.
+   * viddy.waitForDomToIdle()
+   * viddy.waitForDomToIdle({ withinMs: 500, timeoutInMs: 10000 })
    */
-  waitForIdle: TQueryMethod<Promise<any>>
+  waitForDomToIdle: TQueryMethod<Promise<any>>
+
+  /**
+   * Return value of nearest *input*, *select*, or *textarea* matching query
+   * @example
+   * viddy.valueOf('element with text')
+   * viddy.valueOf(/regex/i, { near: 'element with text' })
+   * viddy.valueOf({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.valueOf({ selector: 'p', leftOf: 'text' })
+   */
+  valueOf: TQueryMethod<Promise<any>>
 
   /**
    * Return innerText of the elements matching query
@@ -391,24 +385,25 @@ export type TViddyInApi = {
 
 export type TViddyWellInApi = {
   /**
-   * Return unique CSS selector matching query
+   * Return element selector matching query
    * @example
-   * viddy.selectorOf('element with text')
-   * viddy.selectorOf(/regex/i, { near: 'element with text' })
-   * viddy.selectorOf({ pattern: /regex/i, pickParent: 'p' })
-   * viddy.selectorOf({ selector: 'p', leftOf: 'text' })
+   * viddy.for('element with text')
+   * viddy.for(/regex/i, { near: 'element with text' })
+   * viddy.for({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.for({ selector: 'p', leftOf: 'text' })
    */
-  selectorOf: TQueryMethod<Promise<CSSSelectorString[]>>
+  for: TQueryMethod<Promise<CSSSelectorString[]>>
 
   /**
-   * Return value of nearest *input*, *select*, or *textarea* matching query
+   * Return nearest *button* or *anchor* matching query
    * @example
-   * viddy.valueOf('element with text')
-   * viddy.valueOf(/regex/i, { near: 'element with text' })
-   * viddy.valueOf({ pattern: /regex/i, pickParent: 'p' })
-   * viddy.valueOf({ selector: 'p', leftOf: 'text' })
+   * viddy.forCta('element with text')
+   * viddy.forCta(/regex/i, { near: 'element with text' })
+   * viddy.forCta({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.forCta({ selector: 'p', leftOf: 'text' })
    */
-  valueOf: TQueryMethod<Promise<any>>
+  forCta: TQueryMethod<Promise<CSSSelectorString[]>>
+  forValue: TQueryValueMethod<Promise<CSSSelectorString[]>>
 
   /**
    * Return Promise that awaits the query, returning matching elements
@@ -442,13 +437,24 @@ export type TViddyWellInApi = {
   /**
    * Return Promise that waits for entire DOM to stop updating, or a portion of it if a query is specified
    * @example
-   * viddy.waitForIdle()
-   * viddy.waitForIdle('element with text')
-   * viddy.waitForIdle(/regex/i, { near: 'element with text' })
-   * viddy.waitForIdle({ pattern: /regex/i, pickParent: 'p' })
-   * viddy.waitForIdle({ selector: 'p', leftOf: 'text' })
+   * viddy.waitForDomToIdle('near this element', { withinMs: 500 })
+   * viddy.waitForDomToIdle({ pattern: 'near this element', timeoutInMs: 10000 })
+   *
+   * // Specifying no pattern will wait for the entire page to be idle.
+   * viddy.waitForDomToIdle()
+   * viddy.waitForDomToIdle({ withinMs: 500, timeoutInMs: 10000 })
    */
-  waitForIdle: TQueryMethod<Promise<any>>
+  waitForDomToIdle: TQueryMethod<Promise<any>>
+
+  /**
+   * Return value of nearest *input*, *select*, or *textarea* matching query
+   * @example
+   * viddy.valueOf('element with text')
+   * viddy.valueOf(/regex/i, { near: 'element with text' })
+   * viddy.valueOf({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.valueOf({ selector: 'p', leftOf: 'text' })
+   */
+  valueOf: TQueryMethod<Promise<any>>
 
   /**
    * Return innerText of the elements matching query
