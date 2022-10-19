@@ -502,31 +502,41 @@ function FirstResultOf(fn) {
   return (...args) => fn(...args)[0]
 }
 
+function pluckFirstItem(x) {
+  return x[0]
+}
+
+function ElementsToSelectors(fn) {
+  return (...args) => fn(...args).map(selectorOfElement)
+}
+
 export const viddy = {
-  for: FirstResultOf(viddyQuery),
-  forCta: FirstResultOf(viddyQueryCta),
-  forInput: FirstResultOf(viddyQueryInput),
-  selectorOf: FirstResultOf(selectorOf),
+  for: FirstResultOf(ElementsToSelectors(viddyQuery)),
+  forCta: FirstResultOf(ElementsToSelectors(viddyQueryCta)),
+  forInput: FirstResultOf(ElementsToSelectors(viddyQueryInput)),
+
+  waitFor: (...args) => waitFor(...args).then(pluckFirstItem),
+  waitForCta: (...args) => waitForCta(...args).then(pluckFirstItem),
+  waitForValue: (...args) => waitForValue(...args).then(pluckFirstItem),
   waitForDomToIdle,
+
   valueOf: FirstResultOf(valueOf),
-  waitFor: (...args) => waitFor(...args).then(x => x[0]),
-  waitForCta: (...args) => waitForCta(...args).then(x => x[0]),
-  waitForValue: (...args) => waitForValue(...args).then(x => x[0]),
   innerText: FirstResultOf(innerText),
   matchText: FirstResultOf(matchText),
   hasContent
 }
 
 export const viddyWell = {
-  for: viddyQuery,
-  forInput: viddyQueryInput,
-  forCta: viddyQueryCta,
-  selectorOf,
-  valueOf,
+  for: ElementsToSelectors(viddyQuery),
+  forInput: ElementsToSelectors(viddyQueryInput),
+  forCta: ElementsToSelectors(viddyQueryCta),
+
   waitFor,
   waitForCta,
   waitForValue,
   waitForDomToIdle,
+
+  valueOf,
   innerText,
   matchText,
   hasContent
