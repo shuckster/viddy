@@ -320,10 +320,6 @@ function hasContent(...args) {
   return !!viddyQuery(...args)[0]
 }
 
-function selectorOf(...args) {
-  return viddyQuery(...args).map(selectorOfElement)
-}
-
 function valueOf(...args) {
   return viddyQueryInput(...args).map(valueOfElement)
 }

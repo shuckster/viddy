@@ -35,17 +35,6 @@ async function viddyIn(page) {
       }, serialize(options))
     },
 
-    selectorOf(...options) {
-      return page.evaluate(argStr => {
-        const { viddy } = libViddy
-        const [args] = libViddy.unserialize(argStr)
-        const selector = viddy.selectorOf(...args)
-        return selector === undefined
-          ? Promise.reject(libViddy.ViddyError('selectorOf', args))
-          : Promise.resolve(selector)
-      }, serialize(options))
-    },
-
     valueOf(...options) {
       return page.evaluate(argStr => {
         const { viddy } = libViddy
@@ -129,14 +118,6 @@ async function viddyWellIn(page) {
         const { viddyWell } = libViddy
         const [args] = libViddy.unserialize(argStr)
         return viddyWell.hasContent(...args)
-      }, serialize(options))
-    },
-
-    selectorOf(...options) {
-      return page.evaluate(argStr => {
-        const { viddyWell } = libViddy
-        const [args] = libViddy.unserialize(argStr)
-        return viddyWell.selectorOf(...args)
       }, serialize(options))
     },
 
