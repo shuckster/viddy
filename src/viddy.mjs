@@ -89,7 +89,7 @@ export class ViddyError extends Error {
   constructor(
     fnName,
     args,
-    { message = 'could not resolve query to any elements' }
+    { message = 'could not resolve query to any elements' } = {}
   ) {
     const serializeRegExp = rx => `/${rx.source}/${rx.flags}`
     const replacer = (_, value) =>
