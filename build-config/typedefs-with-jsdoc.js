@@ -14,6 +14,14 @@ const makeQueryValueExample =
 viddy.${fnName}(/okay/i, { selector: 'select', near: 'Choose:' })
 viddy.${fnName}('on', { selector: 'input[type=checkbox]' })`
 
+const makeWaitForDomToIdleExample =
+  fnName => `viddy.${fnName}('near this element', { withinMs: 500 })
+viddy.${fnName}({ pattern: 'near this element', timeoutInMs: 10000 })
+
+// Specifying no pattern will wait for the entire page to be idle.
+viddy.${fnName}()
+viddy.${fnName}({ withinMs: 500, timeoutInMs: 10000 })`
+
 const jsdocExamples = [
   {
     match: /\bfor:/,
@@ -59,7 +67,7 @@ const jsdocExamples = [
     match: /\bwaitForDomToIdle:/,
     description:
       'Return Promise that waits for entire DOM to stop updating, or a portion of it if a query is specified',
-    example: `viddy.waitForDomToIdle()\n` + makeQueryExample('waitForDomToIdle')
+    example: makeWaitForDomToIdleExample('waitForDomToIdle')
   },
   {
     match: /\binnerText:/,
