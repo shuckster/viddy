@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Changed
+
+BREAKING CHANGES
+
+- `selectorOf` has been removed, and `for`, `forCta`, and `forInput` have all been updated to return CSS selector strings instead of DOM elements. Pass the result to `document.querySelector` to get the element.
+
+- `waitForIdle` has been renamed `waitForDomToIdle` to better describe its behaviour.
+
+### Added
+
+- Puppeteer integration is now at parity with regular API, as it now supports `for`, `forCta`, `forInput`, and removes `selectorOf`.
+
+### Fixed
+
+- If the positional selectors `above`, `below`, `leftOf`, and `rightOf` could not find a match, the main query would often still incorrectly return an element/selector.
+
+- Puppeteer integration API calls were not throwing correct error messages due to `new` not being used before `throw`.
+
 ## [1.5.0] - 2022-06-14
 
 ### Updated
