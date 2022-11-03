@@ -58,25 +58,39 @@ viddy.waitForDomToIdle({ withinMs: 500 })
 
 ## Overview
 
+`viddy` [API methods](https://github.com/shuckster/viddy/wiki/API-methods) accept objects in the following format:
+
 ```js
-import { viddy, viddyWell } from 'viddy'
+Query {
+  pattern: String|RegExp
+  selector: CSSSelectorString
+  pickParent: CSSSelectorString
+  near: Query
+  above: Query
+  below: Query
+  leftOf: Query
+  rightOf: Query
+  containedBy: Query
+}
+```
 
-// query (the following two are identical)
-let sel = viddy.for('lomticks of toast')
-let sel = viddy.for({ pattern: 'lomticks of toast' })
+Most methods have a shorthand for `{ pattern: pattern: String|RegExp }`, which is just to specify the `String|RegExp` as the **first** argument. You can then extend the query using a `Query` object as the **second** argument:
 
-// query + specificity
-let sel = viddy.for(/symphony: \d+/i, {
-  leftOf: 'the fifth'
-})
+```js
+// The following queries are identical:
+let sel = viddy.for('lomticks of toast', { near: 'a man' })
+let sel = viddy.for({ pattern: 'lomticks of toast', near: 'a man' })
+```
 
-// target a parent element
+Target a parent element like so:
+
+```js
 let sel = viddy.for({
   pattern: /open/,
   near: 'your account',
   pickParent: 'button'
 })
-// The above will return:
+// The above will return the selector for the button:
 // div > button > span > "Open"
 //       ^^^^^^
 // ...instead of the span.
@@ -97,7 +111,7 @@ let sels = viddyWell.for({
 // viddyWell returns an array of all matching selectors
 ```
 
-View the [query specification](https://github.com/shuckster/viddy/wiki#query-specification).
+More detail in the [query specification](https://github.com/shuckster/viddy/wiki#query-specification) and [index.d.ts](https://github.com/shuckster/viddy/blob/master/index.d.ts) file.
 
 ## Install / Use
 
