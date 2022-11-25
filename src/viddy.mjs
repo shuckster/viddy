@@ -541,3 +541,5 @@ export const viddyWell = {
   matchText,
   hasContent
 }
+
+export { selectorOfElement }
