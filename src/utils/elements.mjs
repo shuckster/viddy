@@ -122,16 +122,17 @@ export function observeMutations(callback, withinSelector) {
 }
 
 export const installChangeListeners = (sel, cb) => {
-  const [handler] = makeDebouncer(32, cb)
-  const listeners = qsArray(sel)
+  const [handler, cancel] = makeDebouncer(32, cb)
+  const cancellers = qsArray(sel)
     .map(el => {
       el.addEventListener('change', handler, { passive: true })
       return () => el.removeEventListener('change', handler)
     })
     .concat(() => document.body.removeEventListener('click', handler))
     .concat(() => document.body.removeEventListener('keyup', handler))
+    .concat(cancel)
 
   document.body.addEventListener('click', handler, { passive: true })
   document.body.addEventListener('keyup', handler, { passive: true })
-  return () => listeners.forEach(removeListener => removeListener())
+  return () => cancellers.forEach(removeListener => removeListener())
 }
