@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [2.1.0] - 2023-03-04
+
+### Added
+
+- Exports `selectorOfElement`
+
+### Updated
+
+- README tweaks, typo fix
+
+### Fixed
+
+- `installChangeListeners` should clean-up debounce timer
+
 ## [2.0.3] - 2022-11-03
 
 ### Updated
