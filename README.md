@@ -21,8 +21,8 @@
 Find DOM selectors using an expressive query syntax, extract text and monitor changes. Viddy was written to help write E2E UI tests that reflect user-behaviour, and there's a handy integration for [Puppeteer](https://github.com/shuckster/viddy/wiki/Puppeteer-Integration).
 
 ```js
-<body>
-  <h1>A Strange Man</h1>
+;<body>
+  <h1>A Strange Fella</h1>
   <p>"Munchy-wunching lomticks of toast"</p>
 </body>
 
@@ -74,7 +74,7 @@ Query {
 }
 ```
 
-Most methods have a shorthand for `{ pattern: pattern: String|RegExp }`, which is just to specify the `String|RegExp` as the **first** argument. You can then extend the query using a `Query` object as the **second** argument:
+Most methods have a shorthand for `{ pattern: String|RegExp }`, which is to specify the `String|RegExp` as the **first** argument. You can then extend this using a `Query` object for the **second** argument:
 
 ```js
 // The following queries are identical:
