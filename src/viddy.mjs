@@ -85,6 +85,11 @@ export const unserialize = str =>
     )
   )
 
+export { qsArray, selectorOfElement }
+
+// Custom Error
+//
+
 export class ViddyError extends Error {
   constructor(
     fnName,
@@ -102,8 +107,6 @@ export class ViddyError extends Error {
 
 // Main query/arguments interpreter
 //
-
-export { qsArray }
 
 const viddyQuery = (...args) =>
   match(args)(
@@ -541,5 +544,3 @@ export const viddyWell = {
   matchText,
   hasContent
 }
-
-export { selectorOfElement }
