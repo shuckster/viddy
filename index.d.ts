@@ -275,6 +275,7 @@ declare module 'viddy' {
   export function serialize(...args: any[]): string
   export function unserialize(argStr: string): any
   export function qsArray(selector: string): Element[]
+  export function selectorOfElement(element: Element): string | void
 
   export const ViddyError: Error
   export const viddy: TViddyApi
