@@ -21,12 +21,12 @@
 Find DOM selectors using an expressive query syntax, extract text and monitor changes. Viddy was written to help write E2E UI tests that reflect user-behaviour, and there's a handy integration for [Puppeteer](https://github.com/shuckster/viddy/wiki/Puppeteer-Integration).
 
 ```js
-;<body>
+<body>
   <h1>A Strange Fella</h1>
   <p>"Munchy-wunching lomticks of toast"</p>
 </body>
 
-viddy.for('lomticks of toast', { near: 'a strange man' })
+viddy.for('lomticks of toast', { near: 'a strange fella' })
 // => 'body p'
 ```
 
