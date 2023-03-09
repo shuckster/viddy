@@ -1,7 +1,7 @@
 import { match, when, otherwise, defined, isFunction } from 'match-iz'
 import { just, maybeTry } from './fp.mjs'
 import { makeDebouncer } from './async.mjs'
-import { select } from 'optimal-select'
+import { finder } from '@medv/finder'
 
 export const isHtmlElement = el => el instanceof HTMLElement
 export const isElementVisible = el => el.offsetParent !== null
@@ -66,11 +66,15 @@ export function selectorOfElement(el) {
     return
   }
   if (typeof global === 'undefined' && typeof window !== 'undefined') {
-    // FIXME: for 'optimal-select'
+    /**
+     * @fixme this was done for `optimal-select` to work in the browser.
+     * I'm not sure if it's still needed for `finder`, but will leave
+     * it here for now.
+     */
     // eslint-disable-next-line no-global-assign
     global = window
   }
-  return select(el)
+  return finder(el)
 }
 
 export function valueOfElement(el) {

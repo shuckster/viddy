@@ -59,8 +59,8 @@
     "build:watch": "nodemon ./build-config/esbuild.mjs"
   },
   "dependencies": {
-    "match-iz": "^3.9.4",
-    "optimal-select": "4.0.1"
+    "@medv/finder": "^3.0.0",
+    "match-iz": "^3.9.4"
   },
   "devDependencies": {
     "compose-paths": "^1.2.2",
