@@ -109,11 +109,11 @@ async function main() {
   })
   await Promise.all([
     viddy.waitForValue('no', noCheckbox).then(sel => {
-      assert.equal(sel, 'body p:nth-of-type(4) [type]')
+      assert.equal(sel, '#yesno_no')
     }),
 
     viddy.for(noCheckbox).then(sel => {
-      assert.equal(sel, '[for="yesno_no"]')
+      assert.equal(sel, 'p:nth-child(4) > label')
       return page.click(sel)
     })
   ])
@@ -128,14 +128,11 @@ async function main() {
 
   await Promise.all([
     viddy.waitForValue('uk', 'Country:').then(css => {
-      assert.equal(css, '#country option')
+      assert.equal(css, '#country')
     }),
 
     viddy.for(/click here/i, { below: 'there' }).then(sel => {
-      assert.equal(
-        sel,
-        `[onclick="console\\.log\\(\\'clicked two\\!\\'\\)\\; document\\.getElementById\\(\\'country\\'\\)\\.value\\=\\'uk\\'"]`
-      )
+      assert.equal(sel, `button:nth-child(9)`)
       return page.click(sel)
     })
   ])
