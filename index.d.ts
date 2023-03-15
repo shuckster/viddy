@@ -46,6 +46,23 @@ type TQueryValueMethod<TReturn> = (
   opts?: TViddyOpts
 ) => TReturn
 
+// Monadic return
+//
+
+type TNothing<T = void> = {
+  valueOf: () => T
+  exists: () => TNothing<T>
+  absent: (f: () => U) => TJust<U>
+}
+
+type TJust<T = string> = {
+  valueOf: () => T
+  exists: (f: (x: T) => U) => TJust<U>
+  absent: () => TJust<T>
+}
+
+type TMonadicReturn<T, U> = TJust<T> | TNothing<U>
+
 // APIs
 //
 
@@ -79,6 +96,48 @@ export type TViddyApi = {
    * viddy.forInput({ selector: 'p', leftOf: 'text' })
    */
   forInput: TQueryMethod<CSSSelectorString | undefined>
+
+  /**
+   * Return element selector matching query
+   * @example
+   * viddy.when('element with text')
+   *   .exists(sel => 'found' + sel)
+   *   .absent(() => 'not found')
+   *   .valueOf()
+   *
+   * viddy.when(/regex/i, { near: 'element with text' })
+   * viddy.when({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.when({ selector: 'p', leftOf: 'text' })
+   */
+  when: TQueryMethod<TMonadicReturn<CSSSelectorString, void>>
+
+  /**
+   * Return nearest *button* or *anchor* matching query
+   * @example
+   * viddy.whenCta('element with text')
+   *   .exists(sel => 'found' + sel)
+   *   .absent(() => 'not found')
+   *   .valueOf()
+   *
+   * viddy.whenCta(/regex/i, { near: 'element with text' })
+   * viddy.whenCta({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.whenCta({ selector: 'p', leftOf: 'text' })
+   */
+  whenCta: TQueryMethod<TMonadicReturn<CSSSelectorString, void>>
+
+  /**
+   * Return nearest *input* (textual or checkboxes/radios, not buttons), *select*, or *textarea* matching query
+   * @example
+   * viddy.whenInput('element with text')
+   *   .exists(sel => 'found' + sel)
+   *   .absent(() => 'not found')
+   *   .valueOf()
+   *
+   * viddy.whenInput(/regex/i, { near: 'element with text' })
+   * viddy.whenInput({ pattern: /regex/i, pickParent: 'p' })
+   * viddy.whenInput({ selector: 'p', leftOf: 'text' })
+   */
+  whenInput: TQueryMethod<TMonadicReturn<CSSSelectorString, void>>
 
   /**
    * Return Promise that awaits the query, returning matching elements

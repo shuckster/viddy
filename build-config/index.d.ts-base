@@ -46,6 +46,23 @@ type TQueryValueMethod<TReturn> = (
   opts?: TViddyOpts
 ) => TReturn
 
+// Monadic return
+//
+
+type TNothing<T = void> = {
+  valueOf: () => T,
+  exists: () => TNothing<T>,
+  absent: (f: () => U) => TJust<U>;
+}
+
+type TJust<T = string> = {
+  valueOf: () => T,
+  exists: (f: (x: T) => U) => TJust<U>,
+  absent: () => TJust<T>,
+}
+
+type TMonadicReturn<T, U> = TJust<T> | TNothing<U>
+
 // APIs
 //
 
@@ -53,6 +70,10 @@ export type TViddyApi = {
   for: TQueryMethod<CSSSelectorString | undefined>
   forCta: TQueryMethod<CSSSelectorString | undefined>
   forInput: TQueryMethod<CSSSelectorString | undefined>
+
+  when: TQueryMethod<TMonadicReturn<CSSSelectorString, void>>
+  whenCta: TQueryMethod<TMonadicReturn<CSSSelectorString, void>>
+  whenInput: TQueryMethod<TMonadicReturn<CSSSelectorString, void>>
 
   waitFor: TQueryMethod<Promise<CSSSelectorString>>
   waitForCta: TQueryMethod<Promise<CSSSelectorString>>

@@ -5,6 +5,16 @@ viddy.${fnName}(/regex/i, { near: 'element with text' })
 viddy.${fnName}({ pattern: /regex/i, pickParent: 'p' })
 viddy.${fnName}({ selector: 'p', leftOf: 'text' })`
 
+const makeQueryWithMonadicReturnExample =
+  fnName => `viddy.${fnName}('element with text')
+  .exists(sel => 'found' + sel)
+  .absent(() => 'not found')
+  .valueOf()
+
+viddy.${fnName}(/regex/i, { near: 'element with text' })
+viddy.${fnName}({ pattern: /regex/i, pickParent: 'p' })
+viddy.${fnName}({ selector: 'p', leftOf: 'text' })`
+
 const makeQueryMatchExample =
   fnName => `viddy.${fnName}('needle', 'element with text')
 viddy.${fnName}(/needle/i, { selector: 'select', near: 'Choose:' })`
@@ -40,7 +50,23 @@ const jsdocExamples = [
     example: makeQueryExample('forInput')
   },
   {
-    match: /\bvalueOf:/,
+    match: /\bwhen:/,
+    description: 'Return element selector matching query',
+    example: makeQueryWithMonadicReturnExample('when')
+  },
+  {
+    match: /\bwhenCta:/,
+    description: 'Return nearest *button* or *anchor* matching query',
+    example: makeQueryWithMonadicReturnExample('whenCta')
+  },
+  {
+    match: /\bwhenInput:/,
+    description:
+      'Return nearest *input* (textual or checkboxes/radios, not buttons), *select*, or *textarea* matching query',
+    example: makeQueryWithMonadicReturnExample('whenInput')
+  },
+  {
+    match: /\bvalueOf: TQueryMethod/,
     description:
       'Return value of nearest *input*, *select*, or *textarea* matching query',
     example: makeQueryExample('valueOf')
