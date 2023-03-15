@@ -9,6 +9,8 @@ import {
   compose,
   Identity as Passthru,
   mapOverObjectValues,
+  Maybe,
+  MaybePopulatedArray,
   memo
 } from '../puppeteer/fp.js'
 
@@ -501,6 +503,14 @@ function waitForDomToIdle(...args) {
 // Inteface
 //
 
+function MaybeResultOf(fn) {
+  return (...args) => Maybe(fn(...args))
+}
+
+function MaybeManyResultsOf(fn) {
+  return (...args) => MaybePopulatedArray(fn(...args))
+}
+
 function FirstResultOf(fn) {
   return (...args) => fn(...args)[0]
 }
@@ -529,6 +539,10 @@ export const viddy = {
   hasContent
 }
 
+viddy.when = MaybeResultOf(viddy.for)
+viddy.whenCta = MaybeResultOf(viddy.forCta)
+viddy.whenInput = MaybeResultOf(viddy.forInput)
+
 export const viddyWell = {
   for: ElementsToSelectors(viddyQuery),
   forInput: ElementsToSelectors(viddyQueryInput),
@@ -544,3 +558,7 @@ export const viddyWell = {
   matchText,
   hasContent
 }
+
+viddyWell.when = MaybeManyResultsOf(viddyWell.for)
+viddyWell.whenCta = MaybeManyResultsOf(viddyWell.forCta)
+viddyWell.whenInput = MaybeManyResultsOf(viddyWell.forInput)

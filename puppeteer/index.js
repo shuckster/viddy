@@ -14,12 +14,12 @@ const { readFileSync } = require('fs')
 const { serialize } = require('../')
 
 const libMatchiz = require('match-iz')
+const { Maybe, MaybePopulatedArray, Identity } = require('./fp')
 const { match, when, otherwise } = libMatchiz
 const { anyOf } = libMatchiz
 const { isString, isRegExp, isPojo, isNumber } = libMatchiz
 
 const isPattern = anyOf(isString, isRegExp)
-const Identity = x => x
 
 let waitForTimeoutInMs = 5 * 1000
 
@@ -99,6 +99,36 @@ async function viddyIn(page) {
           ? Promise.reject(new libViddy.ViddyError('forInput', args))
           : Promise.resolve(value)
       }, serialize(options))
+    },
+
+    when(...options) {
+      return page
+        .evaluate(argStr => {
+          const { viddy } = libViddy
+          const [args] = libViddy.unserialize(argStr)
+          return viddy.for(...args)
+        }, serialize(options))
+        .then(Maybe.of)
+    },
+
+    whenCta(...options) {
+      return page
+        .evaluate(argStr => {
+          const { viddy } = libViddy
+          const [args] = libViddy.unserialize(argStr)
+          return viddy.forCta(...args)
+        }, serialize(options))
+        .then(Maybe.of)
+    },
+
+    whenInput(...options) {
+      return page
+        .evaluate(argStr => {
+          const { viddy } = libViddy
+          const [args] = libViddy.unserialize(argStr)
+          return viddy.forInput(...args)
+        }, serialize(options))
+        .then(Maybe.of)
     },
 
     waitFor(...options) {
@@ -200,6 +230,36 @@ async function viddyWellIn(page) {
         const [args] = libViddy.unserialize(argStr)
         return viddyWell.forInput(...args)
       }, serialize(options))
+    },
+
+    when(...options) {
+      return page
+        .evaluate(argStr => {
+          const { viddyWell } = libViddy
+          const [args] = libViddy.unserialize(argStr)
+          return viddyWell.for(...args)
+        }, serialize(options))
+        .then(MaybePopulatedArray.of)
+    },
+
+    whenCta(...options) {
+      return page
+        .evaluate(argStr => {
+          const { viddyWell } = libViddy
+          const [args] = libViddy.unserialize(argStr)
+          return viddyWell.forCta(...args)
+        }, serialize(options))
+        .then(MaybePopulatedArray.of)
+    },
+
+    whenInput(...options) {
+      return page
+        .evaluate(argStr => {
+          const { viddyWell } = libViddy
+          const [args] = libViddy.unserialize(argStr)
+          return viddyWell.forInput(...args)
+        }, serialize(options))
+        .then(MaybePopulatedArray.of)
     },
 
     waitFor(...options) {
