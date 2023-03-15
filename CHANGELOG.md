@@ -7,7 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-## [2.2.0] - 2023-03-09
+## [2.2.0] - 2023-03-15
+
+### Added
+
+- New `when`/`whenCta`/`whenInput` APIs for branching logic. They accept queries like `for`/`forCta`/`forInput`, but return an object with `exists`, `absent`, and `valueOf` methods:
+
+```js
+let result = viddy
+  .when('Country:')
+  .exists(sel => `found: ${sel}`)
+  .absent(() => 'sorry, not found')
+  .valueOf()
+```
+
+For the Puppeteer integration:
+
+```js
+let result = (await viddy.when('Country:'))
+  .exists(sel => `found: ${sel}`)
+  .absent(() => 'sorry, not found')
+  .valueOf()
+
+// Or...
+await viddy.when('Country:').then(({ exists, absent }) => {
+  exists(sel => console.log(`found: ${sel}`))
+  absent(() => console.log('sorry, not found'))
+})
+```
+
+Available in both `viddy` and `viddyWell`.
 
 ### Updated
 
