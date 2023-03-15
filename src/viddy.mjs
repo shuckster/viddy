@@ -10,7 +10,7 @@ import {
   Identity as Passthru,
   mapOverObjectValues,
   memo
-} from './utils/fp.mjs'
+} from '../puppeteer/fp.js'
 
 import {
   allAncestorsOf,

@@ -1,5 +1,5 @@
 import { match, when, otherwise, defined, isFunction } from 'match-iz'
-import { just, maybeTry } from './fp.mjs'
+import { just, maybeTry } from '../../puppeteer/fp.js'
 import { makeDebouncer } from './async.mjs'
 import { finder } from '@medv/finder'
 
