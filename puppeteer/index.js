@@ -321,7 +321,7 @@ function applyTimeoutIfNotSpecified(options, defaultTimeoutInMs) {
 
 async function injectViddyHelpersIn(page) {
   if (await page.evaluate(() => window._viddyHelpersAvailable)) {
-    console.log('viddy helpers already injected')
+    // console.log('viddy helpers already injected')
     return
   }
   const viddyPath = path.dirname(require.resolve('../'))
