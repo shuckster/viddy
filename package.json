@@ -1,7 +1,7 @@
 {
   "name": "viddy",
   "browserGlobalName": "libViddy",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Find DOM elements using an expressive query syntax, extract text and monitor changes.",
   "author": "Conan Theobald",
   "license": "MIT",
