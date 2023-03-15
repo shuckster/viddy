@@ -3,7 +3,7 @@ const serve = require('koa-static')
 const Koa = require('koa')
 
 const puppeteer = require('puppeteer')
-const { viddyIn } = require('viddy/puppeteer')
+const { viddyIn, viddyWellIn } = require('viddy/puppeteer')
 const assert = require('assert')
 
 const headless = true
@@ -40,6 +40,7 @@ async function main() {
   const page = await browser.newPage()
   await page.goto(`http://localhost:${SERVER_PORT}/index.html`)
   const viddy = await viddyIn(page)
+  const viddyWell = await viddyWellIn(page)
 
   await viddy
     .innerText({ selector: 'td', above: 'middle', leftOf: 'middle' })
@@ -125,6 +126,22 @@ async function main() {
   await viddy.valueOf('Country:').then(grabbedValue => {
     assert.equal(grabbedValue, '')
   })
+
+  await viddyWell.when('Country:').then(({ exists }) => {
+    let result = exists(sel => `found: ${sel[0]}`)
+      .absent(() => 'sorry, not found')
+      .valueOf()
+
+    assert.equal(result, 'found: form:nth-child(5) label')
+  })
+
+  assert.equal(
+    (await viddy.when('Country_:'))
+      .exists(sel => `found: ${sel}`)
+      .absent(() => 'sorry, not found')
+      .valueOf(),
+    'sorry, not found'
+  )
 
   await Promise.all([
     viddy.waitForValue('uk', 'Country:').then(css => {
