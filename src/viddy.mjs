@@ -95,14 +95,14 @@ export { qsArray, selectorOfElement }
 export class ViddyError extends Error {
   constructor(
     fnName,
-    args,
+    args = [],
     { message = 'could not resolve query to any elements' } = {}
   ) {
     const serializeRegExp = rx => `/${rx.source}/${rx.flags}`
     const replacer = (_, value) =>
       isRegExp(value) ? serializeRegExp(value) : value
-    const argMsg = JSON.stringify(args, replacer, 2)
-    super(`${message}\n\nviddy.${fnName}(...${argMsg})\n`)
+    const argMsg = JSON.stringify(args, replacer, 2).slice(1, -1)
+    super(`${message}\n\nviddy.${fnName}(${argMsg})\n`)
     this.name = 'ViddyError'
   }
 }
