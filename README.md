@@ -50,6 +50,17 @@ There's a helper that will resolve a `Promise` when DOM-updates have idled for a
 viddy.waitForDomToIdle({ withinMs: 500 })
 ```
 
+Since `v2.2.0` the `when*` APIs enable declarative [branching logic](https://github.com/shuckster/viddy/wiki/API-methods#-methods-for-branching-logic):
+
+```js
+viddy.when('Munchy-wunching')
+  .exists(sel => `found: ${sel}`)
+  .absent(() => 'sorry, not found')
+  .valueOf()
+  
+// => 'found: body p'
+```
+
 - 👀 [Overview](#overview)
 - 📖 [Documentation](https://github.com/shuckster/viddy/wiki)
 - 🤡 [Puppeteer integration](https://github.com/shuckster/viddy/wiki/Puppeteer-Integration)
