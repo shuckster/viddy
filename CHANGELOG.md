@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [2.2.1] - 2023-05-09
+
+### Fixed
+
+- Puppeteer types for `when`/`whenCta`/`whenInput`
+
 ## [2.2.0] - 2023-03-15
 
 ### Added

@@ -50,15 +50,15 @@ type TQueryValueMethod<TReturn> = (
 //
 
 type TNothing<T = void> = {
-  valueOf: () => T,
-  exists: () => TNothing<T>,
-  absent: (f: () => U) => TJust<U>;
+  valueOf: () => T
+  exists: () => TNothing<T>
+  absent:<U = unknown> (f: () => U) => TJust<U>
 }
 
 type TJust<T = string> = {
-  valueOf: () => T,
-  exists: (f: (x: T) => U) => TJust<U>,
-  absent: () => TJust<T>,
+  valueOf: () => T
+  exists:<U = unknown> (f: (x: T) => U) => TJust<U>
+  absent: () => TJust<T>
 }
 
 type TMonadicReturn<T, U> = TJust<T> | TNothing<U>
@@ -117,6 +117,10 @@ export type TViddyInApi = {
   for: TQueryMethod<Promise<CSSSelectorString>>
   forCta: TQueryMethod<Promise<CSSSelectorString>>
   forInput: TQueryValueMethod<Promise<CSSSelectorString>>
+
+  when: TQueryMethod<Promise<TMonadicReturn<CSSSelectorString, void>>>
+  whenCta: TQueryMethod<Promise<TMonadicReturn<CSSSelectorString, void>>>
+  whenInput: TQueryMethod<Promise<TMonadicReturn<CSSSelectorString, void>>>
 
   waitFor: TQueryMethod<Promise<CSSSelectorString>>
   waitForCta: TQueryMethod<Promise<CSSSelectorString>>
