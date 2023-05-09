@@ -91,6 +91,10 @@ export type TViddyWellApi = {
   forCta: TQueryMethod<CSSSelectorString[]>
   forInput: TQueryMethod<CSSSelectorString[]>
 
+  when: TQueryMethod<TMonadicReturn<CSSSelectorString[], void>>
+  whenCta: TQueryMethod<TMonadicReturn<CSSSelectorString[], void>>
+  whenInput: TQueryMethod<TMonadicReturn<CSSSelectorString[], void>>
+
   waitFor: TQueryMethod<Promise<CSSSelectorString[]>>
   waitForCta: TQueryMethod<Promise<CSSSelectorString[]>>
   waitForValue: TQueryValueMethod<Promise<CSSSelectorString[]>>
