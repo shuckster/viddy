@@ -6,7 +6,7 @@ const puppeteer = require('puppeteer')
 const { viddyIn, viddyWellIn } = require('viddy/puppeteer')
 const assert = require('assert')
 
-const headless = true
+const headless = "new"
 const devtools = true
 const SERVER_PORT = 4762
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms))
