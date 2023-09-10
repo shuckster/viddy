@@ -400,7 +400,7 @@ function waitFor(...args) {
     return () => {
       const elementsOfInterest = viddyQuery(...args)
       if (elementsOfInterest.length) {
-        done(elementsOfInterest.map(selectorOfElement))
+        done(elementsOfInterest)
       }
     }
   }
@@ -412,7 +412,7 @@ function waitForCta(...args) {
     return () => {
       const elementsOfInterest = viddyQueryCta(...args)
       if (elementsOfInterest.length) {
-        done(elementsOfInterest.map(selectorOfElement))
+        done(elementsOfInterest)
       }
     }
   }
@@ -440,7 +440,7 @@ function waitForValue(value, ...args) {
         .map(({ el }) => el)
 
       if (elsWithMatchingValues.length) {
-        done(elsWithMatchingValues.map(selectorOfElement))
+        done(elsWithMatchingValues)
       }
     }
   }
@@ -519,18 +519,38 @@ function pluckFirstItem(x) {
   return x[0]
 }
 
+function selectorsOfElements(xs) {
+  return xs?.map(selectorOfElement)
+}
+
 function ElementsToSelectors(fn) {
-  return (...args) => fn(...args).map(selectorOfElement)
+  return (...args) => selectorsOfElements(fn(...args))
+}
+
+function ElementToSelector(fn) {
+  return (...args) => selectorOfElement(fn(...args))
 }
 
 export const viddy = {
-  for: FirstResultOf(ElementsToSelectors(viddyQuery)),
-  forCta: FirstResultOf(ElementsToSelectors(viddyQueryCta)),
-  forInput: FirstResultOf(ElementsToSelectors(viddyQueryInput)),
+  for: ElementToSelector(FirstResultOf(viddyQuery)),
+  forCta: ElementToSelector(FirstResultOf(viddyQueryCta)),
+  forInput: ElementToSelector(FirstResultOf(viddyQueryInput)),
 
-  waitFor: (...args) => waitFor(...args).then(pluckFirstItem),
-  waitForCta: (...args) => waitForCta(...args).then(pluckFirstItem),
-  waitForValue: (...args) => waitForValue(...args).then(pluckFirstItem),
+  waitFor: (...args) =>
+    waitFor(...args)
+      .then(pluckFirstItem)
+      .then(selectorOfElement),
+
+  waitForCta: (...args) =>
+    waitForCta(...args)
+      .then(pluckFirstItem)
+      .then(selectorOfElement),
+
+  waitForValue: (...args) =>
+    waitForValue(...args)
+      .then(pluckFirstItem)
+      .then(selectorOfElement),
+
   waitForDomToIdle,
 
   valueOf: FirstResultOf(valueOf),
@@ -548,9 +568,10 @@ export const viddyWell = {
   forInput: ElementsToSelectors(viddyQueryInput),
   forCta: ElementsToSelectors(viddyQueryCta),
 
-  waitFor,
-  waitForCta,
-  waitForValue,
+  waitFor: (...args) => waitFor(...args).then(selectorsOfElements),
+  waitForCta: (...args) => waitForCta(...args).then(selectorsOfElements),
+  waitForValue: (...args) => waitForValue(...args).then(selectorsOfElements),
+
   waitForDomToIdle,
 
   valueOf,
