@@ -377,8 +377,8 @@ function baseWaitFor(fnName = 'baseWaitFor', makeCheckForElement, ...args) {
   })
 
   return new Promise((resolve, reject) => {
-    const done = val => (resolve(val), cleanup())
-    const timeout = () => (reject(timeoutError), cleanup())
+    const done = val => (resolve(val), cleanup(), void 0)
+    const timeout = () => (reject(timeoutError), cleanup(), void 0)
     const checker = makeCheckForElement({ done, args })
     const timerId = setTimeout(timeout, timeoutInMs)
 
@@ -484,8 +484,8 @@ function waitForDomToIdle(...args) {
   }
 
   return new Promise((resolve, reject) => {
-    const done = () => (resolve(), cleanup())
-    const timeout = () => (reject(timeoutError), cleanup())
+    const done = () => (resolve(), cleanup(), void 0)
+    const timeout = () => (reject(timeoutError), cleanup(), void 0)
     const timeoutId = setTimeout(timeout, timeoutInMs)
     const [defer, stopChecker] = makeDebouncer(withinMs, done)
 
