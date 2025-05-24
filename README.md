@@ -63,7 +63,7 @@ viddy.when('Munchy-wunching')
 
 - 👀 [Overview](#overview)
 - 📖 [Documentation](https://github.com/shuckster/viddy/wiki)
-- 🤡 [Puppeteer integration](https://github.com/shuckster/viddy/wiki/Puppeteer-Integration)
+- 🤡 [PlayWright/Puppeteer integrations](https://github.com/shuckster/viddy/wiki/Integrations)
 - 📀 [Install / Use](#install--use)
 - ✍️ [Credits](#credits)
 
