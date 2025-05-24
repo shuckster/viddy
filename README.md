@@ -18,11 +18,7 @@
     /></a>
 </p>
 
-Find DOM selectors using an expressive query syntax, extract text and monitor
-changes. Viddy was written to help write E2E UI tests that reflect
-user-behaviour, and there are handy integrations for
-[Puppeteer](https://github.com/shuckster/viddy/wiki/Puppeteer-Integration) and 
-[PlayWright](https://playwright.dev/)
+Find DOM selectors using an expressive query syntax, extract text and monitor changes. Viddy was written to help write E2E UI tests that reflect user-behaviour, and there are handy integrations for [Puppeteer and PlayWright](https://github.com/shuckster/viddy/wiki/Integrations).
 
 ```js
 <body>
