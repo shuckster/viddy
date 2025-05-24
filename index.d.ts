@@ -672,3 +672,29 @@ declare module 'viddy/puppeteer' {
    */
   export function viddyWellIn(page: Object): TViddyWellInApi
 }
+
+declare module 'viddy/playwright' {
+  /**
+   * Inject viddy API into a PlayWright page object
+   * @example
+   * const { viddyIn } = require('viddy/playwright')
+   * // later...
+   * const page = await browser.newPage()
+   * const viddy = viddyIn(page)
+   *
+   * await viddy.waitFor('text')
+   */
+  export function viddyIn(page: Object): TViddyInApi
+
+  /**
+   * Inject viddyWell API into a PlayWright page object
+   * @example
+   * const { viddyWellIn } = require('viddy/playwright')
+   * // later...
+   * const page = await browser.newPage()
+   * const viddy = viddyWellIn(page)
+   *
+   * await viddy.waitFor('text')
+   */
+  export function viddyWellIn(page: Object): TViddyWellInApi
+}

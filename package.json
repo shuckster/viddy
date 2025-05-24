@@ -10,7 +10,8 @@
     "find elements",
     "scraping",
     "ui testing",
-    "puppeteer"
+    "puppeteer",
+    "playwright"
   ],
   "types": "index.d.ts",
   "main": "./dist/cjs/index.js",
@@ -22,15 +23,20 @@
       "default": "./dist/cjs/index.js"
     },
     "./puppeteer": {
-      "import": "./puppeteer/index.js",
-      "require": "./puppeteer/index.js",
-      "default": "./puppeteer/index.js"
+      "import": "./integrations/puppeteer/index.js",
+      "require": "./integrations/puppeteer/index.js",
+      "default": "./integrations/puppeteer/index.js"
+    },
+    "./playwright": {
+      "import": "./integrations/playwright/index.js",
+      "require": "./integrations/playwright/index.js",
+      "default": "./integrations/playwright/index.js"
     }
   },
   "files": [
     "dist/**/*.js",
     "dist/**/package.json",
-    "puppeteer/*.js",
+    "integrations/**/*.js",
     "CHANGELOG.md",
     "README.md",
     "LICENSE",
@@ -49,8 +55,8 @@
     "email": "bugs+viddy@conans.co.uk"
   },
   "scripts": {
-    "test": "node ./tests/run.js",
-    "lint": "pnpx eslint src/*.mjs puppeteer/*.js tests/*.js",
+    "test": "node ./tests/puppeteer/run.js && node ./tests/playwright/run.js",
+    "lint": "pnpx eslint src/*.mjs integrations/**/*.js tests/**/*.js",
     "build": "pnpm run build:esbuild",
     "build:jsdoc": "node ./build-config/typedefs-with-jsdoc.js > index.d.ts ; pnpx prettier -w index.d.ts",
     "build:clean": "rimraf dist/; mkdir -p dist/{esm,cjs,browser}",
@@ -63,15 +69,18 @@
     "match-iz": "^3.10.0"
   },
   "devDependencies": {
+    "@types/node": "^22.15.21",
     "compose-paths": "^1.2.2",
     "esbuild": "^0.17.18",
     "eslint": "^8.40.0",
     "koa": "^2.14.2",
     "koa-static": "^5.0.0",
     "nodemon": "^2.0.22",
+    "playwright": "^1.52.0",
     "prettier": "^2.8.8",
     "puppeteer": "^20.1.2",
     "rimraf": "^5.0.0",
     "typescript": "^5.0.4"
-  }
+  },
+  "packageManager": "pnpm@9.12.1+sha512.e5a7e52a4183a02d5931057f7a0dbff9d5e9ce3161e33fa68ae392125b79282a8a8a470a51dfc8a0ed86221442eb2fb57019b0990ed24fab519bf0e1bc5ccfc4"
 }

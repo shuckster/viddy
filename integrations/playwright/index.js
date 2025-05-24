@@ -1,5 +1,5 @@
 /**
- * @module viddy/puppeteer
+ * @module viddy/playwright
  */
 
 /* globals libViddy */
@@ -11,10 +11,10 @@ module.exports = {
 
 const path = require('path')
 const { readFileSync } = require('fs')
-const { serialize } = require('../')
+const { serialize } = require('../../')
 
 const libMatchiz = require('match-iz')
-const { Maybe, MaybePopulatedArray, Identity } = require('./fp')
+const { Maybe, MaybePopulatedArray, Identity } = require('../fp')
 const { match, when, otherwise } = libMatchiz
 const { anyOf } = libMatchiz
 const { isString, isRegExp, isPojo, isNumber } = libMatchiz
@@ -149,14 +149,15 @@ async function viddyIn(page) {
 
     waitForValue(value, ...options) {
       return page.evaluate(
-        (valueStr, argStr) => {
+        (cfg) => {
           const { viddy } = libViddy
-          const [value] = libViddy.unserialize(valueStr)
-          const [args] = libViddy.unserialize(argStr)
+          const [ value, args ] = libViddy.unserialize(cfg)
           return viddy.waitForValue(value, ...args)
         },
-        serialize(value),
-        serialize(applyTimeoutIfNotSpecified(options, waitForTimeoutInMs))
+        serialize(
+          value,
+          applyTimeoutIfNotSpecified(options, waitForTimeoutInMs)
+        )
       )
     },
 
@@ -324,7 +325,7 @@ async function injectViddyHelpersIn(page) {
     // console.log('viddy helpers already injected')
     return
   }
-  const viddyPath = path.dirname(require.resolve('../'))
+  const viddyPath = path.dirname(require.resolve('../../'))
   const inject = injectIn(page)
   await inject(path.join(viddyPath, '../browser/viddy.browser.js'))
   await page.evaluate(() => (window._viddyHelpersAvailable = true))

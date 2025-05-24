@@ -12,7 +12,7 @@ import {
   Maybe,
   MaybePopulatedArray,
   memo
-} from '../puppeteer/fp.js'
+} from '../integrations/fp.js'
 
 import {
   allAncestorsOf,
