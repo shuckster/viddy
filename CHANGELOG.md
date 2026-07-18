@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [3.1.0] - 2026-07-19
+
+### Changed
+
+- Upgrade runtime dependencies:
+  - `match-iz` `^3.10.0` → `^5.0.8`
+  - `@medv/finder` `^3.1.0` → `^4.0.2`
+
+- Adapt internal pattern-matching for `match-iz` v5 (exact array arity
+  via `eq()`, handlers that must not receive `rest`)
+
+- Prefer any non-empty element `id` when generating CSS selectors
+  (finder v4 defaults to “word-like” ids only, which skipped ids with
+  underscores such as `#yesno_no`)
+
+- Generated CSS selectors may differ slightly from previous releases
+  (finder v4 prefers `nth-of-type` over `nth-child`); they remain unique
+  selectors for the matched elements
+
+- Dev-dependency upgrades: ESLint 10, esbuild 0.28, Prettier 3,
+  Playwright 1.61, Puppeteer 25, Koa 3, TypeScript 7, and related
+  tooling
+
 ## [3.0.2] - 2025-05-25
 
 ### Changed
@@ -35,7 +58,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- New `when`/`whenCta`/`whenInput` APIs for branching logic. They accept queries like `for`/`forCta`/`forInput`, but return an object with `exists`, `absent`, and `valueOf` methods:
+- New `when`/`whenCta`/`whenInput` APIs for branching logic. They accept
+  queries like `for`/`forCta`/`forInput`, but return an object with
+  `exists`, `absent`, and `valueOf` methods:
 
 ```js
 let result = viddy
@@ -104,19 +129,27 @@ Available in both `viddy` and `viddyWell`.
 
 BREAKING CHANGES
 
-- `selectorOf` has been removed, and `for`, `forCta`, and `forInput` have all been updated to return CSS selector strings instead of DOM elements. Pass the result to `document.querySelector` to get the element.
+- `selectorOf` has been removed, and `for`, `forCta`, and `forInput`
+  have all been updated to return CSS selector strings instead of DOM
+  elements. Pass the result to `document.querySelector` to get the
+  element.
 
-- `waitForIdle` has been renamed `waitForDomToIdle` to better describe its behaviour.
+- `waitForIdle` has been renamed `waitForDomToIdle` to better describe
+  its behaviour.
 
 ### Added
 
-- Puppeteer integration is now at parity with regular API, as it now supports `for`, `forCta`, `forInput`, and removes `selectorOf`.
+- Puppeteer integration is now at parity with regular API, as it now
+  supports `for`, `forCta`, `forInput`, and removes `selectorOf`.
 
 ### Fixed
 
-- If the positional selectors `above`, `below`, `leftOf`, and `rightOf` could not find a match, the main query would often still incorrectly return an element/selector.
+- If the positional selectors `above`, `below`, `leftOf`, and `rightOf`
+  could not find a match, the main query would often still incorrectly
+  return an element/selector.
 
-- Puppeteer integration API calls were not throwing correct error messages due to `new` not being used before `throw`.
+- Puppeteer integration API calls were not throwing correct error
+  messages due to `new` not being used before `throw`.
 
 ## [1.5.0] - 2022-06-14
 
@@ -140,7 +173,9 @@ BREAKING CHANGES
 
 ### Removed / Fixed
 
-- Remove `browser` setting from `package.json`; seems to cause issues with CodeSandbox build process, and isn't really necessary since the browser-build is something that's interacted with manually.
+- Remove `browser` setting from `package.json`; seems to cause issues
+  with CodeSandbox build process, and isn't really necessary since the
+  browser-build is something that's interacted with manually.
 
 ## [1.3.3] - 2022-04-11
 
@@ -158,13 +193,15 @@ BREAKING CHANGES
 
 ### Added
 
-- Call-to-action specific APIs: `viddy.forCta` + `viddy.waitForCta`. Tries to target only buttons and anchors.
+- Call-to-action specific APIs: `viddy.forCta` + `viddy.waitForCta`.
+  Tries to target only buttons and anchors.
 
 ## [1.2.2] - 2022-04-01
 
 ### Fixed
 
-- JSDoc: remove HTML tags from description as they interfere with VS Code autocompletion
+- JSDoc: remove HTML tags from description as they interfere with VS
+  Code autocompletion
 
 ## [1.2.1] - 2022-03-31
 
