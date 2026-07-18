@@ -48,7 +48,9 @@ const writePackageJson = against(
   when({ module: defined, format: anyOf(Object.keys(moduleTypes)) })(
     ({ module, format }) =>
       writeTextFile(module)(makePackageJsonForType(format))
-  )
+  ),
+  // match-iz@4+: non-exhaustive against() throws; iife has no package.json
+  otherwise()
 )
 
 function makePackageJsonForType(type = 'esm') {

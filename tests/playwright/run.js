@@ -110,7 +110,7 @@ async function main() {
     }),
 
     viddy.for(noCheckbox).then(sel => {
-      assert.equal(sel, "p:nth-child(4) > label");
+      assert.equal(sel, "p:nth-of-type(4) > label");
       return page.click(sel);
     }),
   ]);
@@ -128,7 +128,7 @@ async function main() {
       .absent(() => "sorry, not found")
       .valueOf();
 
-    assert.equal(result, "found: form:nth-child(5) label");
+    assert.equal(result, "found: form:nth-of-type(1) label");
   });
 
   assert.equal(
@@ -145,7 +145,7 @@ async function main() {
     }),
 
     viddy.for(/click here/i, { below: "there" }).then(sel => {
-      assert.equal(sel, `button:nth-child(9)`);
+      assert.equal(sel, `button:nth-of-type(2)`);
       return page.click(sel);
     }),
   ]);

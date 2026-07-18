@@ -15,7 +15,7 @@ const { serialize } = require('../../')
 
 const libMatchiz = require('match-iz')
 const { Maybe, MaybePopulatedArray, Identity } = require('../fp')
-const { match, when, otherwise } = libMatchiz
+const { match, when, otherwise, eq } = libMatchiz
 const { anyOf } = libMatchiz
 const { isString, isRegExp, isPojo, isNumber } = libMatchiz
 
@@ -306,10 +306,13 @@ async function viddyWellIn(page) {
 
 function applyTimeoutIfNotSpecified(options, defaultTimeoutInMs) {
   return match(options)(
-    when([{ timeoutInMs: isNumber }])(Identity),
-    when([isPattern, { timeoutInMs: isNumber }])(Identity),
-    when([isPojo])(([opts]) => [{ ...opts, timeoutInMs: defaultTimeoutInMs }]),
-    when([isPattern, isPojo])(([pattern, opts]) => [
+    // match-iz@5: array patterns are partial; use eq() for exact arity
+    when(eq([{ timeoutInMs: isNumber }]))(Identity),
+    when(eq([isPattern, { timeoutInMs: isNumber }]))(Identity),
+    when(eq([isPojo]))(([opts]) => [
+      { ...opts, timeoutInMs: defaultTimeoutInMs }
+    ]),
+    when(eq([isPattern, isPojo]))(([pattern, opts]) => [
       pattern,
       { ...opts, timeoutInMs: defaultTimeoutInMs }
     ]),

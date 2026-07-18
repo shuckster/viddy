@@ -1,4 +1,4 @@
-import { match, against, when, otherwise, anyOf, allOf } from 'match-iz'
+import { match, against, when, otherwise, anyOf, allOf, eq } from 'match-iz'
 import { isArray, isNumber, isString, isRegExp, isPojo } from 'match-iz'
 import { includes, not, empty, pluck as $ } from 'match-iz'
 
@@ -112,28 +112,31 @@ export class ViddyError extends Error {
 
 const viddyQuery = (...args) =>
   match(args)(
-    when([isPattern])(searchForTextOrPattern),
-    when([isPattern, isPojo])(([pattern, opts]) =>
+    // match-iz@5: array patterns are partial; use eq() for exact arity
+    when(eq([isPattern]))(searchForTextOrPattern),
+    when(eq([isPattern, isPojo]))(([pattern, opts]) =>
       specificSearch([{ pattern, ...opts }])
     ),
-    when([isPojo])(specificSearch),
+    when(eq([isPojo]))(specificSearch),
     otherwise([])
   )
 
 function viddyQueryNearby(selector) {
   return (...args) =>
     match(args)(
-      when([isPattern])(([pattern]) =>
+      when(eq([isPattern]))(([pattern]) =>
         specificSearch([{ selector, near: pattern }])
       ),
-      when([isPattern, isOptionsWithoutSelectorOrParent])(([pattern, opts]) =>
-        specificSearch([{ selector, near: { ...opts, pattern } }])
+      when(eq([isPattern, isOptionsWithoutSelectorOrParent]))(
+        ([pattern, opts]) =>
+          specificSearch([{ selector, near: { ...opts, pattern } }])
       ),
-      when([isOptionsWithPatternNotSelector])(([{ pattern, ...rest }]) =>
+      when(eq([isOptionsWithPatternNotSelector]))(([{ pattern, ...rest }]) =>
         specificSearch([{ selector, near: { ...rest, pattern } }])
       ),
-      when([{ selector: isString }])(([{ selector: userSelector, ...rest }]) =>
-        specificSearch([{ ...rest, selector: userSelector }])
+      when(eq([{ selector: isString }]))(
+        ([{ selector: userSelector, ...rest }]) =>
+          specificSearch([{ ...rest, selector: userSelector }])
       ),
       otherwise([])
     )
@@ -143,19 +146,20 @@ function viddyQuerySelector(selector) {
   return (...args) =>
     compose(x => x.filter(against(when(anyOf(qsArray(selector)), true))))(
       match(args)(
-        when([isPattern])(([pattern]) =>
+        when(eq([isPattern]))(([pattern]) =>
           specificSearch([{ containedBy: { selector }, pattern }])
         ),
-        when([isPattern, isOptionsWithoutSelectorOrParent])(([pattern, opts]) =>
-          specificSearch([{ ...opts, containedBy: { selector }, pattern }])
+        when(eq([isPattern, isOptionsWithoutSelectorOrParent]))(
+          ([pattern, opts]) =>
+            specificSearch([{ ...opts, containedBy: { selector }, pattern }])
         ),
-        when([isOptionsWithPatternNotSelector])(([{ pattern, ...rest }]) =>
+        when(eq([isOptionsWithPatternNotSelector]))(([{ pattern, ...rest }]) =>
           specificSearch([{ ...rest, containedBy: { selector }, pattern }])
         ),
-        when([isOptionsWithoutPatternOrSelector])(([opts]) =>
+        when(eq([isOptionsWithoutPatternOrSelector]))(([opts]) =>
           specificSearch([{ ...opts, containedBy: { selector } }])
         ),
-        when([{ selector: isString }])(
+        when(eq([{ selector: isString }]))(
           ([{ selector: userSelector, ...rest }]) =>
             specificSearch([{ ...rest, selector: userSelector }])
         ),
@@ -214,7 +218,8 @@ const resolveOptions = options => ({
     (acc, key) => ({
       ...acc,
       [key]: match(options[key])(
-        when(isPatternOrPojo)(viddyQuery),
+        // wrap: match-iz@5 handlers receive (value, rest); don't pass rest into viddyQuery
+        when(isPatternOrPojo)(query => viddyQuery(query)),
         when(isArray)(args => viddyQuery(...args)),
         otherwise(null)
       )
@@ -336,9 +341,9 @@ function innerText(...args) {
 function matchText(pattern, ...opts) {
   const _opts = match(opts)(
     when(isEmptyArray)(() => [pattern]),
-    when([isArray])(([args]) => args),
-    when([isPattern])(([pattern]) => ({ pattern })),
-    when([isOptionsWithoutPatternOrSelector])(([options]) => [
+    when(eq([isArray]))(([args]) => args),
+    when(eq([isPattern]))(([pattern]) => ({ pattern })),
+    when(eq([isOptionsWithoutPatternOrSelector]))(([options]) => [
       { ...options, pattern }
     ]),
     otherwise(() => opts)
@@ -363,11 +368,11 @@ function matchText(pattern, ...opts) {
 function baseWaitFor(fnName = 'baseWaitFor', makeCheckForElement, ...args) {
   const timeoutInMs = match(args)(
     // waitFor signature
-    when([{ timeoutInMs: $(isNumber) }])(Passthru),
-    when([isPattern, { timeoutInMs: $(isNumber) }])(Passthru),
+    when(eq([{ timeoutInMs: $(isNumber) }]))(Passthru),
+    when(eq([isPattern, { timeoutInMs: $(isNumber) }]))(Passthru),
 
     // waitForValue signature
-    when([isPattern, isPattern, { timeoutInMs: $(isNumber) }])(Passthru),
+    when(eq([isPattern, isPattern, { timeoutInMs: $(isNumber) }]))(Passthru),
 
     otherwise(DEFAULT_WAITFOR_TIMEOUT_IN_SECONDS * 1000)
   )
@@ -431,10 +436,11 @@ function waitForValue(value, ...args) {
         .map(el => ({ el, value: valueOfElement(el) }))
         .filter(({ value: elValue }) =>
           match([value, elValue])(
-            when([isRegExp, isString])(([rx]) => rx.test(elValue)),
-            when([isString, isString])(
+            when(eq([isRegExp, isString]))(([rx]) => rx.test(elValue)),
+            when(eq([isString, isString]))(
               ([val]) => val.toLowerCase() === elValue.toLowerCase()
-            )
+            ),
+            otherwise(false)
           )
         )
         .map(({ el }) => el)
@@ -458,8 +464,8 @@ function waitForDomToIdle(...args) {
     withinMs = DEFAULT_IDLE_TIMEOUT_IN_MS,
     timeoutInMs: _timeoutInMs = DEFAULT_WAITFOR_TIMEOUT_IN_SECONDS * 1000
   } = match(args)(
-    when([$(isValidTimeoutOptions)])(Passthru),
-    when([isPattern, $(isValidTimeoutOptions)])(Passthru),
+    when(eq([$(isValidTimeoutOptions)]))(Passthru),
+    when(eq([isPattern, $(isValidTimeoutOptions)]))(Passthru),
     otherwise({})
   )
   const timeoutInMs = Math.max(_timeoutInMs, withinMs + 16)
@@ -469,9 +475,9 @@ function waitForDomToIdle(...args) {
 
   // Query, if specified
   const queryWasSpecified = match(args)(
-    when([isPattern])(true),
-    when([isOptionsWithPatternOrSelector])(true),
-    when([isPattern, isPojo])(true),
+    when(eq([isPattern]))(true),
+    when(eq([isOptionsWithPatternOrSelector]))(true),
+    when(eq([isPattern, isPojo]))(true),
     otherwise(false)
   )
   const withinSelector = queryWasSpecified && viddy.for(...args)

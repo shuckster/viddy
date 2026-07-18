@@ -74,7 +74,11 @@ export function selectorOfElement(el) {
     // eslint-disable-next-line no-global-assign
     global = window
   }
-  return finder(el)
+  // @medv/finder@4 defaults to "word-like" ids only (no underscores).
+  // Keep previous behaviour: prefer stable #id selectors when present.
+  return finder(el, {
+    idName: name => typeof name === 'string' && name.length > 0
+  })
 }
 
 export function valueOfElement(el) {
